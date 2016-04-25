@@ -1,0 +1,22 @@
+package playerdata.newhand;
+
+
+message NewhandData {
+    optional int32 uid = 1[default = 0];
+    optional int32 init_equip_newhand = 47[default = 0];
+    optional int32 treasure_newhand = 48[default = 0];
+    optional int32 normal_stage_newhand = 49[default = 0];
+    optional int32 elite_stage_newhand = 50[default = 0];
+    optional int32 hero_equip_newhand = 51[default = 0];
+    optional int32 shop_newhand = 52[default = 0];
+    optional int32 arena_newhand = 53[default = 0];
+    optional int32 defend_newhand = 54[default = 0];
+    optional int32 act_stage_newhand = 55[default = 0];
+    optional int32 task_newhand = 56[default = 0];
+    optional int32 equip_get_newhand = 57[default = 0];
+    optional int32 equip_level_up_newhand = 58[default = 0];
+    optional int32 equip_color_up_newhand = 59[default = 0];
+    optional int32 equip_star_up_newhand = 60[default = 0];
+    optional int32 skill_level_up_newhand = 61[default = 0];
+    optional int32 hero_level_up_newhand = 62[default = 0];
+}

@@ -1,0 +1,17 @@
+package achieve;
+import 'playerdata/playerdata.achieve.proto';
+
+message QUERY {
+    repeated playerdata.achieve.AchieveData achieves = 1;
+}
+
+
+message REWARD {
+    optional int32 achieve_id = 1[default = 0];
+    optional int32 errno = 2[default = 0];
+}
+
+
+message COMPLETED {
+    optional int32 achieve_id = 1[default = 0];
+}

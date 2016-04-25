@@ -1,0 +1,11 @@
+package playerdata.shop;
+
+message ShopGoods {
+    optional int32 id = 1[default = 0];
+    optional int32 count = 2[default = 0]; 
+}
+
+message ShopDataMgr {
+    repeated ShopGoods goods = 1;
+    optional int32 shop_reset_times = 2[default = 0];
+}

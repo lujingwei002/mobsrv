@@ -1,0 +1,24 @@
+package shop;
+import 'playerdata/playerdata.shop.proto';
+
+//查询
+message QUERY {
+    repeated playerdata.shop.ShopGoods goods = 1;
+    optional int32 shop_reset_times = 2[default = 0];
+}
+
+//刷新
+message RESET {
+    optional int32 errno = 1[default = 0];
+    optional int32 diamond = 2[default = 0];
+}
+
+//兑换
+message BUY {
+    optional int32 id = 1[default = 0];
+    optional int32 errno = 2[default = 0];
+    optional int32 coin = 3[default = 0];
+    optional int32 diamond = 4[default = 0];
+    optional int32 item_id = 5[default = 0];
+    optional int32 item_count = 6[default = 0];
+}

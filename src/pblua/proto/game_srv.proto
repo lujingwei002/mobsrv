@@ -1,0 +1,15 @@
+package game_srv;
+
+message Srv{
+    optional int32 srv_id = 1[default = 0];
+    optional string ip = 2[default = ''];
+    optional int32 port = 3[default = 0];
+}
+
+//选择一个game_srv
+message QUICK_START{
+    //@recv
+    optional Srv srv = 1;
+    optional string params = 2[default = ''];
+}
+

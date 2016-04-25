@@ -1,0 +1,283 @@
+$#include "dbproto.h"
+$using namespace std;
+$using namespace google::protobuf;
+$#define TOLUA_RELEASE
+namespace dbproto
+{
+   class Task {
+       Task();
+       ~Task();
+       void Clear@clear();
+       string DebugString@debug_string();
+       string GetTypeName@msgname();
+       int ByteSize@bytesize();
+       tolua_outside int dbproto_Task_tostring@tostring(lua_State* L);
+       tolua_outside int dbproto_Task_parse_from_string@parse_from_string(lua_State* L);
+       tolua_outside int dbproto_Task_parse_from_buf@parse_from_buf(lua_State* L);
+       tolua_outside int dbproto_Task_serialize@serialize(lua_State* L);
+       tolua_property__pb int32 id;
+       void add_value(int32 value);
+       void set_value(int index, int32 value);
+       int32 value(int index);
+       int value_size();
+       void clear_value();
+       tolua_outside void dbproto_Task_del_value@del_value(lua_State* L, int index);
+   };
+};
+
+namespace dbproto
+{
+   class UserData {
+   class Hello {
+       Hello();
+       ~Hello();
+       void Clear@clear();
+       string DebugString@debug_string();
+       string GetTypeName@msgname();
+       int ByteSize@bytesize();
+       tolua_outside int dbproto_UserData_Hello_tostring@tostring(lua_State* L);
+       tolua_outside int dbproto_UserData_Hello_parse_from_string@parse_from_string(lua_State* L);
+       tolua_outside int dbproto_UserData_Hello_parse_from_buf@parse_from_buf(lua_State* L);
+       tolua_outside int dbproto_UserData_Hello_serialize@serialize(lua_State* L);
+       tolua_property__pb string str;
+   };
+   };
+};
+
+namespace dbproto
+{
+   class TaskData {
+       TaskData();
+       ~TaskData();
+       void Clear@clear();
+       string DebugString@debug_string();
+       string GetTypeName@msgname();
+       int ByteSize@bytesize();
+       tolua_outside int dbproto_TaskData_tostring@tostring(lua_State* L);
+       tolua_outside int dbproto_TaskData_parse_from_string@parse_from_string(lua_State* L);
+       tolua_outside int dbproto_TaskData_parse_from_buf@parse_from_buf(lua_State* L);
+       tolua_outside int dbproto_TaskData_serialize@serialize(lua_State* L);
+       dbproto::Task* add_tasks();
+       dbproto::Task* mutable_tasks@get_tasks(int index);
+       int tasks_size();
+       void clear_tasks();
+       tolua_outside void dbproto_TaskData_del_tasks@del_tasks(lua_State* ls, int index);
+       tolua_property__pb int32 uid;
+   };
+};
+
+namespace dbproto
+{
+   class Item {
+       Item();
+       ~Item();
+       void Clear@clear();
+       string DebugString@debug_string();
+       string GetTypeName@msgname();
+       int ByteSize@bytesize();
+       tolua_outside int dbproto_Item_tostring@tostring(lua_State* L);
+       tolua_outside int dbproto_Item_parse_from_string@parse_from_string(lua_State* L);
+       tolua_outside int dbproto_Item_parse_from_buf@parse_from_buf(lua_State* L);
+       tolua_outside int dbproto_Item_serialize@serialize(lua_State* L);
+       tolua_property__pb int32 id;
+       tolua_property__pb int32 count;
+   };
+};
+
+namespace dbproto
+{
+};
+
+namespace dbproto
+{
+   class UserData {
+       UserData();
+       ~UserData();
+       void Clear@clear();
+       string DebugString@debug_string();
+       string GetTypeName@msgname();
+       int ByteSize@bytesize();
+       tolua_outside int dbproto_UserData_tostring@tostring(lua_State* L);
+       tolua_outside int dbproto_UserData_parse_from_string@parse_from_string(lua_State* L);
+       tolua_outside int dbproto_UserData_parse_from_buf@parse_from_buf(lua_State* L);
+       tolua_outside int dbproto_UserData_serialize@serialize(lua_State* L);
+       tolua_property__pb int32 lastlogintime;
+       tolua_property__pb int32 uid;
+       tolua_property__pb int32 coin;
+       tolua_property__pb string uname;
+   };
+};
+
+namespace dbproto
+{
+   class Friend {
+       Friend();
+       ~Friend();
+       void Clear@clear();
+       string DebugString@debug_string();
+       string GetTypeName@msgname();
+       int ByteSize@bytesize();
+       tolua_outside int dbproto_Friend_tostring@tostring(lua_State* L);
+       tolua_outside int dbproto_Friend_parse_from_string@parse_from_string(lua_State* L);
+       tolua_outside int dbproto_Friend_parse_from_buf@parse_from_buf(lua_State* L);
+       tolua_outside int dbproto_Friend_serialize@serialize(lua_State* L);
+       tolua_property__pb string uname;
+       tolua_property__pb int32 uid;
+   };
+};
+
+namespace dbproto
+{
+   class MailList {
+       MailList();
+       ~MailList();
+       void Clear@clear();
+       string DebugString@debug_string();
+       string GetTypeName@msgname();
+       int ByteSize@bytesize();
+       tolua_outside int dbproto_MailList_tostring@tostring(lua_State* L);
+       tolua_outside int dbproto_MailList_parse_from_string@parse_from_string(lua_State* L);
+       tolua_outside int dbproto_MailList_parse_from_buf@parse_from_buf(lua_State* L);
+       tolua_outside int dbproto_MailList_serialize@serialize(lua_State* L);
+       dbproto::Mail* add_mails();
+       dbproto::Mail* mutable_mails@get_mails(int index);
+       int mails_size();
+       void clear_mails();
+       tolua_outside void dbproto_MailList_del_mails@del_mails(lua_State* ls, int index);
+   };
+};
+
+namespace dbproto
+{
+   class FriendData {
+       FriendData();
+       ~FriendData();
+       void Clear@clear();
+       string DebugString@debug_string();
+       string GetTypeName@msgname();
+       int ByteSize@bytesize();
+       tolua_outside int dbproto_FriendData_tostring@tostring(lua_State* L);
+       tolua_outside int dbproto_FriendData_parse_from_string@parse_from_string(lua_State* L);
+       tolua_outside int dbproto_FriendData_parse_from_buf@parse_from_buf(lua_State* L);
+       tolua_outside int dbproto_FriendData_serialize@serialize(lua_State* L);
+       dbproto::Friend* add_friends();
+       dbproto::Friend* mutable_friends@get_friends(int index);
+       int friends_size();
+       void clear_friends();
+       tolua_outside void dbproto_FriendData_del_friends@del_friends(lua_State* ls, int index);
+       tolua_property__pb int32 uid;
+   };
+};
+
+namespace dbproto
+{
+   class Mail {
+       Mail();
+       ~Mail();
+       void Clear@clear();
+       string DebugString@debug_string();
+       string GetTypeName@msgname();
+       int ByteSize@bytesize();
+       tolua_outside int dbproto_Mail_tostring@tostring(lua_State* L);
+       tolua_outside int dbproto_Mail_parse_from_string@parse_from_string(lua_State* L);
+       tolua_outside int dbproto_Mail_parse_from_buf@parse_from_buf(lua_State* L);
+       tolua_outside int dbproto_Mail_serialize@serialize(lua_State* L);
+       tolua_property__pb string senderuname;
+       tolua_property__pb int32 uid;
+       tolua_property__pb string title;
+       tolua_property__pb string uname;
+       tolua_property__pb int32 id;
+       tolua_property__pb string text;
+       tolua_property__pb int32 senderuid;
+       tolua_property__pb int32 uptimetime;
+   };
+};
+
+namespace dbproto
+{
+   class ItemData {
+       ItemData();
+       ~ItemData();
+       void Clear@clear();
+       string DebugString@debug_string();
+       string GetTypeName@msgname();
+       int ByteSize@bytesize();
+       tolua_outside int dbproto_ItemData_tostring@tostring(lua_State* L);
+       tolua_outside int dbproto_ItemData_parse_from_string@parse_from_string(lua_State* L);
+       tolua_outside int dbproto_ItemData_parse_from_buf@parse_from_buf(lua_State* L);
+       tolua_outside int dbproto_ItemData_serialize@serialize(lua_State* L);
+       dbproto::Item* add_items();
+       dbproto::Item* mutable_items@get_items(int index);
+       int items_size();
+       void clear_items();
+       tolua_outside void dbproto_ItemData_del_items@del_items(lua_State* ls, int index);
+   };
+};
+
+namespace dbproto
+{
+   class PlayerData {
+       PlayerData();
+       ~PlayerData();
+       void Clear@clear();
+       string DebugString@debug_string();
+       string GetTypeName@msgname();
+       int ByteSize@bytesize();
+       tolua_outside int dbproto_PlayerData_tostring@tostring(lua_State* L);
+       tolua_outside int dbproto_PlayerData_parse_from_string@parse_from_string(lua_State* L);
+       tolua_outside int dbproto_PlayerData_parse_from_buf@parse_from_buf(lua_State* L);
+       tolua_outside int dbproto_PlayerData_serialize@serialize(lua_State* L);
+       tolua_property__pb int32 uid;
+       tolua_property__msg dbproto::UserData* userdata;
+       tolua_property__msg dbproto::ItemData* itemdata;
+       tolua_property__msg dbproto::TaskData* taskdata;
+       tolua_property__msg dbproto::AchieveData* achievedata;
+       tolua_property__msg dbproto::FriendData* frienddata;
+   };
+};
+
+namespace dbproto
+{
+   class AchieveData {
+       AchieveData();
+       ~AchieveData();
+       void Clear@clear();
+       string DebugString@debug_string();
+       string GetTypeName@msgname();
+       int ByteSize@bytesize();
+       tolua_outside int dbproto_AchieveData_tostring@tostring(lua_State* L);
+       tolua_outside int dbproto_AchieveData_parse_from_string@parse_from_string(lua_State* L);
+       tolua_outside int dbproto_AchieveData_parse_from_buf@parse_from_buf(lua_State* L);
+       tolua_outside int dbproto_AchieveData_serialize@serialize(lua_State* L);
+       dbproto::Achieve* add_achieves();
+       dbproto::Achieve* mutable_achieves@get_achieves(int index);
+       int achieves_size();
+       void clear_achieves();
+       tolua_outside void dbproto_AchieveData_del_achieves@del_achieves(lua_State* ls, int index);
+       tolua_property__pb int32 uid;
+   };
+};
+
+namespace dbproto
+{
+   class Achieve {
+       Achieve();
+       ~Achieve();
+       void Clear@clear();
+       string DebugString@debug_string();
+       string GetTypeName@msgname();
+       int ByteSize@bytesize();
+       tolua_outside int dbproto_Achieve_tostring@tostring(lua_State* L);
+       tolua_outside int dbproto_Achieve_parse_from_string@parse_from_string(lua_State* L);
+       tolua_outside int dbproto_Achieve_parse_from_buf@parse_from_buf(lua_State* L);
+       tolua_outside int dbproto_Achieve_serialize@serialize(lua_State* L);
+       tolua_property__pb int32 id;
+       void add_value(int32 value);
+       void set_value(int index, int32 value);
+       int32 value(int index);
+       int value_size();
+       void clear_value();
+       tolua_outside void dbproto_Achieve_del_value@del_value(lua_State* L, int index);
+   };
+};
+

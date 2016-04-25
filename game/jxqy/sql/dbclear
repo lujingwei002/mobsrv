@@ -1,0 +1,2 @@
+#!/bin/sh
+/usr/local/mysql/bin/mysql -uroot -Djxqy < sql/clear.sql

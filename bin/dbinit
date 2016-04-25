@@ -1,0 +1,134 @@
+#!/usr/local/bin/luaexe
+dofile(os.getenv('ENGINE_PATH')..'/bin/luaenv')
+--建表脚本
+Mod.load('mod/pblua')
+require('conf/dbinit')
+
+--功能:创建表
+function create_binary_table(conn, dbname, table_name)
+    local str = string.format('CREATE TABLE %s(uid INT NOT NULL, bin BLOB NOT NULL, utime INT NOT NULL, PRIMARY KEY(`uid`)) ENGINE = INNODB DEFAULT CHARSET = utf8;', table_name)
+    command(conn, str)
+end
+
+--功能:修改表
+function alter_table(conn, dbname, table_name, pb_file)
+    local descriptor = Pblua.get_descriptor(pb_file)
+    if not command(conn, 'USE information_schema') then
+        return
+    end
+    local str = string.format("SELECT table_schema, table_name, data_type, column_name FROM columns WHERE table_schema='%s' and table_name='%s'", dbname, table_name)
+    local table_desc = Mysql.select(conn, str)
+    if not command(conn, string.format('USE %s', dbname)) then
+        return
+    end
+    for _, field in pairs(table_desc) do
+        table_desc[field.column_name] = field
+    end
+    for field_name, field in pairs(descriptor) do
+        if table_desc[field_name] == nil then
+            --增加一个字段
+            local sql = 'ALTER TABLE '..table_name
+            local field_type = 'INT'
+            if field.type == 'string' then 
+                field_type = 'varchar(128)' 
+            elseif field.type == 'message' then
+                field_type = 'BLOB'
+            end
+            sql = sql..string.format(' ADD %s %s NOT NULL ', field_name, field_type)
+            if type(field.default) == 'string'  then
+                sql = sql..' DEFAULT \''..field.default..'\''
+            elseif type(field.default) == 'number' then
+                sql = sql..' DEFAULT '..field.default
+            end
+            command(conn, sql)
+        end
+    end
+    return true
+end
+
+--功能:创建开表
+function create_table(conn, table_name, pb_file)
+    local descriptor = Pblua.get_descriptor(pb_file)
+    local sql = string.format('CREATE TABLE %s (', table_name)
+    for field_name, field in pairs(descriptor) do
+        local field_type = 'INT'
+        if field_name == 'bin' then
+            field_type = 'BLOB'
+        elseif field.type == 'string' then 
+            field_type = 'varchar(128)' 
+        elseif field.type == 'message' then
+            field_type = 'BLOB'
+        end
+        sql = sql..string.format('%s %s NOT NULL ', field_name, field_type)
+        if field_name == 'id' and field_type == 'INT' then
+            sql = sql..' auto_increment '
+        elseif type(field.default) == 'string'  then
+            sql = sql..' DEFAULT \''..field.default..'\''
+        elseif type(field.default) == 'number' then
+            sql = sql..' DEFAULT '..field.default
+        end
+        sql = sql..','
+    end
+    sql = sql..' utime INT DEFAULT 0,'
+    if not descriptor['id'] then
+        sql = sql..' PRIMARY KEY(`uid`)) ENGINE=INNODB DEFAULT CHARSET=utf8;'
+    else
+        sql = sql..' PRIMARY KEY(`id`)) ENGINE=INNODB DEFAULT CHARSET=utf8;'
+    end
+    command(conn, sql)
+end
+
+--功能:表是否存在
+function is_table_exist(conn, dbname, table_name)
+    if not Mysql.command(conn, 'USE information_schema') then
+        os.exit(1)
+    end
+    local str = string.format("SELECT table_name FROM TABLES WHERE table_schema = '%s'", dbname)
+    local reply = Mysql.select(conn, str)
+    if not Mysql.command(conn, 'USE '..dbname) then
+        os.exit(1)
+    end
+    for _, row in pairs(reply) do
+        if row.table_name == table_name then
+            return true
+        end
+    end
+    return false
+end
+
+function command(conn, sql)
+    print('command:', sql)
+    return Mysql.command(conn, sql)
+end
+
+function main()
+    for dbname, mysql_conf in pairs(DbinitConf.mysql_conf) do
+        Pblua.import_dir(mysql_conf.dbproto_dir)
+        print(string.format('test db(%s)', dbname))
+        local conn = Mysql.connect(mysql_conf.host, '', mysql_conf.user, mysql_conf.password)
+        if not conn then
+            print(string.format('connect host(%s) user(%s) dbname(%s) fail', mysql_conf.host, mysql_conf.user, dbname))
+            return
+        end
+        --创建数据库
+        command(conn, string.format('CREATE DATABASE IF NOT EXISTS %s DEFAULT CHARSET=UTF8', dbname))
+        command(conn, string.format('USE %s', dbname))
+        --建表
+        for table_name, table_conf in pairs(mysql_conf.tables) do
+            if table_conf.binary then
+                if not is_table_exist(conn, dbname, table_name) then
+                    create_binary_table(conn, dbname, table_name)
+                end
+            else
+                if is_table_exist(conn, dbname, table_name) then
+                    alter_table(conn, dbname, table_name, table_conf.class)
+                else
+                    create_table(conn, table_name, table_conf.class)
+                end
+            end
+        end
+        Mysql.close(conn)
+    end
+    os.exit(0)
+end
+main()

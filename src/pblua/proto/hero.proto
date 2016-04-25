@@ -1,0 +1,24 @@
+package hero ;
+import 'playerdata/playerdata.hero.proto';
+//200
+
+//英雄列表
+message QUERY {
+    repeated playerdata.hero.HeroData heros = 1;
+}
+
+
+
+message SET_EQUIP {
+    optional int32 hero_id = 1[default = 0]; 
+    repeated int32 equip_id = 2;
+    optional int32 errno = 4[default = 0];
+}
+
+
+message LEVEL_UP {
+    optional int32 hero_id = 1[default = 0];
+    optional int32 item_id = 2[default = 0];
+    optional int32 errno = 3[default = 0];
+    optional int32 exp = 4[default = 0];
+}

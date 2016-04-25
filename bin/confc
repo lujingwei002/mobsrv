@@ -1,0 +1,222 @@
+#!/usr/local/bin/luaexe
+dofile(os.getenv('ENGINE_PATH')..'/bin/luaenv')
+--[[
+生成读取LUA配置表类的工具
+--]]
+
+import('mod/argparse')
+
+local usage = [[
+usage:
+]]
+
+Argparse.parse_argv(arg)
+local out_file = Argparse.get_arg('o')
+local namespace = Argparse.get_arg('n')
+
+function w(file, str, ...)
+    file:write(string.format(str, ...))
+    file:write('\n')
+end
+function export_file(export_conf)
+    export_header(export_conf)
+    export_source(export_conf)
+end
+
+function export_source(export_conf)
+    local class_conf = export_conf[1]
+    local class_name = class_conf._class
+    local file = io.open(string.format('%s.cc', out_file, class_name), 'w+')
+    w(file, '#include "%s.h"', out_file)
+    w(file, 'namespace %s {', namespace)
+    w(file, '')
+    for _, class_conf in pairs(export_conf) do
+        export_class_source(file, class_conf)
+    end
+    w(file, '')
+    w(file, '};')
+    file:close()
+end
+
+function export_header(export_conf)
+    local class_conf = export_conf[1]
+    local class_name = class_conf._class
+    local file = io.open(string.format('%s.h', out_file), 'w+')
+    w(file, '#ifndef _%s_H_', string.upper(class_name))
+    w(file, '#define _%s_H_', string.upper(class_name))
+    w(file, '//此文件自动生成，请不要修改!!!!!!!!!!!!!!!!!!!!!')
+    w(file, '#include "stdafx.h"')
+    w(file, 'namespace %s {', namespace)
+    w(file, '')
+    for _, class_conf in pairs(export_conf) do
+        export_class_header(file, class_conf)
+    end
+    w(file, '')
+    w(file, '};')
+    w(file, '#endif')
+    file:close()
+end
+
+function export_class_source(file, class_conf, parent_class)
+    local class_name = class_conf._class
+    if parent_class then
+        class_name = string.format('%s::%s', parent_class, class_name)
+    end
+    w(file, '%s::%s() {', class_name, class_conf._class)
+    w(file, '   clear();')
+    w(file, '}')
+    w(file, '')
+    w(file, '%s::~%s() {', class_name, class_conf._class)
+    w(file, '   clear();')
+    w(file, '}')
+    w(file, '')
+    w(file, 'int %s::load(lua_State* L) {', class_name, class_name)
+    w(file, '   int top = lua_gettop(L);')
+    w(file, '   lua_getglobal(L, "%s");', namespace)
+    w(file, '   if(lua_isnil(L, -1)) {')
+    w(file, '       LOG_ERROR("null wrong");')
+    w(file, '       lua_pop(L, lua_gettop(L) - top);')
+    w(file, '       return 1;')
+    w(file, '   }')
+    w(file, '   lua_pushstring(L, "%s");', class_conf._class)
+    w(file, '   lua_gettable(L, -2);')
+    w(file, '   if(lua_isnil(L, -1)) {')
+    w(file, '       LOG_ERROR("null wrong");')
+    w(file, '       lua_pop(L, lua_gettop(L) - top);')
+    w(file, '       return 1;')
+    w(file, '   }')
+    w(file, '   int result =  _load(L);')
+    w(file, '   lua_pop(L, lua_gettop(L) - top);')
+    w(file, '   return result;')
+    w(file, '}')
+    w(file, '')
+    w(file, 'int %s::_load(lua_State* L) {', class_name, class_name)
+    w(file, '   int top = lua_gettop(L);')
+    for k, v in pairs(class_conf) do
+        w(file, '{')
+        w(file, '   lua_pushstring(L, "%s");', k)
+        w(file, '   lua_gettable(L, -2);')
+        if type(v) == 'number' and v == math.floor(v) then
+            w(file, '   if(!lua_isnil(L, -1)) {')
+            w(file, '       this->%s = (int)lua_tointeger(L, -1);', k)
+            w(file, '   }')
+        elseif type(v) == 'number' then
+            w(file, '   if(!lua_isnil(L, -1)) {')
+            w(file, '       this->%s = (double)lua_tonumber(L, -1);', k)
+            w(file, '   }')
+        elseif type(v) == 'string' then
+            w(file, '   if(!lua_isnil(L, -1)) {')
+            w(file, '       this->%s = (char*)lua_tostring(L, -1);', k)
+            w(file, '   }')
+        elseif type(v) == 'table' then
+            w(file, '   if(!lua_isnil(L, -1)) {')
+            w(file, '       lua_pushnil(L);  /* first key */')
+            w(file, '       while (lua_next(L, -2) != 0) {')
+            w(file, '           if (lua_isnumber(L, -2) && lua_istable(L, -1)) {')
+            w(file, '               int index = (int)lua_tointeger(L, -2);')
+            w(file, '               %s *value = new %s();', v._class, v._class)
+            w(file, '               this->%s[index] = value;', k)
+            w(file, '               value->_load(L);')
+            w(file, '           }')
+            w(file, '           lua_pop(L, 1);')
+            w(file, '       }')
+            w(file, '   }')
+        end
+        w(file, '   lua_remove(L, -1);//弹出value')
+        w(file, '}')
+    end
+    w(file, '   lua_pop(L, lua_gettop(L) - top);')
+    w(file, '   return 0;')
+    w(file, '}')
+    w(file, '')
+    w(file, 'void %s::print() {', class_name)
+    w(file, '   printf("{\\n");')
+    for k, v in pairs(class_conf) do
+        if type(v) == 'number' and math.floor(v) == v then
+            w(file, '   printf("%s = %%d\\n", this->%s);', k, k)
+        elseif type(v) == 'number' and math.floor(v) ~= v then
+            w(file, '   printf("%s = %%f\\n", this->%s);', k, k)
+        elseif type(v) == 'string' then
+            w(file, '   printf("%s = %%s\\n", this->%s.data());', k, k)
+        elseif type(v) == 'table' then
+            w(file, '   {')
+            w(file, '       std::map<int, %s*>::iterator iter = this->%s.begin();', v._class, k)
+            w(file, '       for(;iter != this->%s.end(); ++iter){', k)
+            w(file, '           printf("%s[%%d] =\\n", iter->first);', k)
+            w(file, '           %s *value = iter->second;', v._class)
+            w(file, '           value->print();')
+            w(file, '       }')
+            w(file, '   }')
+        end
+    end
+    w(file, '   printf("}\\n");')
+    w(file, '}')
+    w(file, '')
+    w(file, 'void %s::clear() {', class_name)
+    for k, v in pairs(class_conf) do
+        if type(v) == 'number' then
+            w(file, '   this->%s = 0;', k)
+        elseif type(v) == 'table' then
+            w(file, '   {')
+            w(file, '       std::map<int, %s*>::iterator iter = this->%s.begin();', v._class, k)
+            w(file, '       for(;iter != this->%s.end(); ++iter){', k)
+            w(file, '           %s *value = iter->second;', v._class)
+            w(file, '           delete value;')
+            w(file, '       }')
+            w(file, '       this->%s.clear();', k)
+            w(file, '   }')
+        end
+    end
+    w(file, '}')
+    w(file, '')
+    w(file, 'int %s::reload(lua_State* L) {', class_name, class_name)
+    w(file, '   clear();')
+    w(file, '   return load(L);')
+    w(file, '}')
+    w(file, '')
+    for k, v in pairs(class_conf) do
+        if type(k) == 'string' and type(v) == 'table' then
+            export_class_source(file, v, class_conf._class)
+        end
+    end
+end
+
+function export_class_header(file, class_conf)
+    local class_name = class_conf._class
+    w(file, '')
+    w(file, '/********%s开始*************/', class_name)
+    w(file, 'class %s {', class_name)
+    w(file, 'public:')
+    w(file, '   %s();', class_name)
+    w(file, '   ~%s();', class_name)
+    w(file, '   void clear();')
+    w(file, '   int load(lua_State* L);')
+    w(file, '   int _load(lua_State* L);')
+    w(file, '   int reload(lua_State* L);')
+    w(file, '   void print();')
+    for k, v in pairs(class_conf) do
+        if type(k) == 'string' and type(v) == 'table' then
+            export_class_header(file, v)
+            w(file, '   std::map<int, %s*> %s;', v._class, k)
+        elseif type(v) == 'number' and v == math.floor(v) then
+            w(file, '   int %s;', k)
+        elseif type(v) == 'number' then
+            w(file, '   double %s;', k)
+        elseif type(v) == 'string' then
+            w(file, '   std::string %s;', k)
+        end
+    end
+    w(file, '};')
+    w(file, '/********%s结束*************/', class_name)
+    w(file, '')
+end
+
+function main()
+    local arg = Argparse.get_arg_array()
+    for k, filepath in pairs(arg) do
+        local export_conf = dofile(filepath)
+        export_file(export_conf)
+    end
+end
+
+main()

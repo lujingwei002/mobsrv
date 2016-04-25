@@ -1,0 +1,13 @@
+package dbproto;
+//好友系统
+
+message Friend {
+    optional int32 uid = 1[default = 0];
+    optional string uname = 2[default = ''];
+}
+
+message FriendData {
+    optional int32 uid = 1[default = 0];
+    repeated Friend friends = 2;
+}
+

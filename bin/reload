@@ -1,0 +1,11 @@
+#!/usr/local/bin/luaexe
+dofile(os.getenv('ENGINE_PATH')..'/bin/luaenv')
+--连上管理台，调用函数
+--
+local usage = [[
+usage:
+reload srvid login
+reload srvid
+]]
+
+

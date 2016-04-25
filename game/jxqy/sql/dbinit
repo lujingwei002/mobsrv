@@ -1,0 +1,5 @@
+#!/bin/sh
+/usr/local/mysql/bin/mysql -uroot -Djxqy < sql/user.sql
+/usr/local/mysql/bin/mysql -uroot -Djxqy < sql/task.sql
+/usr/local/mysql/bin/mysql -uroot -Djxqy < sql/achieve.sql
+/usr/local/mysql/bin/mysql -uroot -Djxqy < sql/mail.sql

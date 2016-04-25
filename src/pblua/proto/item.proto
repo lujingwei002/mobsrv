@@ -1,0 +1,13 @@
+package item;
+import 'playerdata/playerdata.item.proto';
+
+message QUERY {
+    repeated playerdata.item.ItemData items = 1;
+}
+
+message SELL {
+    optional int32 id = 1[default = 0];
+    optional int32 count = 2[default = 0];
+    optional int32 errno = 3[default = 0];
+    optional int32 coin = 4[default = 0];
+}

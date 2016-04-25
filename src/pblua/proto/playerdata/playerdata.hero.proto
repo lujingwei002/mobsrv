@@ -1,0 +1,22 @@
+package playerdata.hero;
+
+message SkillData {
+    optional int32 id = 1[default = 0];
+    optional int32 level = 2[default = 0];
+}
+
+//英雄
+message HeroData {
+    optional int32 id = 1[default = 0];
+    optional int32 level = 2[default = 0];
+    optional int32 exp = 3[default = 0];
+    repeated SkillData skills = 7;
+    optional int32 is_temp = 11[default = 0];
+    //装备
+    repeated int32 equips = 6;
+}
+
+//英雄背包
+message HeroDataMgr {
+    repeated HeroData heros = 1;
+}

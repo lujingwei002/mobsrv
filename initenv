@@ -1,0 +1,8 @@
+#!/usr/bin/python
+import os
+import platform
+
+if platform.system() == 'Darwin':
+    pwd = os.popen('pwd').read().strip()
+    os.system('export DYLD_LIBRARY_PATH=afdsaf')
+

@@ -1,0 +1,16 @@
+#!/usr/local/bin/luaexe
+dofile(os.getenv('ENGINE_PATH')..'/bin/luaenv')
+local engine_path = os.getenv('ENGINE_PATH')
+package.cpath = './lib/?.so;'..package.cpath
+require('config')
+local usage = 'srvclean gamesrv1'
+if not arg[1] then
+    print(usage)
+    os.exit(1)
+end
+local filepath = string.format('%s/%s/pid', Config.proc_dir, arg[1])
+print(filepath)
+if not File.exists(filepath) then
+    return
+end
+File.remove(filepath)

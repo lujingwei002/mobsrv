@@ -1,0 +1,65 @@
+package db_srv;
+
+
+//保存玩家表
+//@SEND @RECV
+message SET{
+    required int32 uid = 1;
+    optional string callback = 2[default = ''];
+    repeated string argback = 3;
+    message Table{
+        required string table_name = 1;
+        required string table_bin = 2;
+    }
+    repeated Table tables = 4;
+    message table_status{
+        required string table_name = 1;
+        //若保存成功, 则返回OK
+        required string status = 2; 
+    }   
+    repeated table_status table_statuses = 5;
+}
+
+
+//获取玩家表
+//@SEND @RECV
+message GET{
+    required int32 uid = 1;
+    optional string callback = 2[default = ''];
+    repeated string argback = 3;
+    repeated string table_name = 4;
+    message Table{
+        required string table_name = 1;
+        required string table_bin = 2;
+        //0 失败  1不存在 2 从redis 拿的数据  3 从mysql拿到的数据
+        required int32 table_status = 3;
+    }
+    repeated Table tables = 5;
+}
+
+//获得多个玩家的同一张表
+//@SEND @RECV
+message MGET{
+    optional int32 uid = 1;
+    optional string callback = 2[default = ''];
+    repeated string argback = 3;
+    repeated int32 uids = 4;
+    optional string table_name = 5;
+    message UserTable{
+        required int32 uid = 1;
+        required string table_bin = 2;
+    }
+    repeated UserTable tables = 6;
+}
+
+
+
+message KVSET{
+    required int32 uid = 1;
+    required string table_name = 2;
+    message KeyValue{
+        required string key = 1;
+        required string value = 2;
+    }
+    repeated KeyValue kvs = 3;
+}

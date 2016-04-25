@@ -1,0 +1,17 @@
+package combat;
+
+message Monster {
+    optional int32 hp = 1[default = 0];
+    optional int32 atk = 2[default = 0];
+    optional int32 def = 3[default = 0];
+    optional int32 magic_atk = 4[default = 0];
+    optional int32 magic_def = 5[default = 0];
+    optional int32 magic = 6[default = 0];
+    optional int32 crit = 7[default = 0];
+    optional int32 crit_def = 8[default = 0];
+    optional int32 magic_crit = 9[default = 0];
+    optional int32 magic_crit_def = 10[default = 0];
+    optional int32 mod_id = 11[default = 0];
+    optional int32 hero_id = 12[default = 0];
+    optional int32 attack_speed = 13[default = 0];
+}

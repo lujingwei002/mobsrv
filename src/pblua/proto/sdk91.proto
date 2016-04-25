@@ -1,0 +1,14 @@
+package sdk91;
+
+//登录，检测session
+message LOGIN{
+    optional int32 uid = 1[default = 0];
+    optional int32 session_id = 2[default = 0];
+    
+    //0.成功 
+    optional int32 errno = 3[default = 0];
+    //token
+    optional string params = 4[default = ''];
+    //time
+    optional int32 time = 5[default = 0];
+}

@@ -1,0 +1,59 @@
+#!/usr/local/bin/luaexe
+dofile(os.getenv('ENGINE_PATH')..'/bin/luaenv')
+--[[
+pbtest login
+pbtest login.login
+--]]
+
+package.cpath = './lib/?.so;'..package.cpath
+require('conf/pbclient')
+--导入协议
+require('proto')
+Mod.load('mod/pbc')
+Mod.load('mod/pbproto')
+
+local url = arg[1]
+local mod_name = nil
+local func_name = nil
+if url then
+    local pats = string.split(url, '.')
+    mod_name = pats[1]
+    func_name = pats[2]
+end
+
+--Pblua.import_dir(PbClientConf.proto_dir)
+
+function main(dir)
+    local files = File.listdir(dir)
+    if not files then
+        print(string.format('dir(%s) not exists', dir))
+        os.exit(1)
+    end
+    --加载模块
+    for _, file in pairs(files) do
+        if file.type == 'dir' then
+            Mod.load(string.format('%s/%s', dir, file.name))
+        end
+    end
+    --执行函数
+    run_func(mod_name, func_name)
+    os.exit(0)
+end
+
+function run_func(mod_name, func_name)
+    local mod = _G[string.cap(mod_name)]
+    if not mod then
+        print('mod(%s) not found', mod_name)
+        return
+    end
+    local func = mod[func_name]
+    if not func then
+        logerr('func(%s.%s) not found', mod_name, func_name)
+        return
+    end
+    local player = {uid = 333}
+    func(player)
+    print(string.format('(ok)run %s.%s', mod_name, func_name))
+end
+
+main(PbClientConf.root_dir)

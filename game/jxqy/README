@@ -1,0 +1,14 @@
+1.安装
+a.mac要配置DYLD_LIBRARY_PATH路径到lib
+b.linux要配置LD_LIBRARY_PATH路径到lib
+c.配置环境变量ENGINE_PATH为引擎路径
+
+2.目录
+conf 配置文件
+client 
+proto 协议文件
+dbproto 数据描述文件
+gamesrv gamesrv逻辑模块
+globalsrv glboalsrv逻辑模块
+lib lib目录
+

@@ -1,0 +1,87 @@
+module('Login', package.seeall)
+
+function main()
+end
+
+--功能:某个玩家上线
+--@uid 玩家uid
+function PLAYER_ENTER(sockfd, uid)
+    local game_srv = GameSrv.game_srv_sessions[sockfd]
+    if not game_srv then
+        logger:error(uid, string.format('sockfd(%d) is not found', sockfd))
+        return
+    end
+    local player = Runtime.player_manager[uid]
+    local srv_name = game_srv.srv_name
+    if not player then
+        logger:log(uid, 'player online')
+        --插入一条记录
+        player = {
+                uid = uid,
+                srv_name = srv_name, 
+                srv_name_before = nil,
+                time = os.timenow(),
+                sockfd = sockfd,
+                }
+        Runtime.player_manager[uid] = player
+        --通知可以上线
+        POST(game_srv.sockfd, uid, 'login.PLAYER_PASS', uid)
+        game_srv.onlinenum = game_srv.onlinenum + 1
+        Runtime.onlinenum = Runtime.onlinenum + 1
+        game_srv.is_sync = true
+    elseif player.srv_name then
+        logger:log(uid, string.format('player instead to from game_srv(%s) to game_srv(%s)', srv_name, player.srv_name))
+        --通知这个服下线
+        POST(GameSrv.select(player.srv_name), uid, 'login.PLAYER_INSTEAD', uid, srv_name)
+        --记录下这个player的srv_name
+        player.instead_srv_name = srv_name
+    else
+        logger:error(uid, string.format('srv_name is nil'))
+    end
+end
+
+
+--功能:某个玩家下线
+--@uid 玩家uid
+function PLAYER_EXIT(sockfd, uid)
+    local game_srv = GameSrv.game_srv_sessions[sockfd]
+    if not game_srv then
+        logger:error(uid, string.format('sockfd(%d) is not found', sockfd))
+        return
+    end
+
+    logger:log(uid, 'player offline')
+    local player = Runtime.player_manager[uid]
+    local srv_name = game_srv.srv_name
+
+    if not player then
+        logger:log(uid, 'player is not online')
+        return
+    end
+    if player.srv_name ~= srv_name then
+        logger:log(uid, string.format('player srv_name(%s) offline from srv_name(%s)', player.srv_name, srv_name))
+        return
+    end
+    local instead_srv_name = player.instead_srv_name
+    if instead_srv_name ~= nil then
+        --已经顶掉对方
+        --人数+1
+        local instead_game_srv = GameSrv.game_srv_manager[instead_srv_name]
+        --通知之前的服
+        POST(GameSrv.select(instead_srv_name), uid, 'login.PLAYER_PASS', uid)
+        player.sockfd = instead_game_srv.sockfd
+        player.srv_name = instead_srv_name
+        player.instead_srv_name = nil
+
+        game_srv.onlinenum = game_srv.onlinenum - 1
+        game_srv.is_sync = true
+        instead_game_srv.onlinenum = instead_game_srv.onlinenum + 1
+        instead_game_srv.is_sync = true
+    else
+        --真的下线 
+        Runtime.player_manager[uid] = nil
+        game_srv.onlinenum = game_srv.onlinenum - 1
+        Runtime.onlinenum = Runtime.onlinenum - 1
+        game_srv.is_sync = true
+    end
+end

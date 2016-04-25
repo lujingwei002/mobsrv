@@ -1,0 +1,3 @@
+
+require('libsrv')
+print('hello')

@@ -1,0 +1,14 @@
+package newhand ;
+//200
+
+message CREATE_ROLE {
+    optional int32 hero_id = 1[default = 0];
+    optional int32 errno = 3[default = 0];
+}
+
+
+
+message SET_NEWHAND {
+    optional string var = 1[default = ''];
+	optional int32 errno = 2[default = 0];
+}

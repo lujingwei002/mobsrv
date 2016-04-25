@@ -1,0 +1,2 @@
+$cfile "globalsrv.h"
+$cfile "item/interface.h"

@@ -1,0 +1,26 @@
+package dbproto;
+//邮件系统
+
+//邮件
+message Mail {
+    optional int32 id = 1[default = 0];
+    //接收者
+    optional int32 uid = 2[default = 0];
+    optional string uname = 3[default = ''];
+    //时间
+    optional int32 uptimetime = 4[default = 0];
+    //标题
+    optional string title = 5[default = ''];
+    //正文
+    optional string text = 6[default = ''];
+    //发送者
+    optional int32 senderuid = 7[default = 0];
+    optional string senderuname = 8[default = ''];
+}
+
+//邮件列表
+message MailList {
+    repeated Mail mails = 1;
+}
+
+

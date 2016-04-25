@@ -1,0 +1,13 @@
+package sign;
+//100
+
+message QUERY {
+    //当月签到的次数
+    optional int32 sign_days = 1[default = 0];
+}
+
+message SIGN{
+    optional int32 errno = 2[default = 0];
+    optional int32 item_id = 3[default = 0];
+    optional int32 item_count = 4[default = 0];
+}

@@ -1,0 +1,18 @@
+package sys;
+//心跳包
+//@SEND
+//#system.PONG
+message PING{
+    optional int32 st = 1[default = 0];
+}
+
+
+
+//测试
+message TEST{
+    optional string str = 1[default = ''];
+}
+
+message GM{
+    optional string str = 1[default = ''];
+}

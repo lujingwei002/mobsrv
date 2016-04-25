@@ -1,0 +1,23 @@
+package playerdata.friend;
+
+message FriendData {
+    optional int32 id = 1[default = 0];
+    optional int32 myuid = 2[default = 0];
+    optional int32 uid = 3[default = 0];
+    optional int32 time = 4[default = 0];
+}
+
+message FriendDataMgr {
+    repeated FriendData friends = 1;
+}
+
+message FriendAddDataMgr {
+    repeated FriendAddData notifys = 1;
+}
+
+message FriendAddData {
+    optional int32 id = 1[default = 0];
+    optional int32 myuid = 2[default = 0];
+    optional int32 uid = 3[default = 0];
+    optional int32 time = 4[default = 0];
+}

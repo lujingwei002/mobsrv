@@ -1,0 +1,70 @@
+package friend;
+
+message Friend {
+    optional int32 uid = 1[default = 0];
+    optional string uname = 2[default = ''];
+    optional int32 level = 3[default = 0];
+    optional int32 hero_id = 4[default = 0];
+    optional int32 header_id = 5[default = 0];
+}
+
+//好友列表
+message FRIEND_LIST{
+    //是否要强制刷新好友冗余数据 1.是 0.否
+    optional int32 refresh = 1[default = 0];
+    repeated Friend friends = 2;
+}
+
+message STRANGER_LIST {
+    repeated Friend friends = 2;
+}
+
+message DEL_FRIEND {
+    optional int32 uid = 1[default = 0];
+    optional int32 errno = 2[default = 0];
+}
+//接受
+message ACCEPT_FRIEND{
+    optional int32 uid = 1[default = 0];
+    optional int32 errno = 2[default = 0];
+}
+
+//拒绝
+message REJECT_FRIEND{
+    optional int32 uid = 1[default = 0];
+    optional int32 errno = 2[default = 0];
+}
+
+//添加
+message ADD_FRIEND {
+    optional int32 uid = 1[default = 0];
+    optional int32 errno = 2[default = 0];
+}
+
+//申请通知
+message NotifyAdd {
+    optional int32 uid = 1[default = 0];
+    optional string uname = 2[default = ''];
+    //申请时间
+    optional int32 time = 3[default = 0];
+    //等级
+    optional int32 level = 4[default = 0];
+    optional int32 hero_id = 5[default = 0];
+    optional int32 header_id = 6[default = 0];
+}
+
+//好友申请列表
+message FRIEND_ADD_LIST{
+    //是否要强制刷新好友冗余数据 1.是 0.否
+    optional int32 refresh = 1[default = 0];
+    repeated NotifyAdd notifys = 2;
+}
+
+message SEARCH {
+    optional int32 uid = 1[default = 0];
+    optional string uname = 2[default = ''];
+    optional int32 level = 3[default = 0];
+    optional int32 hero_id = 4[default = 0];
+    optional int32 header_id = 5[default = 0];
+    optional int32 errno = 10[default = 0];
+}

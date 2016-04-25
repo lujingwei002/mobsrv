@@ -1,0 +1,26 @@
+package playerdata.mail;
+
+message MailData {
+    optional int32 id = 1[default = 0];
+    optional int32 uid = 2[default = 0];
+    optional string title = 3[default = ''];
+    optional string body = 4[default = ''];
+    optional int32 template_id = 5[default = 0];
+    optional int32 from_uid = 6[default = 0];
+    optional string from_uname = 7[default = ''];
+
+	//是否已读
+	optional int32 is_read = 11[default = 0];
+    optional int32 time = 9[default = 0];
+    //是否已经领取了附件
+    optional int32 is_reward = 10[default = 0];
+	
+	optional int32 item_id1 = 12[default = 0];
+	optional int32 item_id2 = 13[default = 0];
+	optional int32 item_id3 = 14[default = 0];
+	optional int32 item_count1 = 15[default = 0];
+	optional int32 item_count2 = 16[default = 0];
+	optional int32 item_count3 = 17[default = 0];
+    optional int32 is_del = 18[default = 0];
+}
+

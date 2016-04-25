@@ -1,0 +1,918 @@
+[2015-10-30 22:40:53.140733194059190][LOG]lsrvmain.cc:24
+[2015-10-30 22:40:53.140733194059252][LOG]_atexit
+[2015-10-30 22:40:53.671288][LOG][    asyncsrv]atexit
+[2015-10-30 22:40:53.672321][LOG][    asyncsrv]running pid(15916)
+[2015-10-30 22:40:53.672491][LOG][  gameclient]ev_connect_suc sockfd(4)
+[2015-10-30 22:40:53.672557][LOG][   postproto]srvid(1) <=> sockfd(4)
+[2015-10-30 22:40:53.672621][LOG][    srvproto][SEND] plen(21) argcount(3) sockfd(4)
+[2015-10-30 22:40:53.672701][LOG][   postproto][POST][SEND]srvid(1).Gatesrv.REGIST()
+[2015-10-30 22:40:53.672767][LOG][   postproto]{
+	"1":	"gatesrv1"
+}
+[2015-10-30 22:40:53.672824][LOG][    srvproto][SEND] plen(44) argcount(4) sockfd(4)
+[2015-10-30 22:40:53.672873][LOG][   postproto][POST][SEND]srvid(1).Gatesrv.REGIST() END
+[2015-10-30 22:40:53.140733194060986][LOG]lport.cc:179
+[2015-10-30 22:40:53.140733194061039][LOG]real_send(65)
+
+[2015-10-30 22:41:18.522040][LOG][   clientsrv]accept a client sockfd(5) host(127.0.0.1) port(50147)
+[2015-10-30 22:41:18.523307][LOG][   clientsrv]ev_read sockfd(5)
+[2015-10-30 22:41:18.523493][LOG][   clientsrv]dispatch msgname(login.LOGIN)
+[2015-10-30 22:41:18.4295491560][LOG][     pbproto][PB][SEND] plen(28) msgname(login.LOGIN) msglen(11)
+[2015-10-30 22:41:18.140733193912458][LOG]lport.cc:179
+[2015-10-30 22:41:18.140733193912535][LOG]real_send(28)
+
+[2015-10-30 22:41:18.524859][LOG][   clientsrv]ev_read sockfd(5)
+[2015-10-30 22:41:18.525013][LOG][   clientsrv]dispatch msgname(login.ENTER)
+[2015-10-30 22:41:18.525242][LOG][   postproto][POST][SEND]srvid(1).Login.PLAYER_ENTER()
+[2015-10-30 22:41:18.525312][LOG][   postproto]{
+	"1":	333
+}
+[2015-10-30 22:41:18.525375][LOG][    srvproto][SEND] plen(42) argcount(4) sockfd(4)
+[2015-10-30 22:41:18.525430][LOG][   postproto][POST][SEND]srvid(1).Login.PLAYER_ENTER() END
+[2015-10-30 22:41:18.140733193914965][LOG]lport.cc:179
+[2015-10-30 22:41:18.140733193915096][LOG]real_send(42)
+
+[2015-10-30 22:41:18.544222][LOG][  gameclient]ev_read sockfd(4)
+[2015-10-30 22:41:18.544352][LOG][    srvproto]bufremain(1024)
+[2015-10-30 22:41:18.544447][LOG][    srvproto]recv(51)
+[2015-10-30 22:41:18.544523][LOG][    srvproto]plen(51) datalen(51)
+[2015-10-30 22:41:18.544597][LOG][    srvproto]argcount(5) plen(51)
+[2015-10-30 22:41:18.544692][LOG][    srvproto]login.ENTER
+[2015-10-30 22:41:18.544778][LOG][   postproto][POST][RECV]srvid(1).Login.REPLY()
+[2015-10-30 22:41:18.544845][LOG]json.cc:95
+[2015-10-30 22:41:18.544892][LOG]unspport type
+
+[2015-10-30 22:41:18.140733193932964][LOG]json.cc:84
+[2015-10-30 22:41:18.140733193933002][LOG]null
+[2015-10-30 22:41:18.545014][LOG][   postproto]{
+	"1":	333
+}
+[2015-10-30 22:41:18.545077][LOG][     pbproto][PB][SEND] plen(17) msgname(login.ENTER) msglen(0)
+[2015-10-30 22:41:18.545122][LOG][   postproto][POST][RECV]srvid(1).Login.REPLY() END
+[2015-10-30 22:41:18.545164][LOG][    srvproto]rskip(51)
+[2015-10-30 22:41:18.140733193933268][LOG]lport.cc:179
+[2015-10-30 22:41:18.140733193933335][LOG]real_send(17)
+
+[2015-10-30 22:41:18.545480][LOG][   clientsrv]ev_read sockfd(5)
+[2015-10-30 22:41:18.545576][LOG][   clientsrv]dispatch msgname(login.PING)
+[2015-10-30 22:41:18.545678][LOG][       login]hello
+[2015-10-30 22:41:18.545764][LOG][     pbproto][PB][SEND] plen(16) msgname(login.PING) msglen(0)
+[2015-10-30 22:41:18.140733193933895][LOG]lport.cc:179
+[2015-10-30 22:41:18.140733193933968][LOG]real_send(16)
+
+[2015-10-30 22:41:18.547277][LOG][   clientsrv]ev_read sockfd(5)
+[2015-10-30 22:41:18.547506][LOG][   clientsrv]ev_close sockfd(5)
+[2015-10-30 22:41:18.547594][LOG][   clientsrv]client close from uid(333) ip(127.0.0.1) reason(Resource temporarily unavailable)
+[2015-10-30 22:41:18.547671][LOG][   postproto][POST][SEND]srvid(1).Login.PLAYER_EXIT()
+[2015-10-30 22:41:18.547759][LOG][   postproto]{
+	"1":	333
+}
+[2015-10-30 22:41:18.547848][LOG][    srvproto][SEND] plen(41) argcount(4) sockfd(4)
+[2015-10-30 22:41:18.547933][LOG][   postproto][POST][SEND]srvid(1).Login.PLAYER_EXIT() END
+[2015-10-30 22:41:18.140733193936181][LOG]lport.cc:179
+[2015-10-30 22:41:18.140733193936259][LOG]real_send(41)
+
+[2015-10-30 22:41:19.745497][LOG][   clientsrv]accept a client sockfd(5) host(127.0.0.1) port(50148)
+[2015-10-30 22:41:19.747132][LOG][   clientsrv]ev_read sockfd(5)
+[2015-10-30 22:41:19.747350][LOG][   clientsrv]dispatch msgname(login.LOGIN)
+[2015-10-30 22:41:19.747658][LOG][     pbproto][PB][SEND] plen(28) msgname(login.LOGIN) msglen(11)
+[2015-10-30 22:41:19.140733194135937][LOG]lport.cc:179
+[2015-10-30 22:41:19.140733194136057][LOG]real_send(28)
+
+[2015-10-30 22:41:19.748426][LOG][   clientsrv]ev_read sockfd(5)
+[2015-10-30 22:41:19.748608][LOG][   clientsrv]dispatch msgname(login.ENTER)
+[2015-10-30 22:41:19.748731][LOG][   postproto][POST][SEND]srvid(1).Login.PLAYER_ENTER()
+[2015-10-30 22:41:19.748898][LOG][   postproto]{
+	"1":	333
+}
+[2015-10-30 22:41:19.749035][LOG][    srvproto][SEND] plen(42) argcount(4) sockfd(4)
+[2015-10-30 22:41:19.749143][LOG][   postproto][POST][SEND]srvid(1).Login.PLAYER_ENTER() END
+[2015-10-30 22:41:19.140733194137331][LOG]lport.cc:179
+[2015-10-30 22:41:19.140733194137400][LOG]real_send(42)
+
+[2015-10-30 22:41:22.643463][LOG][   clientsrv]ev_read sockfd(5)
+[2015-10-30 22:41:22.643643][LOG][   clientsrv]ev_close sockfd(5)
+[2015-10-30 22:41:22.643731][LOG][   clientsrv]client close from uid(333) ip(127.0.0.1) reason(Resource temporarily unavailable)
+[2015-10-30 22:41:22.643815][LOG][   postproto][POST][SEND]srvid(1).Login.PLAYER_EXIT()
+[2015-10-30 22:41:22.643909][LOG][   postproto]{
+	"1":	333
+}
+[2015-10-30 22:41:22.644009][LOG][    srvproto][SEND] plen(41) argcount(4) sockfd(4)
+[2015-10-30 22:41:22.644105][LOG][   postproto][POST][SEND]srvid(1).Login.PLAYER_EXIT() END
+[2015-10-30 22:41:22.140733194032447][LOG]lport.cc:179
+[2015-10-30 22:41:22.140733194032570][LOG]real_send(41)
+
+[2015-10-30 22:41:23.569233][LOG][   clientsrv]accept a client sockfd(5) host(127.0.0.1) port(50149)
+[2015-10-30 22:41:23.570389][LOG][   clientsrv]ev_read sockfd(5)
+[2015-10-30 22:41:23.570531][LOG][   clientsrv]dispatch msgname(login.LOGIN)
+[2015-10-30 22:41:23.570681][LOG][     pbproto][PB][SEND] plen(28) msgname(login.LOGIN) msglen(11)
+[2015-10-30 22:41:23.140733193958856][LOG]lport.cc:179
+[2015-10-30 22:41:23.140733193958923][LOG]real_send(28)
+
+[2015-10-30 22:41:23.571125][LOG][   clientsrv]ev_read sockfd(5)
+[2015-10-30 22:41:23.571221][LOG][   clientsrv]dispatch msgname(login.ENTER)
+[2015-10-30 22:41:23.571298][LOG][   postproto][POST][SEND]srvid(1).Login.PLAYER_ENTER()
+[2015-10-30 22:41:23.571352][LOG][   postproto]{
+	"1":	333
+}
+[2015-10-30 22:41:23.571411][LOG][    srvproto][SEND] plen(42) argcount(4) sockfd(4)
+[2015-10-30 22:41:23.571461][LOG][   postproto][POST][SEND]srvid(1).Login.PLAYER_ENTER() END
+[2015-10-30 22:41:23.140733193959562][LOG]lport.cc:179
+[2015-10-30 22:41:23.140733193959619][LOG]real_send(42)
+
+[2015-10-30 22:41:24.511639][LOG][   clientsrv]ev_read sockfd(5)
+[2015-10-30 22:41:24.511890][LOG][   clientsrv]ev_close sockfd(5)
+[2015-10-30 22:41:24.511994][LOG][   clientsrv]client close from uid(333) ip(127.0.0.1) reason(Resource temporarily unavailable)
+[2015-10-30 22:41:24.512077][LOG][   postproto][POST][SEND]srvid(1).Login.PLAYER_EXIT()
+[2015-10-30 22:41:24.512178][LOG][   postproto]{
+	"1":	333
+}
+[2015-10-30 22:41:24.512284][LOG][    srvproto][SEND] plen(41) argcount(4) sockfd(4)
+[2015-10-30 22:41:24.512380][LOG][   postproto][POST][SEND]srvid(1).Login.PLAYER_EXIT() END
+[2015-10-30 22:41:24.140733193900598][LOG]lport.cc:179
+[2015-10-30 22:41:24.140733193900680][LOG]real_send(41)
+
+[2015-10-30 22:44:15.066110][LOG][   clientsrv]accept a client sockfd(5) host(127.0.0.1) port(51501)
+[2015-10-30 22:44:15.067081][LOG][   clientsrv]ev_read sockfd(5)
+[2015-10-30 22:44:15.067321][LOG][   clientsrv]dispatch msgname(login.LOGIN)
+[2015-10-30 22:44:15.067494][LOG][     pbproto][PB][SEND] plen(28) msgname(login.LOGIN) msglen(11)
+[2015-10-30 22:44:15.140733193455685][LOG]lport.cc:179
+[2015-10-30 22:44:15.140733193455793][LOG]real_send(28)
+
+[2015-10-30 22:44:15.067978][LOG][   clientsrv]ev_read sockfd(5)
+[2015-10-30 22:44:15.068067][LOG][   clientsrv]dispatch msgname(login.ENTER)
+[2015-10-30 22:44:15.068183][LOG][   postproto][POST][SEND]srvid(1).Login.PLAYER_ENTER()
+[2015-10-30 22:44:15.068297][LOG][   postproto]{
+	"1":	333
+}
+[2015-10-30 22:44:15.068403][LOG][    srvproto][SEND] plen(42) argcount(4) sockfd(4)
+[2015-10-30 22:44:15.068461][LOG][   postproto][POST][SEND]srvid(1).Login.PLAYER_ENTER() END
+[2015-10-30 22:44:15.140733193456599][LOG]lport.cc:179
+[2015-10-30 22:44:15.140733193456675][LOG]real_send(42)
+
+[2015-10-30 22:44:16.851335][LOG][   clientsrv]ev_read sockfd(5)
+[2015-10-30 22:44:16.851593][LOG][   clientsrv]ev_close sockfd(5)
+[2015-10-30 22:44:16.851702][LOG][   clientsrv]client close from uid(333) ip(127.0.0.1) reason(Resource temporarily unavailable)
+[2015-10-30 22:44:16.851779][LOG][   postproto][POST][SEND]srvid(1).Login.PLAYER_EXIT()
+[2015-10-30 22:44:16.851853][LOG][   postproto]{
+	"1":	333
+}
+[2015-10-30 22:44:16.851936][LOG][    srvproto][SEND] plen(41) argcount(4) sockfd(4)
+[2015-10-30 22:44:16.852017][LOG][   postproto][POST][SEND]srvid(1).Login.PLAYER_EXIT() END
+[2015-10-30 22:44:16.140733194240193][LOG]lport.cc:179
+[2015-10-30 22:44:16.140733194240261][LOG]real_send(41)
+
+[2015-10-30 22:45:48.060069][LOG][   clientsrv]accept a client sockfd(5) host(127.0.0.1) port(51566)
+[2015-10-30 22:45:48.061076][LOG][   clientsrv]ev_read sockfd(5)
+[2015-10-30 22:45:48.061209][LOG][   clientsrv]dispatch msgname(login.LOGIN)
+[2015-10-30 22:45:48.061338][LOG][     pbproto][PB][SEND] plen(28) msgname(login.LOGIN) msglen(11)
+[2015-10-30 22:45:48.140733193449518][LOG]lport.cc:179
+[2015-10-30 22:45:48.140733193449596][LOG]real_send(28)
+
+[2015-10-30 22:45:48.064021][LOG][   clientsrv]ev_read sockfd(5)
+[2015-10-30 22:45:48.064217][LOG][   clientsrv]dispatch msgname(login.ENTER)
+[2015-10-30 22:45:48.064354][LOG][   postproto][POST][SEND]srvid(1).Login.PLAYER_ENTER()
+[2015-10-30 22:45:48.064454][LOG][   postproto]{
+	"1":	333
+}
+[2015-10-30 22:45:48.064557][LOG][    srvproto][SEND] plen(42) argcount(4) sockfd(4)
+[2015-10-30 22:45:48.064649][LOG][   postproto][POST][SEND]srvid(1).Login.PLAYER_ENTER() END
+[2015-10-30 22:45:48.140733193452820][LOG]lport.cc:179
+[2015-10-30 22:45:48.140733193452895][LOG]real_send(42)
+
+[2015-10-30 22:45:48.074859][LOG][  gameclient]ev_read sockfd(4)
+[2015-10-30 22:45:48.074954][LOG][    srvproto]bufremain(1024)
+[2015-10-30 22:45:48.075037][LOG][    srvproto]recv(51)
+[2015-10-30 22:45:48.075105][LOG][    srvproto]plen(51) datalen(51)
+[2015-10-30 22:45:48.075177][LOG][    srvproto]argcount(5) plen(51)
+[2015-10-30 22:45:48.075262][LOG][    srvproto]login.ENTER
+[2015-10-30 22:45:48.075336][LOG][   postproto][POST][RECV]srvid(1).Login.REPLY()
+[2015-10-30 22:45:48.075400][LOG]json.cc:95
+[2015-10-30 22:45:48.075514][LOG]unspport type
+
+[2015-10-30 22:45:48.140733193463900][LOG]json.cc:84
+[2015-10-30 22:45:48.140733193463995][LOG]null
+[2015-10-30 22:45:48.076047][LOG][   postproto]{
+	"1":	333
+}
+[2015-10-30 22:45:48.076156][LOG][     pbproto][PB][SEND] plen(17) msgname(login.ENTER) msglen(0)
+[2015-10-30 22:45:48.076230][LOG][   postproto][POST][RECV]srvid(1).Login.REPLY() END
+[2015-10-30 22:45:48.076303][LOG][    srvproto]rskip(51)
+[2015-10-30 22:45:48.140733193464452][LOG]lport.cc:179
+[2015-10-30 22:45:48.140733193464523][LOG]real_send(17)
+
+[2015-10-30 22:45:48.084538][LOG][   clientsrv]ev_read sockfd(5)
+[2015-10-30 22:45:48.085326][LOG][   clientsrv]dispatch msgname(login.PING)
+[2015-10-30 22:45:48.085488][LOG][       login]hello
+[2015-10-30 22:45:48.085672][LOG][     pbproto][PB][SEND] plen(16) msgname(login.PING) msglen(0)
+[2015-10-30 22:45:48.140733193473950][LOG]lport.cc:179
+[2015-10-30 22:45:48.140733193474092][LOG]real_send(16)
+
+[2015-10-30 22:45:48.087331][LOG][   clientsrv]ev_read sockfd(5)
+[2015-10-30 22:45:48.087498][LOG][   clientsrv]ev_close sockfd(5)
+[2015-10-30 22:45:48.087589][LOG][   clientsrv]client close from uid(333) ip(127.0.0.1) reason(Resource temporarily unavailable)
+[2015-10-30 22:45:48.087674][LOG][   postproto][POST][SEND]srvid(1).Login.PLAYER_EXIT()
+[2015-10-30 22:45:48.087766][LOG][   postproto]{
+	"1":	333
+}
+[2015-10-30 22:45:48.087870][LOG][    srvproto][SEND] plen(41) argcount(4) sockfd(4)
+[2015-10-30 22:45:48.087979][LOG][   postproto][POST][SEND]srvid(1).Login.PLAYER_EXIT() END
+[2015-10-30 22:45:48.140733193476148][LOG]lport.cc:179
+[2015-10-30 22:45:48.140733193476223][LOG]real_send(41)
+
+[2015-10-30 22:45:49.817676][LOG][   clientsrv]accept a client sockfd(5) host(127.0.0.1) port(51567)
+[2015-10-30 22:45:49.819551][LOG][   clientsrv]ev_read sockfd(5)
+[2015-10-30 22:45:49.819897][LOG][   clientsrv]dispatch msgname(login.LOGIN)
+[2015-10-30 22:45:49.820146][LOG][     pbproto][PB][SEND] plen(28) msgname(login.LOGIN) msglen(11)
+[2015-10-30 22:45:49.140733194208379][LOG]lport.cc:179
+[2015-10-30 22:45:49.140733194208508][LOG]real_send(28)
+
+[2015-10-30 22:45:49.820823][LOG][   clientsrv]ev_read sockfd(5)
+[2015-10-30 22:45:49.820951][LOG][   clientsrv]dispatch msgname(login.ENTER)
+[2015-10-30 22:45:49.821118][LOG][   postproto][POST][SEND]srvid(1).Login.PLAYER_ENTER()
+[2015-10-30 22:45:49.821248][LOG][   postproto]{
+	"1":	333
+}
+[2015-10-30 22:45:49.821351][LOG][    srvproto][SEND] plen(42) argcount(4) sockfd(4)
+[2015-10-30 22:45:49.821510][LOG][   postproto][POST][SEND]srvid(1).Login.PLAYER_ENTER() END
+[2015-10-30 22:45:49.140733194209743][LOG]lport.cc:179
+[2015-10-30 22:45:49.140733194209880][LOG]real_send(42)
+
+[2015-10-30 22:45:49.841508][LOG][  gameclient]ev_read sockfd(4)
+[2015-10-30 22:45:49.841590][LOG][    srvproto]bufremain(1024)
+[2015-10-30 22:45:49.841664][LOG][    srvproto]recv(51)
+[2015-10-30 22:45:49.841732][LOG][    srvproto]plen(51) datalen(51)
+[2015-10-30 22:45:49.841802][LOG][    srvproto]argcount(5) plen(51)
+[2015-10-30 22:45:49.841888][LOG][    srvproto]login.ENTER
+[2015-10-30 22:45:49.841970][LOG][   postproto][POST][RECV]srvid(1).Login.REPLY()
+[2015-10-30 22:45:49.842036][LOG]json.cc:95
+[2015-10-30 22:45:49.842094][LOG]unspport type
+
+[2015-10-30 22:45:49.140733194230188][LOG]json.cc:84
+[2015-10-30 22:45:49.140733194230245][LOG]null
+[2015-10-30 22:45:49.842278][LOG][   postproto]{
+	"1":	333
+}
+[2015-10-30 22:45:49.842369][LOG][     pbproto][PB][SEND] plen(17) msgname(login.ENTER) msglen(0)
+[2015-10-30 22:45:49.842433][LOG][   postproto][POST][RECV]srvid(1).Login.REPLY() END
+[2015-10-30 22:45:49.842496][LOG][    srvproto]rskip(51)
+[2015-10-30 22:45:49.140733194230624][LOG]lport.cc:179
+[2015-10-30 22:45:49.140733194230693][LOG]real_send(17)
+
+[2015-10-30 22:45:49.842920][LOG][   clientsrv]ev_read sockfd(5)
+[2015-10-30 22:45:49.843014][LOG][   clientsrv]dispatch msgname(login.PING)
+[2015-10-30 22:45:49.843104][LOG][       login]hello
+[2015-10-30 22:45:49.843182][LOG][     pbproto][PB][SEND] plen(16) msgname(login.PING) msglen(0)
+[2015-10-30 22:45:49.140733194231308][LOG]lport.cc:179
+[2015-10-30 22:45:49.140733194231373][LOG]real_send(16)
+
+[2015-10-30 22:45:49.844829][LOG][   clientsrv]ev_read sockfd(5)
+[2015-10-30 22:45:49.845248][LOG][   clientsrv]ev_close sockfd(5)
+[2015-10-30 22:45:49.845321][LOG][   clientsrv]client close from uid(333) ip(127.0.0.1) reason(Resource temporarily unavailable)
+[2015-10-30 22:45:49.845396][LOG][   postproto][POST][SEND]srvid(1).Login.PLAYER_EXIT()
+[2015-10-30 22:45:49.845617][LOG][   postproto]{
+	"1":	333
+}
+[2015-10-30 22:45:49.845723][LOG][    srvproto][SEND] plen(41) argcount(4) sockfd(4)
+[2015-10-30 22:45:49.845813][LOG][   postproto][POST][SEND]srvid(1).Login.PLAYER_EXIT() END
+[2015-10-30 22:45:49.140733194234074][LOG]lport.cc:179
+[2015-10-30 22:45:49.140733194234161][LOG]real_send(41)
+
+[2015-10-30 22:45:50.554234][LOG][   clientsrv]accept a client sockfd(5) host(127.0.0.1) port(51568)
+[2015-10-30 22:45:50.558103][LOG][   clientsrv]ev_read sockfd(5)
+[2015-10-30 22:45:50.558365][LOG][   clientsrv]dispatch msgname(login.LOGIN)
+[2015-10-30 22:45:50.558716][LOG][     pbproto][PB][SEND] plen(28) msgname(login.LOGIN) msglen(11)
+[2015-10-30 22:45:50.140733193947185][LOG]lport.cc:179
+[2015-10-30 22:45:50.140733193947316][LOG]real_send(28)
+
+[2015-10-30 22:45:50.560053][LOG][   clientsrv]ev_read sockfd(5)
+[2015-10-30 22:45:50.560329][LOG][   clientsrv]dispatch msgname(login.ENTER)
+[2015-10-30 22:45:50.560527][LOG][   postproto][POST][SEND]srvid(1).Login.PLAYER_ENTER()
+[2015-10-30 22:45:50.560812][LOG][   postproto]{
+	"1":	333
+}
+[2015-10-30 22:45:50.560983][LOG][    srvproto][SEND] plen(42) argcount(4) sockfd(4)
+[2015-10-30 22:45:50.561167][LOG][   postproto][POST][SEND]srvid(1).Login.PLAYER_ENTER() END
+[2015-10-30 22:45:50.140733193949416][LOG]lport.cc:179
+[2015-10-30 22:45:50.140733193949701][LOG]real_send(42)
+
+[2015-10-30 22:45:50.577816][LOG][  gameclient]ev_read sockfd(4)
+[2015-10-30 22:45:50.578030][LOG][    srvproto]bufremain(1024)
+[2015-10-30 22:45:50.578145][LOG][    srvproto]recv(51)
+[2015-10-30 22:45:50.578230][LOG][    srvproto]plen(51) datalen(51)
+[2015-10-30 22:45:50.578452][LOG][    srvproto]argcount(5) plen(51)
+[2015-10-30 22:45:50.578575][LOG][    srvproto]login.ENTER
+[2015-10-30 22:45:50.578682][LOG][   postproto][POST][RECV]srvid(1).Login.REPLY()
+[2015-10-30 22:45:50.578755][LOG]json.cc:95
+[2015-10-30 22:45:50.578817][LOG]unspport type
+
+[2015-10-30 22:45:50.140733193966914][LOG]json.cc:84
+[2015-10-30 22:45:50.140733193966973][LOG]null
+[2015-10-30 22:45:50.579012][LOG][   postproto]{
+	"1":	333
+}
+[2015-10-30 22:45:50.579113][LOG][     pbproto][PB][SEND] plen(17) msgname(login.ENTER) msglen(0)
+[2015-10-30 22:45:50.579181][LOG][   postproto][POST][RECV]srvid(1).Login.REPLY() END
+[2015-10-30 22:45:50.579246][LOG][    srvproto]rskip(51)
+[2015-10-30 22:45:50.140733193967466][LOG]lport.cc:179
+[2015-10-30 22:45:50.140733193967551][LOG]real_send(17)
+
+[2015-10-30 22:45:50.583165][LOG][   clientsrv]ev_read sockfd(5)
+[2015-10-30 22:45:50.583459][LOG][   clientsrv]dispatch msgname(login.PING)
+[2015-10-30 22:45:50.583597][LOG][       login]hello
+[2015-10-30 22:45:50.583694][LOG][     pbproto][PB][SEND] plen(16) msgname(login.PING) msglen(0)
+[2015-10-30 22:45:50.140733193971891][LOG]lport.cc:179
+[2015-10-30 22:45:50.140733193971975][LOG]real_send(16)
+
+[2015-10-30 22:45:50.586297][LOG][   clientsrv]ev_read sockfd(5)
+[2015-10-30 22:45:50.586632][LOG][   clientsrv]ev_close sockfd(5)
+[2015-10-30 22:45:50.586730][LOG][   clientsrv]client close from uid(333) ip(127.0.0.1) reason(Resource temporarily unavailable)
+[2015-10-30 22:45:50.586812][LOG][   postproto][POST][SEND]srvid(1).Login.PLAYER_EXIT()
+[2015-10-30 22:45:50.586910][LOG][   postproto]{
+	"1":	333
+}
+[2015-10-30 22:45:50.587014][LOG][    srvproto][SEND] plen(41) argcount(4) sockfd(4)
+[2015-10-30 22:45:50.587108][LOG][   postproto][POST][SEND]srvid(1).Login.PLAYER_EXIT() END
+[2015-10-30 22:45:50.140733193975325][LOG]lport.cc:179
+[2015-10-30 22:45:50.140733193975431][LOG]real_send(41)
+
+[2015-10-30 22:45:51.084600][LOG][   clientsrv]accept a client sockfd(5) host(127.0.0.1) port(51569)
+[2015-10-30 22:45:51.086055][LOG][   clientsrv]ev_read sockfd(5)
+[2015-10-30 22:45:51.086250][LOG][   clientsrv]dispatch msgname(login.LOGIN)
+[2015-10-30 22:45:51.086469][LOG][     pbproto][PB][SEND] plen(28) msgname(login.LOGIN) msglen(11)
+[2015-10-30 22:45:51.140733193474675][LOG]lport.cc:179
+[2015-10-30 22:45:51.140733193474763][LOG]real_send(28)
+
+[2015-10-30 22:45:51.087173][LOG][   clientsrv]ev_read sockfd(5)
+[2015-10-30 22:45:51.087360][LOG][   clientsrv]dispatch msgname(login.ENTER)
+[2015-10-30 22:45:51.087497][LOG][   postproto][POST][SEND]srvid(1).Login.PLAYER_ENTER()
+[2015-10-30 22:45:51.087592][LOG][   postproto]{
+	"1":	333
+}
+[2015-10-30 22:45:51.087699][LOG][    srvproto][SEND] plen(42) argcount(4) sockfd(4)
+[2015-10-30 22:45:51.087794][LOG][   postproto][POST][SEND]srvid(1).Login.PLAYER_ENTER() END
+[2015-10-30 22:45:51.140733193475964][LOG]lport.cc:179
+[2015-10-30 22:45:51.140733193476046][LOG]real_send(42)
+
+[2015-10-30 22:45:51.106795][LOG][  gameclient]ev_read sockfd(4)
+[2015-10-30 22:45:51.107018][LOG][    srvproto]bufremain(1024)
+[2015-10-30 22:45:51.107206][LOG][    srvproto]recv(51)
+[2015-10-30 22:45:51.107333][LOG][    srvproto]plen(51) datalen(51)
+[2015-10-30 22:45:51.107539][LOG][    srvproto]argcount(5) plen(51)
+[2015-10-30 22:45:51.107735][LOG][    srvproto]login.ENTER
+[2015-10-30 22:45:51.107831][LOG][   postproto][POST][RECV]srvid(1).Login.REPLY()
+[2015-10-30 22:45:51.107930][LOG]json.cc:95
+[2015-10-30 22:45:51.107998][LOG]unspport type
+
+[2015-10-30 22:45:51.140733193496117][LOG]json.cc:84
+[2015-10-30 22:45:51.140733193496180][LOG]null
+[2015-10-30 22:45:51.108225][LOG][   postproto]{
+	"1":	333
+}
+[2015-10-30 22:45:51.108328][LOG][     pbproto][PB][SEND] plen(17) msgname(login.ENTER) msglen(0)
+[2015-10-30 22:45:51.108401][LOG][   postproto][POST][RECV]srvid(1).Login.REPLY() END
+[2015-10-30 22:45:51.108470][LOG][    srvproto]rskip(51)
+[2015-10-30 22:45:51.140733193496639][LOG]lport.cc:179
+[2015-10-30 22:45:51.140733193496764][LOG]real_send(17)
+
+[2015-10-30 22:45:51.109287][LOG][   clientsrv]ev_read sockfd(5)
+[2015-10-30 22:45:51.109502][LOG][   clientsrv]dispatch msgname(login.PING)
+[2015-10-30 22:45:51.110647][LOG][       login]hello
+[2015-10-30 22:45:51.110904][LOG][     pbproto][PB][SEND] plen(16) msgname(login.PING) msglen(0)
+[2015-10-30 22:45:51.140733193499141][LOG]lport.cc:179
+[2015-10-30 22:45:51.140733193499229][LOG]real_send(16)
+
+[2015-10-30 22:45:51.112189][LOG][   clientsrv]ev_read sockfd(5)
+[2015-10-30 22:45:51.112564][LOG][   clientsrv]ev_close sockfd(5)
+[2015-10-30 22:45:51.112653][LOG][   clientsrv]client close from uid(333) ip(127.0.0.1) reason(Resource temporarily unavailable)
+[2015-10-30 22:45:51.112731][LOG][   postproto][POST][SEND]srvid(1).Login.PLAYER_EXIT()
+[2015-10-30 22:45:51.112823][LOG][   postproto]{
+	"1":	333
+}
+[2015-10-30 22:45:51.112922][LOG][    srvproto][SEND] plen(41) argcount(4) sockfd(4)
+[2015-10-30 22:45:51.113022][LOG][   postproto][POST][SEND]srvid(1).Login.PLAYER_EXIT() END
+[2015-10-30 22:45:51.140733193501323][LOG]lport.cc:179
+[2015-10-30 22:45:51.140733193501422][LOG]real_send(41)
+
+[2015-10-30 22:45:51.615889][LOG][   clientsrv]accept a client sockfd(5) host(127.0.0.1) port(51570)
+[2015-10-30 22:45:51.617598][LOG][   clientsrv]ev_read sockfd(5)
+[2015-10-30 22:45:51.617812][LOG][   clientsrv]dispatch msgname(login.LOGIN)
+[2015-10-30 22:45:51.617980][LOG][     pbproto][PB][SEND] plen(28) msgname(login.LOGIN) msglen(11)
+[2015-10-30 22:45:51.140733194006194][LOG]lport.cc:179
+[2015-10-30 22:45:51.140733194006330][LOG]real_send(28)
+
+[2015-10-30 22:45:51.618563][LOG][   clientsrv]ev_read sockfd(5)
+[2015-10-30 22:45:51.618774][LOG][   clientsrv]dispatch msgname(login.ENTER)
+[2015-10-30 22:45:51.619246][LOG][   postproto][POST][SEND]srvid(1).Login.PLAYER_ENTER()
+[2015-10-30 22:45:51.619358][LOG][   postproto]{
+	"1":	333
+}
+[2015-10-30 22:45:51.619462][LOG][    srvproto][SEND] plen(42) argcount(4) sockfd(4)
+[2015-10-30 22:45:51.619552][LOG][   postproto][POST][SEND]srvid(1).Login.PLAYER_ENTER() END
+[2015-10-30 22:45:51.140733194007706][LOG]lport.cc:179
+[2015-10-30 22:45:51.140733194007790][LOG]real_send(42)
+
+[2015-10-30 22:45:51.645881][LOG][  gameclient]ev_read sockfd(4)
+[2015-10-30 22:45:51.645979][LOG][    srvproto]bufremain(1024)
+[2015-10-30 22:45:51.646059][LOG][    srvproto]recv(51)
+[2015-10-30 22:45:51.646129][LOG][    srvproto]plen(51) datalen(51)
+[2015-10-30 22:45:51.646199][LOG][    srvproto]argcount(5) plen(51)
+[2015-10-30 22:45:51.646383][LOG][    srvproto]login.ENTER
+[2015-10-30 22:45:51.646492][LOG][   postproto][POST][RECV]srvid(1).Login.REPLY()
+[2015-10-30 22:45:51.646573][LOG]json.cc:95
+[2015-10-30 22:45:51.647507][LOG]unspport type
+
+[2015-10-30 22:45:51.140733194035647][LOG]json.cc:84
+[2015-10-30 22:45:51.140733194035711][LOG]null
+[2015-10-30 22:45:51.647764][LOG][   postproto]{
+	"1":	333
+}
+[2015-10-30 22:45:51.647876][LOG][     pbproto][PB][SEND] plen(17) msgname(login.ENTER) msglen(0)
+[2015-10-30 22:45:51.647953][LOG][   postproto][POST][RECV]srvid(1).Login.REPLY() END
+[2015-10-30 22:45:51.648026][LOG][    srvproto]rskip(51)
+[2015-10-30 22:45:51.140733194036235][LOG]lport.cc:179
+[2015-10-30 22:45:51.140733194036307][LOG]real_send(17)
+
+[2015-10-30 22:45:51.648505][LOG][   clientsrv]ev_read sockfd(5)
+[2015-10-30 22:45:51.648607][LOG][   clientsrv]dispatch msgname(login.PING)
+[2015-10-30 22:45:51.648709][LOG][       login]hello
+[2015-10-30 22:45:51.648800][LOG][     pbproto][PB][SEND] plen(16) msgname(login.PING) msglen(0)
+[2015-10-30 22:45:51.140733194036938][LOG]lport.cc:179
+[2015-10-30 22:45:51.140733194037038][LOG]real_send(16)
+
+[2015-10-30 22:45:51.649883][LOG][   clientsrv]ev_read sockfd(5)
+[2015-10-30 22:45:51.650116][LOG][   clientsrv]ev_close sockfd(5)
+[2015-10-30 22:45:51.650193][LOG][   clientsrv]client close from uid(333) ip(127.0.0.1) reason(Resource temporarily unavailable)
+[2015-10-30 22:45:51.650260][LOG][   postproto][POST][SEND]srvid(1).Login.PLAYER_EXIT()
+[2015-10-30 22:45:51.650352][LOG][   postproto]{
+	"1":	333
+}
+[2015-10-30 22:45:51.650459][LOG][    srvproto][SEND] plen(41) argcount(4) sockfd(4)
+[2015-10-30 22:45:51.650552][LOG][   postproto][POST][SEND]srvid(1).Login.PLAYER_EXIT() END
+[2015-10-30 22:45:51.140733194038750][LOG]lport.cc:179
+[2015-10-30 22:45:51.140733194038835][LOG]real_send(41)
+
+[2015-10-30 22:45:52.133357][LOG][   clientsrv]accept a client sockfd(5) host(127.0.0.1) port(51571)
+[2015-10-30 22:45:52.135168][LOG][   clientsrv]ev_read sockfd(5)
+[2015-10-30 22:45:52.135339][LOG][   clientsrv]dispatch msgname(login.LOGIN)
+[2015-10-30 22:45:52.135484][LOG][     pbproto][PB][SEND] plen(28) msgname(login.LOGIN) msglen(11)
+[2015-10-30 22:45:52.140733193523665][LOG]lport.cc:179
+[2015-10-30 22:45:52.140733193523742][LOG]real_send(28)
+
+[2015-10-30 22:45:52.136390][LOG][   clientsrv]ev_read sockfd(5)
+[2015-10-30 22:45:52.136607][LOG][   clientsrv]dispatch msgname(login.ENTER)
+[2015-10-30 22:45:52.136732][LOG][   postproto][POST][SEND]srvid(1).Login.PLAYER_ENTER()
+[2015-10-30 22:45:52.136823][LOG][   postproto]{
+	"1":	333
+}
+[2015-10-30 22:45:52.136921][LOG][    srvproto][SEND] plen(42) argcount(4) sockfd(4)
+[2015-10-30 22:45:52.137008][LOG][   postproto][POST][SEND]srvid(1).Login.PLAYER_ENTER() END
+[2015-10-30 22:45:52.140733193525161][LOG]lport.cc:179
+[2015-10-30 22:45:52.140733193525239][LOG]real_send(42)
+
+[2015-10-30 22:45:52.153312][LOG][  gameclient]ev_read sockfd(4)
+[2015-10-30 22:45:52.153424][LOG][    srvproto]bufremain(1024)
+[2015-10-30 22:45:52.153509][LOG][    srvproto]recv(51)
+[2015-10-30 22:45:52.153586][LOG][    srvproto]plen(51) datalen(51)
+[2015-10-30 22:45:52.153663][LOG][    srvproto]argcount(5) plen(51)
+[2015-10-30 22:45:52.153760][LOG][    srvproto]login.ENTER
+[2015-10-30 22:45:52.153860][LOG][   postproto][POST][RECV]srvid(1).Login.REPLY()
+[2015-10-30 22:45:52.153948][LOG]json.cc:95
+[2015-10-30 22:45:52.154013][LOG]unspport type
+
+[2015-10-30 22:45:52.140733193542110][LOG]json.cc:84
+[2015-10-30 22:45:52.140733193542168][LOG]null
+[2015-10-30 22:45:52.154214][LOG][   postproto]{
+	"1":	333
+}
+[2015-10-30 22:45:52.154311][LOG][     pbproto][PB][SEND] plen(17) msgname(login.ENTER) msglen(0)
+[2015-10-30 22:45:52.154381][LOG][   postproto][POST][RECV]srvid(1).Login.REPLY() END
+[2015-10-30 22:45:52.154447][LOG][    srvproto]rskip(51)
+[2015-10-30 22:45:52.140733193542666][LOG]lport.cc:179
+[2015-10-30 22:45:52.140733193542743][LOG]real_send(17)
+
+[2015-10-30 22:45:52.157083][LOG][   clientsrv]ev_read sockfd(5)
+[2015-10-30 22:45:52.157460][LOG][   clientsrv]dispatch msgname(login.PING)
+[2015-10-30 22:45:52.157599][LOG][       login]hello
+[2015-10-30 22:45:52.157727][LOG][     pbproto][PB][SEND] plen(16) msgname(login.PING) msglen(0)
+[2015-10-30 22:45:52.140733193545907][LOG]lport.cc:179
+[2015-10-30 22:45:52.140733193546012][LOG]real_send(16)
+
+[2015-10-30 22:45:52.159457][LOG][   clientsrv]ev_read sockfd(5)
+[2015-10-30 22:45:52.160017][LOG][   clientsrv]ev_close sockfd(5)
+[2015-10-30 22:45:52.160217][LOG][   clientsrv]client close from uid(333) ip(127.0.0.1) reason(Resource temporarily unavailable)
+[2015-10-30 22:45:52.160338][LOG][   postproto][POST][SEND]srvid(1).Login.PLAYER_EXIT()
+[2015-10-30 22:45:52.160647][LOG][   postproto]{
+	"1":	333
+}
+[2015-10-30 22:45:52.160893][LOG][    srvproto][SEND] plen(41) argcount(4) sockfd(4)
+[2015-10-30 22:45:52.161103][LOG][   postproto][POST][SEND]srvid(1).Login.PLAYER_EXIT() END
+[2015-10-30 22:45:52.140733193549469][LOG]lport.cc:179
+[2015-10-30 22:45:52.140733193549578][LOG]real_send(41)
+
+[2015-10-30 22:45:52.623586][LOG][   clientsrv]accept a client sockfd(5) host(127.0.0.1) port(51572)
+[2015-10-30 22:45:52.624549][LOG][   clientsrv]ev_read sockfd(5)
+[2015-10-30 22:45:52.624677][LOG][   clientsrv]dispatch msgname(login.LOGIN)
+[2015-10-30 22:45:52.624811][LOG][     pbproto][PB][SEND] plen(28) msgname(login.LOGIN) msglen(11)
+[2015-10-30 22:45:52.140733194012946][LOG]lport.cc:179
+[2015-10-30 22:45:52.140733194013022][LOG]real_send(28)
+
+[2015-10-30 22:45:52.625189][LOG][   clientsrv]ev_read sockfd(5)
+[2015-10-30 22:45:52.625279][LOG][   clientsrv]dispatch msgname(login.ENTER)
+[2015-10-30 22:45:52.625382][LOG][   postproto][POST][SEND]srvid(1).Login.PLAYER_ENTER()
+[2015-10-30 22:45:52.625466][LOG][   postproto]{
+	"1":	333
+}
+[2015-10-30 22:45:52.625598][LOG][    srvproto][SEND] plen(42) argcount(4) sockfd(4)
+[2015-10-30 22:45:52.625712][LOG][   postproto][POST][SEND]srvid(1).Login.PLAYER_ENTER() END
+[2015-10-30 22:45:52.140733194013912][LOG]lport.cc:179
+[2015-10-30 22:45:52.140733194013992][LOG]real_send(42)
+
+[2015-10-30 22:45:52.645813][LOG][  gameclient]ev_read sockfd(4)
+[2015-10-30 22:45:52.646116][LOG][    srvproto]bufremain(1024)
+[2015-10-30 22:45:52.646225][LOG][    srvproto]recv(51)
+[2015-10-30 22:45:52.646311][LOG][    srvproto]plen(51) datalen(51)
+[2015-10-30 22:45:52.646398][LOG][    srvproto]argcount(5) plen(51)
+[2015-10-30 22:45:52.646509][LOG][    srvproto]login.ENTER
+[2015-10-30 22:45:52.646611][LOG][   postproto][POST][RECV]srvid(1).Login.REPLY()
+[2015-10-30 22:45:52.646694][LOG]json.cc:95
+[2015-10-30 22:45:52.646766][LOG]unspport type
+
+[2015-10-30 22:45:52.140733194034873][LOG]json.cc:84
+[2015-10-30 22:45:52.140733194034943][LOG]null
+[2015-10-30 22:45:52.647013][LOG][   postproto]{
+	"1":	333
+}
+[2015-10-30 22:45:52.647140][LOG][     pbproto][PB][SEND] plen(17) msgname(login.ENTER) msglen(0)
+[2015-10-30 22:45:52.647224][LOG][   postproto][POST][RECV]srvid(1).Login.REPLY() END
+[2015-10-30 22:45:52.647302][LOG][    srvproto]rskip(51)
+[2015-10-30 22:45:52.140733194035570][LOG]lport.cc:179
+[2015-10-30 22:45:52.140733194035650][LOG]real_send(17)
+
+[2015-10-30 22:45:52.647960][LOG][   clientsrv]ev_read sockfd(5)
+[2015-10-30 22:45:52.648057][LOG][   clientsrv]dispatch msgname(login.PING)
+[2015-10-30 22:45:52.648156][LOG][       login]hello
+[2015-10-30 22:45:52.648243][LOG][     pbproto][PB][SEND] plen(16) msgname(login.PING) msglen(0)
+[2015-10-30 22:45:52.140733194036398][LOG]lport.cc:179
+[2015-10-30 22:45:52.140733194036474][LOG]real_send(16)
+
+[2015-10-30 22:45:52.649109][LOG][   clientsrv]ev_read sockfd(5)
+[2015-10-30 22:45:52.649223][LOG][   clientsrv]ev_close sockfd(5)
+[2015-10-30 22:45:52.649299][LOG][   clientsrv]client close from uid(333) ip(127.0.0.1) reason(Resource temporarily unavailable)
+[2015-10-30 22:45:52.649368][LOG][   postproto][POST][SEND]srvid(1).Login.PLAYER_EXIT()
+[2015-10-30 22:45:52.649583][LOG][   postproto]{
+	"1":	333
+}
+[2015-10-30 22:45:52.649683][LOG][    srvproto][SEND] plen(41) argcount(4) sockfd(4)
+[2015-10-30 22:45:52.649768][LOG][   postproto][POST][SEND]srvid(1).Login.PLAYER_EXIT() END
+[2015-10-30 22:45:52.140733194037988][LOG]lport.cc:179
+[2015-10-30 22:45:52.140733194038063][LOG]real_send(41)
+
+[2015-10-30 22:45:53.108213][LOG][   clientsrv]accept a client sockfd(5) host(127.0.0.1) port(51573)
+[2015-10-30 22:45:53.109162][LOG][   clientsrv]ev_read sockfd(5)
+[2015-10-30 22:45:53.109321][LOG][   clientsrv]dispatch msgname(login.LOGIN)
+[2015-10-30 22:45:53.109460][LOG][     pbproto][PB][SEND] plen(28) msgname(login.LOGIN) msglen(11)
+[2015-10-30 22:45:53.140733193497616][LOG]lport.cc:179
+[2015-10-30 22:45:53.140733193497708][LOG]real_send(28)
+
+[2015-10-30 22:45:53.109858][LOG][   clientsrv]ev_read sockfd(5)
+[2015-10-30 22:45:53.109965][LOG][   clientsrv]dispatch msgname(login.ENTER)
+[2015-10-30 22:45:53.110080][LOG][   postproto][POST][SEND]srvid(1).Login.PLAYER_ENTER()
+[2015-10-30 22:45:53.110175][LOG][   postproto]{
+	"1":	333
+}
+[2015-10-30 22:45:53.110284][LOG][    srvproto][SEND] plen(42) argcount(4) sockfd(4)
+[2015-10-30 22:45:53.110371][LOG][   postproto][POST][SEND]srvid(1).Login.PLAYER_ENTER() END
+[2015-10-30 22:45:53.140733193498519][LOG]lport.cc:179
+[2015-10-30 22:45:53.140733193498596][LOG]real_send(42)
+
+[2015-10-30 22:45:53.130616][LOG][  gameclient]ev_read sockfd(4)
+[2015-10-30 22:45:53.131137][LOG][    srvproto]bufremain(1024)
+[2015-10-30 22:45:53.131220][LOG][    srvproto]recv(51)
+[2015-10-30 22:45:53.131285][LOG][    srvproto]plen(51) datalen(51)
+[2015-10-30 22:45:53.131351][LOG][    srvproto]argcount(5) plen(51)
+[2015-10-30 22:45:53.131430][LOG][    srvproto]login.ENTER
+[2015-10-30 22:45:53.131505][LOG][   postproto][POST][RECV]srvid(1).Login.REPLY()
+[2015-10-30 22:45:53.131566][LOG]json.cc:95
+[2015-10-30 22:45:53.131618][LOG]unspport type
+
+[2015-10-30 22:45:53.140733193519704][LOG]json.cc:84
+[2015-10-30 22:45:53.140733193519754][LOG]null
+[2015-10-30 22:45:53.131780][LOG][   postproto]{
+	"1":	333
+}
+[2015-10-30 22:45:53.131862][LOG][     pbproto][PB][SEND] plen(17) msgname(login.ENTER) msglen(0)
+[2015-10-30 22:45:53.131919][LOG][   postproto][POST][RECV]srvid(1).Login.REPLY() END
+[2015-10-30 22:45:53.131974][LOG][    srvproto]rskip(51)
+[2015-10-30 22:45:53.140733193520148][LOG]lport.cc:179
+[2015-10-30 22:45:53.140733193520221][LOG]real_send(17)
+
+[2015-10-30 22:45:53.133547][LOG][   clientsrv]ev_read sockfd(5)
+[2015-10-30 22:45:53.133778][LOG][   clientsrv]dispatch msgname(login.PING)
+[2015-10-30 22:45:53.133943][LOG][       login]hello
+[2015-10-30 22:45:53.134037][LOG][     pbproto][PB][SEND] plen(16) msgname(login.PING) msglen(0)
+[2015-10-30 22:45:53.140733193522191][LOG]lport.cc:179
+[2015-10-30 22:45:53.140733193522260][LOG]real_send(16)
+
+[2015-10-30 22:45:53.135781][LOG][   clientsrv]ev_read sockfd(5)
+[2015-10-30 22:45:53.135951][LOG][   clientsrv]ev_close sockfd(5)
+[2015-10-30 22:45:53.136036][LOG][   clientsrv]client close from uid(333) ip(127.0.0.1) reason(Resource temporarily unavailable)
+[2015-10-30 22:45:53.136113][LOG][   postproto][POST][SEND]srvid(1).Login.PLAYER_EXIT()
+[2015-10-30 22:45:53.136202][LOG][   postproto]{
+	"1":	333
+}
+[2015-10-30 22:45:53.136303][LOG][    srvproto][SEND] plen(41) argcount(4) sockfd(4)
+[2015-10-30 22:45:53.136391][LOG][   postproto][POST][SEND]srvid(1).Login.PLAYER_EXIT() END
+[2015-10-30 22:45:53.140733193524562][LOG]lport.cc:179
+[2015-10-30 22:45:53.140733193524641][LOG]real_send(41)
+
+[2015-10-30 22:45:53.729687][LOG][   clientsrv]accept a client sockfd(5) host(127.0.0.1) port(51574)
+[2015-10-30 22:45:53.730723][LOG][   clientsrv]ev_read sockfd(5)
+[2015-10-30 22:45:53.730888][LOG][   clientsrv]dispatch msgname(login.LOGIN)
+[2015-10-30 22:45:53.731499][LOG][     pbproto][PB][SEND] plen(28) msgname(login.LOGIN) msglen(11)
+[2015-10-30 22:45:53.140733194119829][LOG]lport.cc:179
+[2015-10-30 22:45:53.140733194120005][LOG]real_send(28)
+
+[2015-10-30 22:45:53.732456][LOG][   clientsrv]ev_read sockfd(5)
+[2015-10-30 22:45:53.732755][LOG][   clientsrv]dispatch msgname(login.ENTER)
+[2015-10-30 22:45:53.732954][LOG][   postproto][POST][SEND]srvid(1).Login.PLAYER_ENTER()
+[2015-10-30 22:45:53.733076][LOG][   postproto]{
+	"1":	333
+}
+[2015-10-30 22:45:53.733185][LOG][    srvproto][SEND] plen(42) argcount(4) sockfd(4)
+[2015-10-30 22:45:53.733316][LOG][   postproto][POST][SEND]srvid(1).Login.PLAYER_ENTER() END
+[2015-10-30 22:45:53.140733194121522][LOG]lport.cc:179
+[2015-10-30 22:45:53.140733194121632][LOG]real_send(42)
+
+[2015-10-30 22:45:53.757189][LOG][  gameclient]ev_read sockfd(4)
+[2015-10-30 22:45:53.758109][LOG][    srvproto]bufremain(1024)
+[2015-10-30 22:45:53.758265][LOG][    srvproto]recv(51)
+[2015-10-30 22:45:53.758350][LOG][    srvproto]plen(51) datalen(51)
+[2015-10-30 22:45:53.758438][LOG][    srvproto]argcount(5) plen(51)
+[2015-10-30 22:45:53.758539][LOG][    srvproto]login.ENTER
+[2015-10-30 22:45:53.758638][LOG][   postproto][POST][RECV]srvid(1).Login.REPLY()
+[2015-10-30 22:45:53.758720][LOG]json.cc:95
+[2015-10-30 22:45:53.758830][LOG]unspport type
+
+[2015-10-30 22:45:53.140733194146952][LOG]json.cc:84
+[2015-10-30 22:45:53.140733194147016][LOG]null
+[2015-10-30 22:45:53.759088][LOG][   postproto]{
+	"1":	333
+}
+[2015-10-30 22:45:53.759196][LOG][     pbproto][PB][SEND] plen(17) msgname(login.ENTER) msglen(0)
+[2015-10-30 22:45:53.759277][LOG][   postproto][POST][RECV]srvid(1).Login.REPLY() END
+[2015-10-30 22:45:53.759519][LOG][    srvproto]rskip(51)
+[2015-10-30 22:45:53.140733194147786][LOG]lport.cc:179
+[2015-10-30 22:45:53.140733194147871][LOG]real_send(17)
+
+[2015-10-30 22:45:53.760835][LOG][   clientsrv]ev_read sockfd(5)
+[2015-10-30 22:45:53.761246][LOG][   clientsrv]dispatch msgname(login.PING)
+[2015-10-30 22:45:53.761419][LOG][       login]hello
+[2015-10-30 22:45:53.761511][LOG][     pbproto][PB][SEND] plen(16) msgname(login.PING) msglen(0)
+[2015-10-30 22:45:53.140733194149720][LOG]lport.cc:179
+[2015-10-30 22:45:53.140733194149867][LOG]real_send(16)
+
+[2015-10-30 22:45:53.762965][LOG][   clientsrv]ev_read sockfd(5)
+[2015-10-30 22:45:53.763319][LOG][   clientsrv]ev_close sockfd(5)
+[2015-10-30 22:45:53.763415][LOG][   clientsrv]client close from uid(333) ip(127.0.0.1) reason(Resource temporarily unavailable)
+[2015-10-30 22:45:53.763488][LOG][   postproto][POST][SEND]srvid(1).Login.PLAYER_EXIT()
+[2015-10-30 22:45:53.763697][LOG][   postproto]{
+	"1":	333
+}
+[2015-10-30 22:45:53.763834][LOG][    srvproto][SEND] plen(41) argcount(4) sockfd(4)
+[2015-10-30 22:45:53.763948][LOG][   postproto][POST][SEND]srvid(1).Login.PLAYER_EXIT() END
+[2015-10-30 22:45:53.140733194152216][LOG]lport.cc:179
+[2015-10-30 22:45:53.140733194152391][LOG]real_send(41)
+
+[2015-10-30 22:45:54.253975][LOG][   clientsrv]accept a client sockfd(5) host(127.0.0.1) port(51575)
+[2015-10-30 22:45:54.255070][LOG][   clientsrv]ev_read sockfd(5)
+[2015-10-30 22:45:54.255288][LOG][   clientsrv]dispatch msgname(login.LOGIN)
+[2015-10-30 22:45:54.255489][LOG][     pbproto][PB][SEND] plen(28) msgname(login.LOGIN) msglen(11)
+[2015-10-30 22:45:54.140733193643709][LOG]lport.cc:179
+[2015-10-30 22:45:54.140733193643826][LOG]real_send(28)
+
+[2015-10-30 22:45:54.256177][LOG][   clientsrv]ev_read sockfd(5)
+[2015-10-30 22:45:54.256364][LOG][   clientsrv]dispatch msgname(login.ENTER)
+[2015-10-30 22:45:54.256507][LOG][   postproto][POST][SEND]srvid(1).Login.PLAYER_ENTER()
+[2015-10-30 22:45:54.256615][LOG][   postproto]{
+	"1":	333
+}
+[2015-10-30 22:45:54.256732][LOG][    srvproto][SEND] plen(42) argcount(4) sockfd(4)
+[2015-10-30 22:45:54.256837][LOG][   postproto][POST][SEND]srvid(1).Login.PLAYER_ENTER() END
+[2015-10-30 22:45:54.140733193645031][LOG]lport.cc:179
+[2015-10-30 22:45:54.140733193645127][LOG]real_send(42)
+
+[2015-10-30 22:45:54.268901][LOG][  gameclient]ev_read sockfd(4)
+[2015-10-30 22:45:54.269001][LOG][    srvproto]bufremain(1024)
+[2015-10-30 22:45:54.269089][LOG][    srvproto]recv(51)
+[2015-10-30 22:45:54.269170][LOG][    srvproto]plen(51) datalen(51)
+[2015-10-30 22:45:54.269250][LOG][    srvproto]argcount(5) plen(51)
+[2015-10-30 22:45:54.269342][LOG][    srvproto]login.ENTER
+[2015-10-30 22:45:54.269438][LOG][   postproto][POST][RECV]srvid(1).Login.REPLY()
+[2015-10-30 22:45:54.269503][LOG]json.cc:95
+[2015-10-30 22:45:54.269569][LOG]unspport type
+
+[2015-10-30 22:45:54.140733193657677][LOG]json.cc:84
+[2015-10-30 22:45:54.140733193657749][LOG]null
+[2015-10-30 22:45:54.269815][LOG][   postproto]{
+	"1":	333
+}
+[2015-10-30 22:45:54.269936][LOG][     pbproto][PB][SEND] plen(17) msgname(login.ENTER) msglen(0)
+[2015-10-30 22:45:54.270020][LOG][   postproto][POST][RECV]srvid(1).Login.REPLY() END
+[2015-10-30 22:45:54.270180][LOG][    srvproto]rskip(51)
+[2015-10-30 22:45:54.140733193658380][LOG]lport.cc:179
+[2015-10-30 22:45:54.140733193658463][LOG]real_send(17)
+
+[2015-10-30 22:45:54.271640][LOG][   clientsrv]ev_read sockfd(5)
+[2015-10-30 22:45:54.271985][LOG][   clientsrv]dispatch msgname(login.PING)
+[2015-10-30 22:45:54.272192][LOG][       login]hello
+[2015-10-30 22:45:54.272352][LOG][     pbproto][PB][SEND] plen(16) msgname(login.PING) msglen(0)
+[2015-10-30 22:45:54.140733193660526][LOG]lport.cc:179
+[2015-10-30 22:45:54.140733193660606][LOG]real_send(16)
+
+[2015-10-30 22:45:54.273592][LOG][   clientsrv]ev_read sockfd(5)
+[2015-10-30 22:45:54.273826][LOG][   clientsrv]ev_close sockfd(5)
+[2015-10-30 22:45:54.273994][LOG][   clientsrv]client close from uid(333) ip(127.0.0.1) reason(Resource temporarily unavailable)
+[2015-10-30 22:45:54.274091][LOG][   postproto][POST][SEND]srvid(1).Login.PLAYER_EXIT()
+[2015-10-30 22:45:54.274201][LOG][   postproto]{
+	"1":	333
+}
+[2015-10-30 22:45:54.274299][LOG][    srvproto][SEND] plen(41) argcount(4) sockfd(4)
+[2015-10-30 22:45:54.274384][LOG][   postproto][POST][SEND]srvid(1).Login.PLAYER_EXIT() END
+[2015-10-30 22:45:54.140733193662698][LOG]lport.cc:179
+[2015-10-30 22:45:54.140733193662783][LOG]real_send(41)
+
+[2015-10-30 22:45:54.788661][LOG][   clientsrv]accept a client sockfd(5) host(127.0.0.1) port(51576)
+[2015-10-30 22:45:54.789503][LOG][   clientsrv]ev_read sockfd(5)
+[2015-10-30 22:45:54.789617][LOG][   clientsrv]dispatch msgname(login.LOGIN)
+[2015-10-30 22:45:54.789749][LOG][     pbproto][PB][SEND] plen(28) msgname(login.LOGIN) msglen(11)
+[2015-10-30 22:45:54.140733194177885][LOG]lport.cc:179
+[2015-10-30 22:45:54.140733194177963][LOG]real_send(28)
+
+[2015-10-30 22:45:54.790126][LOG][   clientsrv]ev_read sockfd(5)
+[2015-10-30 22:45:54.790209][LOG][   clientsrv]dispatch msgname(login.ENTER)
+[2015-10-30 22:45:54.790313][LOG][   postproto][POST][SEND]srvid(1).Login.PLAYER_ENTER()
+[2015-10-30 22:45:54.790384][LOG][   postproto]{
+	"1":	333
+}
+[2015-10-30 22:45:54.790480][LOG][    srvproto][SEND] plen(42) argcount(4) sockfd(4)
+[2015-10-30 22:45:54.790569][LOG][   postproto][POST][SEND]srvid(1).Login.PLAYER_ENTER() END
+[2015-10-30 22:45:54.140733194178703][LOG]lport.cc:179
+[2015-10-30 22:45:54.140733194178779][LOG]real_send(42)
+
+[2015-10-30 22:45:54.804945][LOG][  gameclient]ev_read sockfd(4)
+[2015-10-30 22:45:54.805040][LOG][    srvproto]bufremain(1024)
+[2015-10-30 22:45:54.805121][LOG][    srvproto]recv(51)
+[2015-10-30 22:45:54.805261][LOG][    srvproto]plen(51) datalen(51)
+[2015-10-30 22:45:54.805349][LOG][    srvproto]argcount(5) plen(51)
+[2015-10-30 22:45:54.805471][LOG][    srvproto]login.ENTER
+[2015-10-30 22:45:54.805566][LOG][   postproto][POST][RECV]srvid(1).Login.REPLY()
+[2015-10-30 22:45:54.805688][LOG]json.cc:95
+[2015-10-30 22:45:54.805813][LOG]unspport type
+
+[2015-10-30 22:45:54.140733194193956][LOG]json.cc:84
+[2015-10-30 22:45:54.140733194194917][LOG]null
+[2015-10-30 22:45:54.806985][LOG][   postproto]{
+	"1":	333
+}
+[2015-10-30 22:45:54.807103][LOG][     pbproto][PB][SEND] plen(17) msgname(login.ENTER) msglen(0)
+[2015-10-30 22:45:54.807184][LOG][   postproto][POST][RECV]srvid(1).Login.REPLY() END
+[2015-10-30 22:45:54.807255][LOG][    srvproto]rskip(51)
+[2015-10-30 22:45:54.140733194195440][LOG]lport.cc:179
+[2015-10-30 22:45:54.140733194195537][LOG]real_send(17)
+
+[2015-10-30 22:45:54.807900][LOG][   clientsrv]ev_read sockfd(5)
+[2015-10-30 22:45:54.808037][LOG][   clientsrv]dispatch msgname(login.PING)
+[2015-10-30 22:45:54.808204][LOG][       login]hello
+[2015-10-30 22:45:54.808317][LOG][     pbproto][PB][SEND] plen(16) msgname(login.PING) msglen(0)
+[2015-10-30 22:45:54.140733194196531][LOG]lport.cc:179
+[2015-10-30 22:45:54.140733194196657][LOG]real_send(16)
+
+[2015-10-30 22:45:54.809858][LOG][   clientsrv]ev_read sockfd(5)
+[2015-10-30 22:45:54.810067][LOG][   clientsrv]ev_close sockfd(5)
+[2015-10-30 22:45:54.810159][LOG][   clientsrv]client close from uid(333) ip(127.0.0.1) reason(Resource temporarily unavailable)
+[2015-10-30 22:45:54.810236][LOG][   postproto][POST][SEND]srvid(1).Login.PLAYER_EXIT()
+[2015-10-30 22:45:54.810377][LOG][   postproto]{
+	"1":	333
+}
+[2015-10-30 22:45:54.810484][LOG][    srvproto][SEND] plen(41) argcount(4) sockfd(4)
+[2015-10-30 22:45:54.810611][LOG][   postproto][POST][SEND]srvid(1).Login.PLAYER_EXIT() END
+[2015-10-30 22:45:54.140733194200767][LOG]lport.cc:179
+[2015-10-30 22:45:54.140733194200940][LOG]real_send(41)
+
+[2015-10-30 22:45:55.302789][LOG][   clientsrv]accept a client sockfd(5) host(127.0.0.1) port(51577)
+[2015-10-30 22:45:55.304025][LOG][   clientsrv]ev_read sockfd(5)
+[2015-10-30 22:45:55.304235][LOG][   clientsrv]dispatch msgname(login.LOGIN)
+[2015-10-30 22:45:55.304410][LOG][     pbproto][PB][SEND] plen(28) msgname(login.LOGIN) msglen(11)
+[2015-10-30 22:45:55.140733193692581][LOG]lport.cc:179
+[2015-10-30 22:45:55.140733193692663][LOG]real_send(28)
+
+[2015-10-30 22:45:55.304934][LOG][   clientsrv]ev_read sockfd(5)
+[2015-10-30 22:45:55.305036][LOG][   clientsrv]dispatch msgname(login.ENTER)
+[2015-10-30 22:45:55.305137][LOG][   postproto][POST][SEND]srvid(1).Login.PLAYER_ENTER()
+[2015-10-30 22:45:55.305233][LOG][   postproto]{
+	"1":	333
+}
+[2015-10-30 22:45:55.305322][LOG][    srvproto][SEND] plen(42) argcount(4) sockfd(4)
+[2015-10-30 22:45:55.305407][LOG][   postproto][POST][SEND]srvid(1).Login.PLAYER_ENTER() END
+[2015-10-30 22:45:55.140733193693546][LOG]lport.cc:179
+[2015-10-30 22:45:55.140733193693623][LOG]real_send(42)
+
+[2015-10-30 22:45:55.314730][LOG][  gameclient]ev_read sockfd(4)
+[2015-10-30 22:45:55.314822][LOG][    srvproto]bufremain(1024)
+[2015-10-30 22:45:55.314943][LOG][    srvproto]recv(51)
+[2015-10-30 22:45:55.315032][LOG][    srvproto]plen(51) datalen(51)
+[2015-10-30 22:45:55.315110][LOG][    srvproto]argcount(5) plen(51)
+[2015-10-30 22:45:55.315197][LOG][    srvproto]login.ENTER
+[2015-10-30 22:45:55.315288][LOG][   postproto][POST][RECV]srvid(1).Login.REPLY()
+[2015-10-30 22:45:55.315361][LOG]json.cc:95
+[2015-10-30 22:45:55.315425][LOG]unspport type
+
+[2015-10-30 22:45:55.140733193703566][LOG]json.cc:84
+[2015-10-30 22:45:55.140733193703635][LOG]null
+[2015-10-30 22:45:55.315685][LOG][   postproto]{
+	"1":	333
+}
+[2015-10-30 22:45:55.315794][LOG][     pbproto][PB][SEND] plen(17) msgname(login.ENTER) msglen(0)
+[2015-10-30 22:45:55.315876][LOG][   postproto][POST][RECV]srvid(1).Login.REPLY() END
+[2015-10-30 22:45:55.315958][LOG][    srvproto]rskip(51)
+[2015-10-30 22:45:55.140733193704153][LOG]lport.cc:179
+[2015-10-30 22:45:55.140733193704243][LOG]real_send(17)
+
+[2015-10-30 22:45:55.316464][LOG][   clientsrv]ev_read sockfd(5)
+[2015-10-30 22:45:55.316599][LOG][   clientsrv]dispatch msgname(login.PING)
+[2015-10-30 22:45:55.316703][LOG][       login]hello
+[2015-10-30 22:45:55.316795][LOG][     pbproto][PB][SEND] plen(16) msgname(login.PING) msglen(0)
+[2015-10-30 22:45:55.140733193705034][LOG]lport.cc:179
+[2015-10-30 22:45:55.140733193705122][LOG]real_send(16)
+
+[2015-10-30 22:45:55.318006][LOG][   clientsrv]ev_read sockfd(5)
+[2015-10-30 22:45:55.319065][LOG][   clientsrv]ev_close sockfd(5)
+[2015-10-30 22:45:55.319220][LOG][   clientsrv]client close from uid(333) ip(127.0.0.1) reason(Resource temporarily unavailable)
+[2015-10-30 22:45:55.319335][LOG][   postproto][POST][SEND]srvid(1).Login.PLAYER_EXIT()
+[2015-10-30 22:45:55.319443][LOG][   postproto]{
+	"1":	333
+}
+[2015-10-30 22:45:55.319546][LOG][    srvproto][SEND] plen(41) argcount(4) sockfd(4)
+[2015-10-30 22:45:55.319642][LOG][   postproto][POST][SEND]srvid(1).Login.PLAYER_EXIT() END
+[2015-10-30 22:45:55.140733193707906][LOG]lport.cc:179
+[2015-10-30 22:45:55.140733193707996][LOG]real_send(41)
+
+[2015-10-30 22:45:55.801618][LOG][   clientsrv]accept a client sockfd(5) host(127.0.0.1) port(51578)
+[2015-10-30 22:45:55.803058][LOG][   clientsrv]ev_read sockfd(5)
+[2015-10-30 22:45:55.803390][LOG][   clientsrv]dispatch msgname(login.LOGIN)
+[2015-10-30 22:45:55.803739][LOG][     pbproto][PB][SEND] plen(28) msgname(login.LOGIN) msglen(11)
+[2015-10-30 22:45:55.140733194192103][LOG]lport.cc:179
+[2015-10-30 22:45:55.140733194192240][LOG]real_send(28)
+
+[2015-10-30 22:45:55.804673][LOG][   clientsrv]ev_read sockfd(5)
+[2015-10-30 22:45:55.804915][LOG][   clientsrv]dispatch msgname(login.ENTER)
+[2015-10-30 22:45:55.805080][LOG][   postproto][POST][SEND]srvid(1).Login.PLAYER_ENTER()
+[2015-10-30 22:45:55.805233][LOG][   postproto]{
+	"1":	333
+}
+[2015-10-30 22:45:55.805389][LOG][    srvproto][SEND] plen(42) argcount(4) sockfd(4)
+[2015-10-30 22:45:55.805477][LOG][   postproto][POST][SEND]srvid(1).Login.PLAYER_ENTER() END
+[2015-10-30 22:45:55.140733194193691][LOG]lport.cc:179
+[2015-10-30 22:45:55.140733194193837][LOG]real_send(42)
+
+[2015-10-30 22:45:55.820326][LOG][  gameclient]ev_read sockfd(4)
+[2015-10-30 22:45:55.820432][LOG][    srvproto]bufremain(1024)
+[2015-10-30 22:45:55.820521][LOG][    srvproto]recv(51)
+[2015-10-30 22:45:55.820607][LOG][    srvproto]plen(51) datalen(51)
+[2015-10-30 22:45:55.820688][LOG][    srvproto]argcount(5) plen(51)
+[2015-10-30 22:45:55.820791][LOG][    srvproto]login.ENTER
+[2015-10-30 22:45:55.820902][LOG][   postproto][POST][RECV]srvid(1).Login.REPLY()
+[2015-10-30 22:45:55.820984][LOG]json.cc:95
+[2015-10-30 22:45:55.821056][LOG]unspport type
+
+[2015-10-30 22:45:55.140733194209163][LOG]json.cc:84
+[2015-10-30 22:45:55.140733194209234][LOG]null
+[2015-10-30 22:45:55.821285][LOG][   postproto]{
+	"1":	333
+}
+[2015-10-30 22:45:55.821392][LOG][     pbproto][PB][SEND] plen(17) msgname(login.ENTER) msglen(0)
+[2015-10-30 22:45:55.821473][LOG][   postproto][POST][RECV]srvid(1).Login.REPLY() END
+[2015-10-30 22:45:55.821547][LOG][    srvproto]rskip(51)
+[2015-10-30 22:45:55.140733194209689][LOG]lport.cc:179
+[2015-10-30 22:45:55.140733194209763][LOG]real_send(17)
+
+[2015-10-30 22:45:55.821984][LOG][   clientsrv]ev_read sockfd(5)
+[2015-10-30 22:45:55.822084][LOG][   clientsrv]dispatch msgname(login.PING)
+[2015-10-30 22:45:55.822180][LOG][       login]hello
+[2015-10-30 22:45:55.822270][LOG][     pbproto][PB][SEND] plen(16) msgname(login.PING) msglen(0)
+[2015-10-30 22:45:55.140733194210413][LOG]lport.cc:179
+[2015-10-30 22:45:55.140733194210487][LOG]real_send(16)
+
+[2015-10-30 22:45:55.824003][LOG][   clientsrv]ev_read sockfd(5)
+[2015-10-30 22:45:55.824176][LOG][   clientsrv]ev_close sockfd(5)
+[2015-10-30 22:45:55.824263][LOG][   clientsrv]client close from uid(333) ip(127.0.0.1) reason(Resource temporarily unavailable)
+[2015-10-30 22:45:55.824509][LOG][   postproto][POST][SEND]srvid(1).Login.PLAYER_EXIT()
+[2015-10-30 22:45:55.824679][LOG][   postproto]{
+	"1":	333
+}
+[2015-10-30 22:45:55.824811][LOG][    srvproto][SEND] plen(41) argcount(4) sockfd(4)
+[2015-10-30 22:45:55.824961][LOG][   postproto][POST][SEND]srvid(1).Login.PLAYER_EXIT() END
+[2015-10-30 22:45:55.140733194213240][LOG]lport.cc:179
+[2015-10-30 22:45:55.140733194213363][LOG]real_send(41)
+

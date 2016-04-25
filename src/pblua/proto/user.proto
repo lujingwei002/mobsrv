@@ -1,0 +1,151 @@
+package user;
+import 'playerdata/playerdata.task.proto';
+import 'playerdata/playerdata.item.proto';
+import 'playerdata/playerdata.equip.proto';
+import 'playerdata/playerdata.achieve.proto';
+import 'playerdata/playerdata.hero.proto';
+import 'playerdata/playerdata.stage.proto';
+//400
+
+//主界面的信息
+message GET_USER_DATA{
+    //当前等级
+    optional int32 level = 1[default = 0];
+    //当前经验
+    optional int32 exp = 2[default = 0];
+    //最大经验 -1表示满级了
+    optional int32 max_exp = 3[default = 0];
+    //金币
+    optional int32 coin = 4[default = 0];
+    //游戏币
+    optional int32 gamemoney = 5[default = 0];
+    //体力
+    optional int32 hp = 6[default = 0];
+    //最大体力
+    optional int32 max_hp = 8[default = 0];
+    //剩余增加体力时间（单位：秒)
+    optional int32 remain_hp_sec = 7[default = 0];
+    optional string uname = 9[default = ''];
+    optional int32 battle_power = 10[default = 0];
+    optional int32 power = 11[default = 0];
+    optional int32 diamond = 12[default = 0];
+    optional int32 vip_exp = 13[default = 0];
+
+    optional int32 stage_id = 14[default = 0];
+    optional int32 elite_stage_id = 15[default = 0];
+    optional int32 sign_days = 16[default = 0];
+    optional int32 sign_today = 17[default = 0];
+    optional int32 skill_point = 18[default = 0];
+    optional int32 last_add_skill_point_time = 26[default = 0];
+    repeated playerdata.task.TaskData tasks = 19;
+    optional int32 month_card_days = 20[default = 0];
+    repeated playerdata.item.ItemData items = 22;
+    repeated playerdata.equip.EquipData equips = 23;
+    optional int32 header_id = 24[default = 0];
+    repeated playerdata.achieve.AchieveData achieves = 25;
+    repeated playerdata.hero.HeroData heros = 28;
+    optional int32 last_add_power_time = 29[default = 0];
+    repeated playerdata.stage.StageData stages = 30;
+
+    optional int32 get_coin_times = 31[default = 0];
+    optional int32 get_power_times = 32[default = 0];
+    optional int32 get_skill_point_times = 33[default = 0];
+
+    optional int32 open_coin1_times = 34[default = 0];
+    optional int32 last_open_coin1_time = 35[default = 0];
+    optional int32 last_open_diamond1_time = 36[default = 0];
+
+    optional int32 uid = 37[default = 0];
+
+    optional int32 vip_charge_id1 = 38;
+    optional int32 vip_charge_id2 = 39;
+    optional int32 vip_charge_id3 = 40;
+    optional int32 vip_charge_id4 = 41;
+    optional int32 vip_charge_id5 = 42;
+    optional int32 vip_charge_id6 = 43;
+    optional int32 vip_charge_id7 = 44;
+
+    optional int32 hero_id = 45[default = 0];
+
+    optional int32 newhand = 46[default = 0];
+    
+    optional int32 init_equip_newhand = 47[default = 0];
+    optional int32 treasure_newhand = 48[default = 0];
+    optional int32 normal_stage_newhand = 49[default = 0];
+    optional int32 elite_stage_newhand = 50[default = 0];
+    optional int32 hero_equip_newhand = 51[default = 0];
+    optional int32 shop_newhand = 52[default = 0];
+    optional int32 arena_newhand = 53[default = 0];
+    optional int32 defend_newhand = 54[default = 0];
+    optional int32 act_stage_newhand = 55[default = 0];
+    optional int32 task_newhand = 56[default = 0];
+    optional int32 equip_get_newhand = 57[default = 0];
+    optional int32 equip_level_up_newhand = 58[default = 0];
+    optional int32 equip_color_up_newhand = 59[default = 0];
+    optional int32 equip_star_up_newhand = 60[default = 0];
+    optional int32 skill_level_up_newhand = 61[default = 0];
+    optional int32 hero_level_up_newhand = 62[default = 0];
+
+    optional int32 open_coin1_total_times = 63[default = 0];
+    optional int32 open_diamond1_total_times = 64[default = 0];
+}
+
+
+//购买体力
+message GET_POWER{
+    optional int32 errno = 1[default = 0];
+    //增加了的体力
+    optional int32 power = 2[default = 0];
+	//减少了的钻石
+    optional int32 diamond = 3[default = 0];
+}
+
+//点金手
+message GET_COIN{
+	optional int32 errno = 1[default = 0];
+    //增加了的金币
+    optional int32 coin = 2[default = 0];
+	//减少了的钻石
+    optional int32 diamond = 3[default = 0];
+}
+
+//买技能点
+message GET_SKILL_POINT{
+	optional int32 errno = 1[default = 0];
+  
+    optional int32 skill_point = 2[default = 0];
+	//减少了的钻石
+    optional int32 diamond = 3[default = 0];
+}
+
+message GET_TALENT_POINT{
+	optional int32 errno = 1[default = 0];
+  
+    optional int32 talent_point = 2[default = 0];
+	//减少了的钻石
+    optional int32 diamond = 3[default = 0];
+}
+
+//改名
+message SET_UNAME {
+    optional string uname = 1[default = ''];
+    optional int32 errno = 2[default = 0];
+}
+
+//设置头像
+message SET_HEADER {
+    optional int32 header_id = 1[default = 1];
+    optional int32 errno = 2[default = 0];
+}
+
+//输入CDKEY
+message CDKEY {
+    optional string cdkey = 1[default = ''];
+    optional int32 errno = 2[default = 0];
+    optional int32 item_id1 = 3[default = 0];
+    optional int32 item_count1 = 4[default = 0];
+    optional int32 item_id2 = 5[default = 0];
+    optional int32 item_count2 = 6[default = 0];
+    optional int32 item_id3 = 7[default = 0];
+    optional int32 item_count3 = 8[default = 0];
+}

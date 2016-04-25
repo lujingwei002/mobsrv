@@ -1,0 +1,16 @@
+package playerdata.achieve;
+
+message AchieveData {
+    //成就id
+    optional int32 id = 1[default = 0];
+    //完成时间
+    optional int32 completed_time = 2[default = 0];
+    optional int32 reward_time = 3[default = 0];
+    //进度
+    optional int32 count = 4[default = 0];
+}
+
+message AchieveDataMgr {
+    repeated AchieveData achieves = 1;
+    repeated AchieveData his_achieves = 2;
+}

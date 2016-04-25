@@ -1,0 +1,21 @@
+package dbproto;
+//玩家基础数据
+
+enum Hellofff {
+    a = 1;
+    b = 2;
+}
+
+//用户
+message UserData {
+    //uid
+    optional int32 uid = 1[default = 0];
+    //用户名
+    optional string uname = 2[default = ''];
+    optional int32 coin = 3[default = 0];
+    optional int32 lastlogintime = 4;
+    message Hello {
+        optional string str = 1;
+    }
+}
+

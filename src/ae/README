@@ -1,0 +1,4 @@
+
+本来ae, sendbuf, recvbuf没有引用关系的，但port要用到他们
+port依赖于ae和sendbuf, recvbuf
+

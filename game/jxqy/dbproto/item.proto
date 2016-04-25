@@ -1,0 +1,13 @@
+package dbproto;
+//背包系统
+
+message Item {
+    optional int32 id = 1[default = 0];
+    optional int32 count = 2[default = 0];
+}
+
+message ItemData {
+    repeated Item items = 1;
+}
+
+

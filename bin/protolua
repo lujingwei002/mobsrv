@@ -1,0 +1,218 @@
+#!/usr/local/bin/luaexe
+dofile(os.getenv('ENGINE_PATH')..'/bin/luaenv')
+--[[
+--从proto 生成 *.cc *.h *.pkg
+--]]
+Mod.load('mod/argparse')
+Mod.load('mod/pbc')
+local usage = [[
+usage:
+]]
+
+local typemap = {
+    ['int32'] = 'int',
+    ['string'] = 'string',
+}
+Argparse.parse_argv(arg)
+local arg = Argparse.get_arg_array()
+for k, filepath in pairs(arg) do
+    Pbc.import(filepath)
+end
+local out_dir = Argparse.get_arg('o')
+local namespace = Argparse.get_arg('n')
+local descriptors = Pbc.descriptors
+for name, descriptor in pairs(descriptors) do
+end
+
+function w(file, str, ...)
+    file:write(string.format(str, ...))
+    file:write('\n')
+end
+
+------------------------------------------------------------
+---------------生成h文件---------------------------------------------
+------------------------------------------------------------
+local header_file_path = string.format('%s/%s.h', out_dir, namespace)
+local file = io.open(header_file_path, 'w+')
+for k, filepath in pairs(arg) do
+    w(file, string.format('#include "%s.pb.h"', File.basename(filepath)))
+end
+w(file, 'extern "C" {')
+w(file, '#include <lua.h>')
+w(file, '#include <lualib.h>')
+w(file, '#include <lauxlib.h>')
+w(file, '}')
+w(file, '#include <google/protobuf/io/zero_copy_stream_impl_lite.h>')
+w(file, '#include <google/protobuf/descriptor.h>')
+w(file, '#include <google/protobuf/descriptor_database.h>')
+w(file, '#include <google/protobuf/message.h>')
+w(file, '#include <google/protobuf/repeated_field.h>')
+w(file, '#include <google/protobuf/dynamic_message.h>')
+w(file, '#include <google/protobuf/stubs/common.h>')
+w(file, '#include <google/protobuf/compiler/importer.h>')
+--生成repeated接口
+for _, descriptor in pairs(descriptors) do
+    local field_list = descriptor.field
+    if descriptor.type == 'message' then
+        local pats = string.split(descriptor.classname, '.')
+        for _, field in pairs(field_list) do
+            --基础类型
+            if field.unname == 'repeated' then
+                w(file, 'void %s_%s_del_%s(%s::%s* self, lua_State* L, int index);',descriptor.package, string.join('_', pats), field.varname, descriptor.package, string.join('::', pats))
+            end
+        end
+    end
+end
+w(file, '')
+for _, descriptor in pairs(descriptors) do
+    if descriptor.type == 'message' then
+        local pats = string.split(descriptor.classname, '.')
+        w(file, 'int %s_%s_tostring(%s::%s* self, lua_State* L);', descriptor.package, string.join('_', pats), descriptor.package, string.join('::', pats))
+        w(file, 'int %s_%s_parse_from_string(%s::%s* self, lua_State* L);', descriptor.package, string.join('_', pats), descriptor.package, string.join('::', pats))
+        w(file, 'int %s_%s_parse_from_buf(%s::%s* self, lua_State* L);', descriptor.package, string.join('_', pats), descriptor.package, string.join('::', pats))
+        w(file, 'int %s_%s_serialize(%s::%s* self, lua_State* L);', descriptor.package, string.join('_', pats), descriptor.package, string.join('::', pats))
+    end
+end
+file:close()
+
+
+
+-----------------生成cc文件----------------------------------------------
+local source_file_path = string.format('%s/%s.cc', out_dir, namespace)
+local file = io.open(source_file_path, 'w+')
+w(file, '#include "%s.h"', namespace)
+for _, descriptor in pairs(descriptors) do
+    local field_list = descriptor.field
+    if descriptor.type == 'message' then
+        local pats = string.split(descriptor.classname, '.')
+        w(file, 'int %s_%s_tostring(%s::%s* self, lua_State* L){', descriptor.package, string.join('_', pats), descriptor.package, string.join('::', pats))
+        w(file, '   std::string str;')
+        w(file, '   if(!self->SerializeToString(&str)) {')
+        w(file, '       printf("SerializeToString fail\\n");') 
+        w(file, '       return 0;')
+        w(file, '   }')
+        w(file, '   lua_pushlstring(L, str.data(), str.size());')
+        w(file, '   return 1;')
+        w(file, '}')
+        w(file, 'int %s_%s_parse_from_string(%s::%s* self, lua_State* L){', descriptor.package, string.join('_', pats), descriptor.package, string.join('::', pats))
+        w(file, '   size_t str_len;')
+        w(file, '   const char *str = lua_tolstring(L, 2, &str_len);')
+        w(file, '   if(str == NULL){')
+        w(file, '       printf("null\\n");')
+        w(file, '       return 0;')
+        w(file, '   }')
+        w(file, '   google::protobuf::io::ArrayInputStream stream(str, str_len);')
+        w(file, '   if(self->ParseFromZeroCopyStream(&stream) == 0){')
+        w(file, '       printf("parse fail\\n");')
+        w(file, '       lua_pushboolean(L, false);')
+        w(file, '       return 1;')
+        w(file, '   }')
+        w(file, '   lua_pushboolean(L, true);')
+        w(file, '   return 1;')
+        w(file, '}')
+        w(file, 'int %s_%s_parse_from_buf(%s::%s* self, lua_State* L){', descriptor.package, string.join('_', pats), descriptor.package, string.join('::', pats))
+        w(file, '   size_t buf_len;')
+        w(file, '   const char *buf = (const char *)lua_touserdata(L, 2);')
+        w(file, '   buf_len = (size_t)lua_tointeger(L, 3);')
+        w(file, '   if(buf == NULL){')
+        w(file, '       printf("null\\n");')
+        w(file, '       return 0;')
+        w(file, '   }')
+        w(file, '   google::protobuf::io::ArrayInputStream stream(buf, buf_len);')
+        w(file, '   if(self->ParseFromZeroCopyStream(&stream) == 0){')
+        w(file, '       printf("parse fail\\n");')
+        w(file, '       lua_pushboolean(L, false);')
+        w(file, '       return 1;')
+        w(file, '   }')
+        w(file, '   lua_pushboolean(L, true);')
+        w(file, '   return 1;')
+        w(file, '}')
+        w(file, 'int %s_%s_serialize(%s::%s* self, lua_State* L){', descriptor.package, string.join('_', pats), descriptor.package, string.join('::', pats))
+        w(file, '   char *buf = (char *)lua_touserdata(L, 2);')
+        w(file, '   if(buf == NULL){')
+        w(file, '       printf("null\\n");')
+        w(file, '       return 0;')
+        w(file, '   }')
+        w(file, '   char* buf_end = (char *)self->SerializeWithCachedSizesToArray((google::protobuf::uint8 *)buf);')
+        w(file, '   lua_pushboolean(L, true);')
+        w(file, '   lua_pushinteger(L, buf_end - buf);')
+        w(file, '   return 1;')
+        w(file, '}')
+
+        for _, field in pairs(field_list) do
+            --基础类型
+            if field.unname == 'repeated' then
+                w(file, 'void %s_%s_del_%s(%s::%s *self, lua_State* L, int index) {', descriptor.package, string.join('_', pats), field.varname, descriptor.package, string.join('::', pats))
+                w(file, '   if (index < 0 || index >= self->%s_size()) {', field.varname)
+                w(file, '       printf("index invalid index(%%d)\\n", index);')
+                w(file, '       return;')
+                w(file, '   }')
+                w(file, '   self->mutable_%s()->SwapElements(index, self->%s_size() - 1);', field.varname, field.varname)
+                w(file, '   self->mutable_%s()->RemoveLast();', field.varname)
+                w(file, '}')
+            end
+        end
+    end
+end
+file:close()
+
+--生成pkg文件----------------------------------------------------
+local pkg_file_path = string.format('%s/%s.pkg', out_dir, namespace)
+local file = io.open(pkg_file_path, 'w+')
+w(file, '$#include "%s.h"',  namespace)
+w(file, '$using namespace std;')
+w(file, '$using namespace google::protobuf;')
+w(file, '$#define TOLUA_RELEASE')
+for _, descriptor in pairs(descriptors) do
+    local field_list = descriptor.field
+    w(file, 'namespace %s', descriptor.package)
+    w(file, '{')
+    if descriptor.type == 'message' then
+        local pats = string.split(descriptor.classname, '.')
+        for _, _clsname in ipairs(pats) do
+            w(file, '   class %s {', _clsname)
+        end
+        w(file, '       %s();', pats[#pats])
+        w(file, '       ~%s();', pats[#pats])
+        w(file, '       void Clear@clear();')
+        w(file, '       string DebugString@debug_string();')
+        w(file, '       string GetTypeName@msgname();')
+        w(file, '       int ByteSize@bytesize();')
+        w(file, '       tolua_outside int %s_%s_tostring@tostring(lua_State* L);', descriptor.package, string.join('_', pats))
+        w(file, '       tolua_outside int %s_%s_parse_from_string@parse_from_string(lua_State* L);', descriptor.package, string.join('_', pats))
+        w(file, '       tolua_outside int %s_%s_parse_from_buf@parse_from_buf(lua_State* L);', descriptor.package, string.join('_', pats))
+        w(file, '       tolua_outside int %s_%s_serialize@serialize(lua_State* L);', descriptor.package, string.join('_', pats))
+        for _, field in pairs(field_list) do
+            --基础类型
+            if field.unname == 'repeated' then
+                if typemap[field.type] then
+                    w(file, '       void add_%s(%s value);', field.varname, field.type)
+                    w(file, '       void set_%s(int index, %s value);', field.varname, field.type)
+                    w(file, '       %s %s(int index);', field.type, field.varname)
+                    w(file, '       int %s_size();', field.varname)
+                    w(file, '       void clear_%s();', field.varname)
+	                w(file, '       tolua_outside void %s_%s_del_%s@del_%s(lua_State* L, int index);', descriptor.package, string.join('_', pats), field.varname, field.varname)
+                else
+                    local vartype = string.gsub(field.type, '%.', '::')
+                    w(file, '       %s* add_%s();', vartype, field.varname)
+                    w(file, '       %s* mutable_%s@get_%s(int index);', vartype, field.varname, field.varname)
+                    w(file, '       int %s_size();', field.varname)
+                    w(file, '       void clear_%s();', field.varname)
+	                w(file, '       tolua_outside void %s_%s_del_%s@del_%s(lua_State* ls, int index);', descriptor.package, string.join('_', pats), field.varname, field.varname)
+                end
+            else
+                if typemap[field.type] then
+                    w(file, '       tolua_property__pb %s %s;', field.type, field.varname)
+                else
+                    w(file, '       tolua_property__msg %s* %s;', string.gsub(field.type, '%.', '::'), field.varname)
+                end
+            end
+        end
+        for _, _clsname in ipairs(pats) do
+            w(file, '   };')
+        end
+    end
+    w(file, '};')
+    w(file, '')
+end
+file:close()

@@ -1,0 +1,33 @@
+package mail;
+import 'playerdata/playerdata.mail.proto';
+//有新邮件
+message NEW_MAIL{
+
+}
+
+//列出所有邮件
+message QUERY{
+    //列出多久以后的
+    optional int32 time = 1[default = 0];
+    repeated playerdata.mail.MailData mails = 2;
+}
+
+//领取邮件附件
+message REWARD{
+    optional int32 id = 1[default = 0];
+    optional int32 errno = 2[default = 0];
+
+	optional int32 item_id1 = 12[default = 0];
+	optional int32 item_id2 = 13[default = 0];
+	optional int32 item_id3 = 14[default = 0];
+	optional int32 item_count1 = 15[default = 0];
+	optional int32 item_count2 = 16[default = 0];
+	optional int32 item_count3 = 17[default = 0];
+}
+
+//打开邮件
+message OPEN{
+    optional int32 id = 1[default = 0];
+    optional int32 errno = 2[default = 0];
+}
+

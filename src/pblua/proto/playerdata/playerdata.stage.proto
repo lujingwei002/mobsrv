@@ -1,0 +1,23 @@
+package playerdata.stage;
+
+//掉落道具
+message PickUpItemData {
+    optional int32 id = 1[default = 0];
+}
+
+message StageData {
+    optional int32 id = 1[default = 0];
+    optional int32 score = 2[default = 0];
+    optional int32 times = 3[default = 0];
+}
+
+message StageDataMgr {
+    optional int32 stage_id = 2[default = 0];
+    optional int32 elite_stage_id = 3[default = 0];
+    repeated StageData stages = 1;
+    //当前正在挑战的关卡
+    optional int32 combat_stage_id = 4[default = 0];
+    //掉落道具
+    repeated PickUpItemData pick_up_items = 5;
+}
+

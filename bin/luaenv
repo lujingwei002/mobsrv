@@ -1,0 +1,9 @@
+local engine_path = os.getenv('ENGINE_PATH')
+package.path = (engine_path..'/?.lua;')..package.path
+package.cpath = (engine_path..'/lib/?.so;')..package.cpath
+--导入必须的c库
+require('libsrv')
+--导入必须的lua库
+require('mod.mod.mod')
+require('mod.log.log')
+table.insert(Mod.search_path, engine_path)

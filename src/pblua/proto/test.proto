@@ -1,0 +1,25 @@
+package test;
+
+enum LoginStatus {
+    haha = 1;
+    shit = 2;
+}
+
+message Task {
+    optional int32 uid = 1;
+    optional int32 id = 2;
+}
+
+message User {
+    optional int32 uid = 1;
+    optional string uname = 2;
+    optional Task task = 3;
+    repeated Task task_array = 4;
+    optional Achieve achieve = 5;
+
+    message Achieve {
+        optional int32 uid = 1;
+    }
+}
+
+

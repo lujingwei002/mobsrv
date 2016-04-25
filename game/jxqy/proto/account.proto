@@ -1,0 +1,23 @@
+package account;
+
+//注册
+message REGIST {
+    //如果下面两个是空值表示自动注册
+    optional string email = 1[default = ''];
+    optional string password = 2[default = ''];
+    //@recv
+    optional int32 err = 3[default = 0];
+}
+
+//登陆
+message LOGIN {
+    optional string email = 1[default = ''];
+    optional string password = 2[default = ''];
+    //@recv
+    optional int32 uid = 3[default = 0];
+    //token
+    optional string params = 4[default = ''];
+    //time
+    optional int32 time = 5[default = 0];
+    optional int32 err = 6[default = 0];
+}

@@ -1,0 +1,15 @@
+package regist;
+
+//创建角色
+//@SEND @RECV
+message CREATE{
+    required string uname = 1;
+    //角色类型 0.粉嫩 1.小麦 2.古铜
+    optional int32 role_type = 3[default = 1];
+    //平台账号
+    optional string platform_id = 5;
+    //@recv
+    //结果0:成功，1:数据库操作失败, 2:已经注册 3.名称长度不对 4.名字包含非法字符 5.保存失败
+    optional int32 err = 4[default = 1];
+}
+

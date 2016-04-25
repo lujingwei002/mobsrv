@@ -1,0 +1,522 @@
+#!/usr/local/bin/lua
+
+local mod_name = 'actordb'
+local rootdir = 'actordb'
+local clsname_list = {}
+
+string.cap = function(str)
+    return string.upper(string.sub(str, 1, 1))..string.sub(str, 2, -1)
+end
+
+function export(...)
+    local args = {...}
+    for _, v in pairs(args) do
+        table.insert(clsname_list, v)
+    end
+end
+
+function main()
+    dofile(arg[1])
+    build()
+end
+
+function w(file, format, ...)
+    file:write(string.format(format, ...))
+    file:write('\n')
+end
+
+function build()
+    build_cls_header()
+    build_cls_source()
+end
+
+function build_cls_source()
+    local file = io.open(string.format('%s.cc', mod_name), 'w')
+    w(file, '#include "lstrc.h"')
+    w(file, '#include "%s.h"', mod_name)
+    w(file, '#include <stdlib.h>', mod_name)
+    w(file, 'extern "C"{')
+    w(file, '#include <lua.h>')
+    w(file, '#include <lualib.h>')
+    w(file, '#include <lauxlib.h>')
+    w(file, '}')
+    w(file, '')
+    w(file, 'typedef int GetMethod(lua_State* L);')
+    w(file, 'typedef int SetMethod(lua_State* L);')
+    w(file, 'typedef int NewMethod(lua_State* L);')
+    w(file, 'typedef int UnpackMethod(void *self, const char *buf, int buflen);')
+    w(file, '')
+    w(file, 'static char *s_tostring_buf;')
+    w(file, 'static int s_tostring_buf_len;')
+    w(file, '')
+    w(file, 'static map<string, NewMethod*> %s_new_method;', mod_name)
+    for _, clsname in pairs(clsname_list) do
+        local descriptor = get_descriptor(clsname)
+        local maxtag = 0
+        for _, v in pairs(descriptor) do
+            if v.tag > maxtag then
+                maxtag = v.tag
+            end
+        end
+        w(file, '')
+        w(file, 'static map<string, GetMethod*> %s_%s_get_method;', mod_name, string.lower(clsname))
+        w(file, 'static map<string, GetMethod*> %s_%s_func_get_method;', mod_name, string.lower(clsname))
+        w(file, 'static map<string, SetMethod*> %s_%s_set_method;', mod_name, string.lower(clsname))
+        w(file, 'static array<UnpackMethod*, %d> %s_%s_unpack_method;', maxtag + 1, mod_name, string.lower(clsname))
+    end
+    w(file, '')
+    w(file, 'static int read_varint(int64* val, const char *buf, int len) {')
+    w(file, '   memcpy(val, buf, sizeof(int64));')
+    w(file, '   return sizeof(int64);')
+    w(file, '}')
+    w(file, '')
+    w(file, 'static int len_varint(int64 val) {')
+    w(file, '   return sizeof(int64);')
+    w(file, '}')
+    w(file, '')
+    w(file, 'static int len_string(string& val) {')
+    w(file, '   int totallen = 0;')
+    w(file, '   totallen += len_varint(val.size());')
+    w(file, '   totallen += val.size();')
+    w(file, '   return totallen;')
+    w(file, '}')
+    w(file, '')
+    w(file, 'static int write_buf(const char* src_buf, int src_len, char* buf, int len) {')
+    w(file, '   memcpy(buf, src_buf, src_len);')
+    w(file, '   return src_len;')
+    w(file, '}')
+    w(file, '')
+    w(file, 'static int write_varint(int64 val, char *buf, int len) {')
+    w(file, '   memcpy(buf, (char *)&val, sizeof(int64));')
+    w(file, '   return sizeof(int64);')
+    w(file, '}')
+    w(file, '')
+    w(file, 'static int write_string(string& val, char *buf, int len) {')
+    w(file, '   int totallen = 0;')
+    w(file, '   int ir = 0;')
+    w(file, '   ir = write_varint(val.size(), buf, len);')
+    w(file, '   buf += ir;')
+    w(file, '   len -= ir;')
+    w(file, '   totallen += ir;')
+    w(file, '   ir = write_buf(val.c_str(), val.size(), buf, len);')
+    w(file, '   buf += ir;')
+    w(file, '   len -= ir;')
+    w(file, '   totallen += ir;')
+    w(file, '   return totallen;')
+    w(file, '}')
+    --生成成员函数
+    for _, clsname in pairs(clsname_list) do
+        local descriptor = get_descriptor(clsname)
+        w(file, '')
+        w(file, '%s::%s(){', clsname, clsname)
+        for varname, v in pairs(descriptor) do
+            if v.vartype == 'string' then
+                w(file, '   this->%s = "";', varname)
+            elseif v.vartype == 'vector' then
+            elseif v.valtype ~= nil then
+                w(file, '   this->%s = new %s();', varname, v.valtype)
+            else
+                w(file, '   this->%s = 0;', varname)
+            end
+        end
+        w(file, '}')
+        w(file, '')
+        w(file, '%s::~%s(){', clsname, clsname)
+        for varname, v in pairs(descriptor) do
+            if v.vartype == 'vector' then
+            elseif v.valtype ~= nil then
+                w(file, '   delete this->%s;', varname, v.valtype)
+            end
+        end
+        w(file, '}')
+        w(file, '')
+        w(file, 'int %s::packlen(){', clsname)
+        w(file, '   int totallen = 0;')
+        for varname, v in pairs(descriptor) do
+            w(file, '')
+            w(file, '   totallen += len_varint(%d);', v.tag)
+            if v.vartype == 'string' then
+                w(file, '   totallen += len_string(this->%s);', varname)
+            elseif v.vartype == 'vector' then
+                w(file, '   vector<%s*>::iterator it = this->%s.begin();', v.valtype, varname)
+                w(file, '   for(; it != this->%s.end(); ++it) {', varname)
+                w(file, '       %s* nest_msg = *it;', v.valtype)
+                w(file, '       totallen += nest_msg->packlen();')
+                w(file, '   }')
+            elseif v.valtype ~= nil then
+                w(file, '   totallen += this->%s->packlen();', varname)
+            else
+                w(file, '   totallen += len_varint(this->%s);', varname)
+            end
+        end
+        w(file, '   return totallen;')
+        w(file, '}')
+        w(file, '')
+        w(file, 'int %s::pack(char *buf, int len){', clsname)
+        w(file, '   int totallen = 0;')
+        w(file, '   int ir = 0;')
+        for varname, v in pairs(descriptor) do
+            w(file, '')
+            w(file, '   ir = write_varint(%d, buf, len);', v.tag)
+            w(file, '   buf += ir;')
+            w(file, '   len -= ir;')
+            w(file, '   totallen += ir;')
+            if v.vartype == 'string' then
+                w(file, '   ir = write_string(this->%s, buf, len);', varname)
+                w(file, '   buf += ir;')
+                w(file, '   len -= ir;')
+                w(file, '   totallen += ir;')
+            elseif v.vartype == 'vector' then
+                w(file, '   vector<%s*>::iterator it = this->%s.begin();', v.valtype, varname)
+                w(file, '   for(; it != this->%s.end(); ++it) {', varname)
+                w(file, '       %s* nest_msg = *it;', v.valtype)
+                w(file, '       ir = nest_msg->pack(buf, len);')
+                w(file, '       buf += ir;')
+                w(file, '       len -= ir;')
+                w(file, '       totallen += ir;')
+                w(file, '   }')
+            elseif v.valtype ~= nil then
+                w(file, '   ir = this->%s->pack(buf, len);', varname)
+                w(file, '   buf += ir;')
+                w(file, '   len -= ir;')
+                w(file, '   totallen += ir;')
+            else
+                w(file, '   ir = write_varint(this->%s, buf, len);', varname)
+                w(file, '   buf += ir;')
+                w(file, '   len -= ir;')
+                w(file, '   totallen += ir;')
+            end
+        end
+        w(file, '   return totallen;')
+        w(file, '}')
+        w(file, '')
+        w(file, 'int %s::unpack(const char *buf, int buflen){', clsname)
+        w(file, '   int totallen = 0;')
+        w(file, '   int64 tag = 0;')
+        w(file, '   int64 varlen = 0;')
+        w(file, '   int ir = 0;')
+        w(file, '')
+        w(file, '   while(buflen > 0) {')
+        w(file, '       ir = read_varint(&tag, buf, buflen);')
+        w(file, '       buf += ir;')
+        w(file, '       buflen -= ir;')
+        w(file, '       totallen += ir;')
+        w(file, '       ir = read_varint(&varlen, buf, buflen);')
+        w(file, '       buf += ir;')
+        w(file, '       buflen -= ir;')
+        w(file, '       totallen += ir;')
+        w(file, '       UnpackMethod *method = %s_%s_unpack_method[tag];', mod_name, string.lower(clsname))
+        w(file, '       if (method) {')
+        w(file, '           method(this, buf, buflen);');
+        w(file, '       }')
+        w(file, '       buf += varlen;')
+        w(file, '       buflen -= varlen;')
+        w(file, '       totallen += varlen;')
+        w(file, '   }')
+        w(file, '   return totallen;')
+        w(file, '}')
+    end
+    w(file, '')
+    w(file, 'static int l%s_new(lua_State* L){', mod_name)
+    w(file, '   const char *varname = (const char *)lua_tostring(L, 1);')
+    w(file, '   NewMethod *method = %s_new_method[varname];;', mod_name)
+    w(file, '   return method(L);')
+    w(file, '}')
+    for _, clsname in pairs(clsname_list) do
+        local descriptor = get_descriptor(clsname)
+        w(file, '')
+        w(file, 'static int l%s_%s_get(lua_State* L){', mod_name, string.lower(clsname))
+        w(file, '   const char *varname = (const char *)lua_tostring(L, 2);')
+        w(file, '   if (%s_%s_get_method.find(varname) == %s_%s_get_method.end()) {', mod_name, string.lower(clsname), mod_name, string.lower(clsname))
+        w(file, '       if (%s_%s_func_get_method.find(varname) != %s_%s_func_get_method.end()) {', mod_name, string.lower(clsname), mod_name, string.lower(clsname))
+        w(file, '           lua_pushcfunction(L, %s_%s_func_get_method[varname]);', mod_name, string.lower(clsname))
+        w(file, '           return 1;')
+        w(file, '       }')
+        w(file, '       printf("get %s_%s_%%s not found\\n", varname);', mod_name, string.lower(clsname))
+        w(file, '       return 0;')
+        w(file, '   }')
+        w(file, '   GetMethod *method = %s_%s_get_method[varname];;', mod_name, string.lower(clsname))
+        w(file, '   return method(L);')
+        w(file, '}')
+        w(file, '')
+        w(file, 'static int l%s_%s_set(lua_State* L){', mod_name, string.lower(clsname))
+        w(file, '   const char *varname = (const char *)lua_tostring(L, 2);')
+        w(file, '   if (%s_%s_set_method.find(varname) == %s_%s_set_method.end()) {', mod_name, string.lower(clsname), mod_name, string.lower(clsname))
+        w(file, '       printf("set %s_%s_%%s not found\\n", varname);', mod_name, string.lower(clsname))
+        w(file, '       return 0;')
+        w(file, '   }')
+        w(file, '   SetMethod *method = %s_%s_set_method[varname];;', mod_name, string.lower(clsname))
+        w(file, '   return method(L);')
+        w(file, '}')
+        w(file, '')
+        w(file, 'static int l%s_%s_gc(lua_State* L){', mod_name, string.lower(clsname))
+        w(file, '   return 0;')
+        w(file, '}')
+        w(file, '')
+        w(file, 'static int l%s_%s_new(lua_State* L){', mod_name, string.lower(clsname))
+        w(file, '   LuaStruct *self = (LuaStruct*)lua_newuserdata(L, sizeof(LuaStruct));')
+        w(file, '   %s *msg = new %s();', clsname, clsname, clsname)
+        w(file, '   self->msg = msg;')
+        w(file, '   self->root = self;')
+        w(file, '   luaL_getmetatable(L, "%sClass");', clsname)
+        w(file, '   lua_setmetatable(L, -2);', clsname)
+        w(file, '   return 1;')
+        w(file, '}')
+        w(file, '')
+        w(file, 'static int l%s_%s_bytesize(lua_State* L){', mod_name, string.lower(clsname))
+        w(file, '   LuaStruct *self = (LuaStruct*)lua_touserdata(L, 1);')
+        w(file, '   %s* msg = (%s *)self->msg;', clsname, clsname)
+        w(file, '   lua_pushinteger(L, msg->packlen());')
+        w(file, '   return 1;')
+        w(file, '}')
+        w(file, '')
+        w(file, 'static int l%s_%s_tostring(lua_State* L){', mod_name, string.lower(clsname))
+        w(file, '   LuaStruct *self = (LuaStruct*)lua_touserdata(L, 1);')
+        w(file, '   %s* msg = (%s *)self->msg;', clsname, clsname)
+        w(file, '   int totallen = msg->packlen();')
+        w(file, '   if (s_tostring_buf_len < totallen) {')
+        w(file, '       if (s_tostring_buf != NULL) {')
+        w(file, '           free(s_tostring_buf);')
+        w(file, '           s_tostring_buf_len = 0;')
+        w(file, '       }')
+        w(file, '       s_tostring_buf = (char *)malloc(totallen);')
+        w(file, '       if (s_tostring_buf == NULL) {')
+        w(file, '           return 0;')
+        w(file, '       }')
+        w(file, '       s_tostring_buf_len = totallen;')
+        w(file, '   }')
+        w(file, '   totallen = msg->pack(s_tostring_buf, s_tostring_buf_len);')
+        w(file, '   lua_pushlstring(L, s_tostring_buf, totallen);')
+        w(file, '   return 1;')
+        w(file, '}')
+        w(file, '')
+        w(file, 'static int l%s_%s_totable(lua_State* L){', mod_name, string.lower(clsname))
+        w(file, '   return 0;')
+        w(file, '}')
+        for varname, v in pairs(descriptor) do
+            if v.vartype == 'string' then
+                w(file, '')
+                w(file, 'static int l%s_%s_get_%s(lua_State* L){', mod_name, string.lower(clsname), varname, clsname)
+                w(file, '   LuaStruct* self = (LuaStruct *)lua_touserdata(L, 1);')
+                w(file, '   %s* msg = (%s *)self->msg;', clsname, clsname)
+                w(file, '   lua_pushstring(L, msg->%s.c_str());', varname)
+                w(file, '   return 1;')
+                w(file, '}')
+                w(file, '')
+                w(file, 'static int l%s_%s_set_%s(lua_State* L){', mod_name, string.lower(clsname), varname, clsname)
+                w(file, '   LuaStruct* self = (LuaStruct *)lua_touserdata(L, 1);')
+                w(file, '   %s* msg = (%s *)self->msg;', clsname, clsname)
+                w(file, '   const char* val = (const char *)lua_tostring(L, 3);', varname)
+                w(file, '   msg->%s = val;', varname, v.vartype)
+                w(file, '   return 0;')
+                w(file, '}')
+                w(file, '')
+                w(file, 'static int %s_%s_unpack_%s(void *self, const char* buf, int buflen){', mod_name, string.lower(clsname), varname, clsname)
+                w(file, '   return 0;')
+                w(file, '}')
+            elseif v.vartype == 'vector' then
+                w(file, '')
+                w(file, 'static int l%s_%s_add_%s(lua_State* L){', mod_name, string.lower(clsname), varname, clsname)
+                w(file, '   LuaStruct* self = (LuaStruct *)lua_touserdata(L, 1);')
+                w(file, '   %s* msg = (%s *)self->msg;', clsname, clsname)
+                w(file, '   %s* nest_msg = new %s();', v.valtype, v.valtype)
+                w(file, '   msg->%s.push_back(nest_msg);', varname)
+                w(file, '   LuaStruct *nest_self = (LuaStruct *)lua_newuserdata(L, sizeof(LuaStruct));')
+                w(file, '   luaL_getmetatable(L, "%sClass");', v.valtype)
+                w(file, '   lua_setmetatable(L, -2);', clsname)
+                w(file, '   nest_self->msg = nest_msg;');
+                w(file, '   nest_self->root = self->root;');
+                w(file, '   return 1;')
+                w(file, '}')
+                w(file, '')
+                w(file, 'static int l%s_%s_get_%s(lua_State* L){', mod_name, string.lower(clsname), varname, clsname)
+                w(file, '   LuaStruct* self = (LuaStruct *)lua_touserdata(L, 1);')
+                w(file, '   %s* msg = (%s *)self->msg;', clsname, clsname)
+                w(file, '   int index = (int)lua_tointeger(L, 2);')
+                w(file, '   if (index < 0 || index >= msg->%s.size()) {', varname)
+                w(file, '       return 0;')
+                w(file, '   }')
+                w(file, '   LuaStruct *nest_self = (LuaStruct *)lua_newuserdata(L, sizeof(LuaStruct));')
+                w(file, '   luaL_getmetatable(L, "%sClass");', v.valtype)
+                w(file, '   lua_setmetatable(L, -2);', clsname)
+                w(file, '   nest_self->msg = msg->%s[index];', varname);
+                w(file, '   nest_self->root = self->root;');
+                w(file, '   return 1;')
+                w(file, '}')
+                w(file, '')
+                w(file, 'static int l%s_%s_count_%s(lua_State* L){', mod_name, string.lower(clsname), varname, clsname)
+                w(file, '   LuaStruct* self = (LuaStruct *)lua_touserdata(L, 1);')
+                w(file, '   %s* msg = (%s *)self->msg;', clsname, clsname)
+                w(file, '   int val = msg->%s.size();', varname)
+                w(file, '   lua_pushinteger(L, val);')
+                w(file, '   return 1;')
+                w(file, '}')
+                w(file, '')
+                w(file, 'static int l%s_%s_del_%s(lua_State* L){', mod_name, string.lower(clsname), varname, clsname)
+                w(file, '   LuaStruct* self = (LuaStruct *)lua_touserdata(L, 1);')
+                w(file, '   %s* msg = (%s *)self->msg;', clsname, clsname)
+                w(file, '   int index = (int)lua_tointeger(L, 2);')
+                w(file, '   if (index < 0 || index >= msg->%s.size()) {', varname)
+                w(file, '       return 0;')
+                w(file, '   }')
+                w(file, '   %s* nest_msg = msg->%s[index];', v.valtype, varname)
+                w(file, '   msg->%s.erase(msg->%s.begin() + index);', varname, varname)
+                w(file, '   delete nest_msg;')
+                w(file, '   lua_pushinteger(L, index);')
+                w(file, '   return 1;')
+                w(file, '}')
+                w(file, '')
+                w(file, 'static int %s_%s_unpack_%s(void*self, const char* buf, int buflen){', mod_name, string.lower(clsname), varname, clsname)
+                w(file, '   return 0;')
+                w(file, '}')
+            elseif v.valtype ~= nil then
+                w(file, '')
+                w(file, 'static int l%s_%s_get_%s(lua_State* L){', mod_name, string.lower(clsname), varname, clsname)
+                w(file, '   LuaStruct* self = (LuaStruct *)lua_touserdata(L, 1);')
+                w(file, '   %s* msg = (%s *)self->msg;', clsname, clsname)
+                w(file, '   LuaStruct *nest_self = (LuaStruct *)lua_newuserdata(L, sizeof(LuaStruct));')
+                w(file, '   luaL_getmetatable(L, "%sClass");', v.valtype)
+                w(file, '   lua_setmetatable(L, -2);', clsname)
+                w(file, '   nest_self->msg = msg->%s;', varname);
+                w(file, '   nest_self->root = self->root;');
+                w(file, '   return 1;')
+                w(file, '}')
+                w(file, '')
+                w(file, 'static int %s_%s_unpack_%s(void* self, const char* buf, int buflen){', mod_name, string.lower(clsname), varname, clsname)
+                w(file, '   return 0;')
+                w(file, '}')
+            else
+                w(file, '')
+                w(file, 'static int l%s_%s_get_%s(lua_State* L){', mod_name, string.lower(clsname), varname, clsname)
+                w(file, '   LuaStruct* self = (LuaStruct *)lua_touserdata(L, 1);')
+                w(file, '   %s* msg = (%s *)self->msg;', clsname, clsname)
+                w(file, '   lua_pushnumber(L, msg->%s);', varname)
+                w(file, '   return 1;')
+                w(file, '}')
+                w(file, '')
+                w(file, 'static int l%s_%s_set_%s(lua_State* L){', mod_name, string.lower(clsname), varname, clsname)
+                w(file, '   LuaStruct* self = (LuaStruct *)lua_touserdata(L, 1);')
+                w(file, '   %s* msg = (%s *)self->msg;', clsname, clsname)
+                w(file, '   long long val = (long long)lua_tonumber(L, 3);', varname)
+                w(file, '   msg->%s = (%s)val;', varname, v.vartype)
+                w(file, '   return 0;')
+                w(file, '}')
+                w(file, '')
+                w(file, 'static int %s_%s_unpack_%s(void* self, const char* buf, int buflen){', mod_name, string.lower(clsname), varname, clsname)
+                w(file, '   return 0;')
+                w(file, '}')
+            end
+        end
+    end
+
+    w(file, 'static luaL_Reg lua_lib[] = {')
+    w(file, '   {"new", l%s_new},', mod_name)
+    w(file, '   {NULL, NULL}')
+    w(file, '};')
+
+    w(file, '')
+    w(file, 'extern "C" {')
+    w(file, 'int luaopen_%s(lua_State* L) {', mod_name)
+	w(file, '   luaL_register(L, "%s", (luaL_Reg*)lua_lib);', string.cap(mod_name))
+    for _, clsname in pairs(clsname_list) do
+        w(file, '   luaL_newmetatable(L, "%sClass");', clsname)
+        w(file, '   lua_pushstring(L, "__index");')
+        w(file, '   lua_pushcfunction(L, l%s_%s_get);', mod_name, string.lower(clsname))
+        w(file, '   lua_settable(L, -3);')
+        w(file, '   lua_pushstring(L, "__newindex");')
+        w(file, '   lua_pushcfunction(L, l%s_%s_set);', mod_name, string.lower(clsname))
+        w(file, '   lua_settable(L, -3);')
+        w(file, '   lua_pushstring(L, "__gc");')
+        w(file, '   lua_pushcfunction(L, l%s_%s_gc);', mod_name, string.lower(clsname))
+        w(file, '   lua_settable(L, -3);')
+        w(file, '')
+    end
+
+    for _, clsname in pairs(clsname_list) do
+        local descriptor = get_descriptor(clsname)
+        w(file, '')
+        w(file, '   %s_%s_func_get_method["totable"] = l%s_%s_totable;', mod_name, string.lower(clsname), mod_name, string.lower(clsname))
+        w(file, '   %s_%s_func_get_method["tostring"] = l%s_%s_tostring;', mod_name, string.lower(clsname), mod_name, string.lower(clsname))
+        w(file, '   %s_%s_func_get_method["bytesize"] = l%s_%s_bytesize;', mod_name, string.lower(clsname), mod_name, string.lower(clsname))
+        for varname, v in pairs(descriptor) do
+            w(file, '   %s_%s_unpack_method[%d] = %s_%s_unpack_%s;', mod_name, string.lower(clsname), v.tag, mod_name, string.lower(clsname), varname)
+            if v.vartype == 'string' then
+                w(file, '   %s_%s_get_method["%s"] = l%s_%s_get_%s;', mod_name, string.lower(clsname), varname, mod_name, string.lower(clsname), varname)
+                w(file, '   %s_%s_set_method["%s"] = l%s_%s_set_%s;', mod_name, string.lower(clsname), varname, mod_name, string.lower(clsname), varname)
+            elseif v.vartype == 'vector' then
+                w(file, '   %s_%s_func_get_method["get_%s"] = l%s_%s_get_%s;', mod_name, string.lower(clsname), varname, mod_name, string.lower(clsname), varname)
+                w(file, '   %s_%s_func_get_method["add_%s"] = l%s_%s_add_%s;', mod_name, string.lower(clsname), varname, mod_name, string.lower(clsname), varname)
+                w(file, '   %s_%s_func_get_method["count_%s"] = l%s_%s_count_%s;', mod_name, string.lower(clsname), varname, mod_name, string.lower(clsname), varname)
+                w(file, '   %s_%s_func_get_method["del_%s"] = l%s_%s_del_%s;', mod_name, string.lower(clsname), varname, mod_name, string.lower(clsname), varname)
+            elseif v.valtype ~= nil then
+                w(file, '   %s_%s_get_method["%s"] = l%s_%s_get_%s;', mod_name, string.lower(clsname), varname, mod_name, string.lower(clsname), varname)
+            else
+                w(file, '   %s_%s_get_method["%s"] = l%s_%s_get_%s;', mod_name, string.lower(clsname), varname, mod_name, string.lower(clsname), varname)
+                w(file, '   %s_%s_set_method["%s"] = l%s_%s_set_%s;', mod_name, string.lower(clsname), varname, mod_name, string.lower(clsname), varname)
+            end
+        end
+    end
+    w(file, '')
+    for _, clsname in pairs(clsname_list) do
+        w(file, '   %s_new_method["%s"] = l%s_%s_new;', mod_name, clsname, mod_name, string.lower(clsname))
+    end
+    w(file, '   printf("load %s\\n");', mod_name);
+    w(file, '   return 1;')
+    w(file, '}')
+    w(file, '}')
+
+end
+
+function build_cls_header()
+    local file = io.open(string.format('%s.h', mod_name), 'w')
+    w(file, '#ifndef _%s_H_', string.upper(mod_name))
+    w(file, '#define _%s_H_', string.upper(mod_name))
+    w(file, '//此文件自动生成，不要手动修改')
+    w(file, '//#include "common.h"')
+    w(file, '#include <string>')
+    w(file, '#include <vector>')
+    w(file, '#include <map>')
+    w(file, '#include <array>')
+    w(file, 'using namespace std;')
+    for _, clsname in pairs(clsname_list) do
+        local descriptor = get_descriptor(clsname)
+        w(file, '')
+        w(file, 'class %s {', clsname)
+        w(file, 'public:')
+        w(file, '   %s();', clsname)
+        w(file, '   ~%s();', clsname)
+        w(file, '   int packlen();')
+        w(file, '   int pack(char *buf, int len);')
+        w(file, '   int unpack(const char *buf, int len);')
+        w(file, 'public:')
+        for varname, v in pairs(descriptor) do
+        w(file, '   %s;', v.declaration)
+        end
+        w(file, '};')
+    end
+    w(file, '#endif')
+    file:close()
+end
+
+function get_descriptor(clsname)
+    local descriptor = {}
+    local cls = _G[clsname]
+    for tag, v in pairs(cls) do
+        for vartype, varname in string.gmatch(v, 'vector<(%w+)*>%s+([%w_]+)') do
+            descriptor[varname] = {vartype = 'vector', valtype = vartype, tag = tag}
+            descriptor[varname].declaration = v
+        end
+        for vartype, varname in string.gmatch(v, '(%w+)*%s+([%w_]+)') do
+            descriptor[varname] = {vartype = vartype, valtype = vartype, tag = tag}
+            descriptor[varname].declaration = v
+        end
+        for vartype, varname in string.gmatch(v, '(%w+)%s+([%w_]+)') do
+            descriptor[varname] = {vartype = vartype, tag = tag}
+            descriptor[varname].declaration = v
+        end
+    end
+    --print(Json.encode(descriptor))
+    return descriptor
+end
+
+main()

@@ -1,0 +1,10 @@
+package playerdata.item;
+
+message ItemData {
+    optional int32 id = 2[default = 0];
+    optional int32 count = 3[default = 0];
+}
+
+message ItemDataMgr {
+    repeated ItemData items = 1;
+}

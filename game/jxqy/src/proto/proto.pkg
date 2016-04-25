@@ -1,0 +1,211 @@
+$#include "proto.h"
+$using namespace std;
+$using namespace google::protobuf;
+$#define TOLUA_RELEASE
+namespace account
+{
+   class LOGIN {
+       LOGIN();
+       ~LOGIN();
+       void Clear@clear();
+       string DebugString@debug_string();
+       string GetTypeName@msgname();
+       int ByteSize@bytesize();
+       tolua_outside int account_LOGIN_tostring@tostring(lua_State* L);
+       tolua_outside int account_LOGIN_parse_from_string@parse_from_string(lua_State* L);
+       tolua_outside int account_LOGIN_parse_from_buf@parse_from_buf(lua_State* L);
+       tolua_outside int account_LOGIN_serialize@serialize(lua_State* L);
+       tolua_property__pb string password;
+       tolua_property__pb int32 uid;
+       tolua_property__pb int32 time;
+       tolua_property__pb int32 err;
+       tolua_property__pb string params;
+       tolua_property__pb string email;
+   };
+};
+
+namespace sys
+{
+   class TEST {
+       TEST();
+       ~TEST();
+       void Clear@clear();
+       string DebugString@debug_string();
+       string GetTypeName@msgname();
+       int ByteSize@bytesize();
+       tolua_outside int sys_TEST_tostring@tostring(lua_State* L);
+       tolua_outside int sys_TEST_parse_from_string@parse_from_string(lua_State* L);
+       tolua_outside int sys_TEST_parse_from_buf@parse_from_buf(lua_State* L);
+       tolua_outside int sys_TEST_serialize@serialize(lua_State* L);
+       tolua_property__pb string str;
+   };
+};
+
+namespace login
+{
+   class LOGIN {
+       LOGIN();
+       ~LOGIN();
+       void Clear@clear();
+       string DebugString@debug_string();
+       string GetTypeName@msgname();
+       int ByteSize@bytesize();
+       tolua_outside int login_LOGIN_tostring@tostring(lua_State* L);
+       tolua_outside int login_LOGIN_parse_from_string@parse_from_string(lua_State* L);
+       tolua_outside int login_LOGIN_parse_from_buf@parse_from_buf(lua_State* L);
+       tolua_outside int login_LOGIN_serialize@serialize(lua_State* L);
+       tolua_property__pb string str;
+       tolua_property__pb int32 uid;
+       tolua_property__pb int32 err;
+       tolua_property__pb string params;
+   };
+};
+
+namespace sys
+{
+   class GM {
+       GM();
+       ~GM();
+       void Clear@clear();
+       string DebugString@debug_string();
+       string GetTypeName@msgname();
+       int ByteSize@bytesize();
+       tolua_outside int sys_GM_tostring@tostring(lua_State* L);
+       tolua_outside int sys_GM_parse_from_string@parse_from_string(lua_State* L);
+       tolua_outside int sys_GM_parse_from_buf@parse_from_buf(lua_State* L);
+       tolua_outside int sys_GM_serialize@serialize(lua_State* L);
+       tolua_property__pb string str;
+   };
+};
+
+namespace login
+{
+   class PING {
+       PING();
+       ~PING();
+       void Clear@clear();
+       string DebugString@debug_string();
+       string GetTypeName@msgname();
+       int ByteSize@bytesize();
+       tolua_outside int login_PING_tostring@tostring(lua_State* L);
+       tolua_outside int login_PING_parse_from_string@parse_from_string(lua_State* L);
+       tolua_outside int login_PING_parse_from_buf@parse_from_buf(lua_State* L);
+       tolua_outside int login_PING_serialize@serialize(lua_State* L);
+       tolua_property__pb int32 st;
+   };
+};
+
+namespace sys
+{
+   class PING {
+       PING();
+       ~PING();
+       void Clear@clear();
+       string DebugString@debug_string();
+       string GetTypeName@msgname();
+       int ByteSize@bytesize();
+       tolua_outside int sys_PING_tostring@tostring(lua_State* L);
+       tolua_outside int sys_PING_parse_from_string@parse_from_string(lua_State* L);
+       tolua_outside int sys_PING_parse_from_buf@parse_from_buf(lua_State* L);
+       tolua_outside int sys_PING_serialize@serialize(lua_State* L);
+       tolua_property__pb int32 st;
+   };
+};
+
+namespace login
+{
+   class ENTER {
+       ENTER();
+       ~ENTER();
+       void Clear@clear();
+       string DebugString@debug_string();
+       string GetTypeName@msgname();
+       int ByteSize@bytesize();
+       tolua_outside int login_ENTER_tostring@tostring(lua_State* L);
+       tolua_outside int login_ENTER_parse_from_string@parse_from_string(lua_State* L);
+       tolua_outside int login_ENTER_parse_from_buf@parse_from_buf(lua_State* L);
+       tolua_outside int login_ENTER_serialize@serialize(lua_State* L);
+       tolua_property__pb int32 err;
+       tolua_property__pb int32 srvid;
+   };
+};
+
+namespace login
+{
+   class DISCONNECT {
+       DISCONNECT();
+       ~DISCONNECT();
+       void Clear@clear();
+       string DebugString@debug_string();
+       string GetTypeName@msgname();
+       int ByteSize@bytesize();
+       tolua_outside int login_DISCONNECT_tostring@tostring(lua_State* L);
+       tolua_outside int login_DISCONNECT_parse_from_string@parse_from_string(lua_State* L);
+       tolua_outside int login_DISCONNECT_parse_from_buf@parse_from_buf(lua_State* L);
+       tolua_outside int login_DISCONNECT_serialize@serialize(lua_State* L);
+       tolua_property__pb int32 remain_time;
+       tolua_property__pb int32 err;
+       tolua_property__pb string reason;
+   };
+};
+
+namespace account
+{
+   class REGIST {
+       REGIST();
+       ~REGIST();
+       void Clear@clear();
+       string DebugString@debug_string();
+       string GetTypeName@msgname();
+       int ByteSize@bytesize();
+       tolua_outside int account_REGIST_tostring@tostring(lua_State* L);
+       tolua_outside int account_REGIST_parse_from_string@parse_from_string(lua_State* L);
+       tolua_outside int account_REGIST_parse_from_buf@parse_from_buf(lua_State* L);
+       tolua_outside int account_REGIST_serialize@serialize(lua_State* L);
+       tolua_property__pb string password;
+       tolua_property__pb int32 err;
+       tolua_property__pb string email;
+   };
+};
+
+namespace regist
+{
+   class CREATE {
+       CREATE();
+       ~CREATE();
+       void Clear@clear();
+       string DebugString@debug_string();
+       string GetTypeName@msgname();
+       int ByteSize@bytesize();
+       tolua_outside int regist_CREATE_tostring@tostring(lua_State* L);
+       tolua_outside int regist_CREATE_parse_from_string@parse_from_string(lua_State* L);
+       tolua_outside int regist_CREATE_parse_from_buf@parse_from_buf(lua_State* L);
+       tolua_outside int regist_CREATE_serialize@serialize(lua_State* L);
+       tolua_property__pb string platform_id;
+       tolua_property__pb int32 err;
+       tolua_property__pb int32 role_type;
+       tolua_property__pb string uname;
+   };
+};
+
+namespace sdk91
+{
+   class LOGIN {
+       LOGIN();
+       ~LOGIN();
+       void Clear@clear();
+       string DebugString@debug_string();
+       string GetTypeName@msgname();
+       int ByteSize@bytesize();
+       tolua_outside int sdk91_LOGIN_tostring@tostring(lua_State* L);
+       tolua_outside int sdk91_LOGIN_parse_from_string@parse_from_string(lua_State* L);
+       tolua_outside int sdk91_LOGIN_parse_from_buf@parse_from_buf(lua_State* L);
+       tolua_outside int sdk91_LOGIN_serialize@serialize(lua_State* L);
+       tolua_property__pb int32 uid;
+       tolua_property__pb int32 time;
+       tolua_property__pb int32 session_id;
+       tolua_property__pb int32 err;
+       tolua_property__pb string params;
+   };
+};
+

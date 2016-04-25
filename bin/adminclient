@@ -1,0 +1,12 @@
+#!/usr/local/bin/luaexe
+dofile(os.getenv('ENGINE_PATH')..'/bin/luaenv')
+--连上管理台，调用函数
+--
+local usage = [[
+usage:
+adminclient mod_name.func_name arg1 arg2
+-s 服务器名称 global_srv global_srv1 global_srv2  
+-u uid
+]]
+
+

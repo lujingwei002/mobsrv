@@ -1,0 +1,14 @@
+package vip;
+
+//领取礼包
+message GET_VIP_GRADE_GIFT{
+	optional int32 id = 1[default = 0];
+	optional int32 errno = 2[default = 0];
+}
+
+//充值
+message CHARGE{
+	optional int32 id = 1[default = 0];
+	optional int32 errno = 2[default = 0];
+} 
+

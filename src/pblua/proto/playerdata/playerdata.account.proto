@@ -1,0 +1,12 @@
+package playerdata.account;
+
+message Account{
+    optional int32 uid = 1[default = 0];
+    optional string email = 2[default = ''];
+    optional string password = 3[default = ''];
+    //所有的分区
+    optional int32 area = 4[default = 0];
+    optional int32 regist_time = 5[default = 0];
+    //1.已经绑定账号 0.末绑定账号
+    optional int32 is_temp = 6[default = 0];
+}

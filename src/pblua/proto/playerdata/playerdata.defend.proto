@@ -1,0 +1,24 @@
+package playerdata.defend;
+
+message User {
+    optional int32 uid = 1[default = 0];
+    optional string uname = 2[default = ''];
+    optional int32 hero_id = 5[default = 0];
+    optional int32 stage = 6[default = 0];
+    optional int32 coin = 7[default = 0];
+}
+
+message ShopGoods {
+    optional int32 id = 1[default = 0];
+    optional int32 count = 2[default = 0];
+}
+
+message DefendData {
+    optional int32 defend_coin = 1[default = 0];
+    optional int32 stage = 2[default = 1];
+    optional int32 reward = 3[default = 0];
+    optional int32 reset_times = 4[default = 0];
+    optional int32 shop_reset_times = 5[default = 0];
+    repeated User users = 6;
+    repeated ShopGoods goods = 7;
+}

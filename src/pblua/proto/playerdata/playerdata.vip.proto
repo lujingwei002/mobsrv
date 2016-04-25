@@ -1,0 +1,39 @@
+package playerdata.vip;
+
+message VipData {
+    optional int32 uid = 8[default = 0];
+    //充值表标记
+    optional int32 vip_charge_id1 = 1[default = 0];    
+    optional int32 vip_charge_id2 = 2[default = 0];    
+    optional int32 vip_charge_id3 = 3[default = 0];    
+    optional int32 vip_charge_id4 = 4[default = 0];    
+    optional int32 vip_charge_id5 = 5[default = 0];    
+    optional int32 vip_charge_id6 = 6[default = 0];    
+    optional int32 vip_charge_id7 = 7[default = 0];    
+}
+
+
+//消费充值记录
+message GamemoneyRecord{
+    optional int32 uid = 1[default = 0];
+    //游戏币
+    optional int32 gamemoney = 2[default = 0];
+    //途径
+    optional int32 source = 3[default = 0];
+    //途径
+    optional int32 log = 4[default = 0];
+    //时间 
+    optional int32 time = 5[default = 0];
+    optional int32 id = 6[default = 0];
+}
+
+//充值订单
+message GamemoneyOrder{
+    optional int32 id = 6[default = 0];
+    optional int32 uid = 1[default = 0];
+    optional int32 goods_id = 2[default = 0];
+    optional int32 goods_num = 3[default = 0];
+    optional string order_id = 4[default = ''];
+    //时间 
+    optional int32 time = 5[default = 0];
+}

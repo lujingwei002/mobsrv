@@ -1,0 +1,12 @@
+底层的一些模块
+
+game (lua so + 逻辑so + 逻辑lua)
+
+framework  
+
+lua :) lua模块 srvproto www http
+
+c :) c接口+lua接口 net file mysql redis pbc json system date ar
+
+c :) common     
+

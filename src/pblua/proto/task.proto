@@ -1,0 +1,16 @@
+package task;
+import 'playerdata/playerdata.task.proto';
+
+
+//任务列表
+message QUERY {
+    repeated playerdata.task.TaskData tasks = 1;
+}
+
+
+//领奖
+message REWARD {
+    optional int32 task_id = 1[default = 0];
+    optional int32 errno = 2[default = 0];
+}
+

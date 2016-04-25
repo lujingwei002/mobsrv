@@ -1,0 +1,84 @@
+package arena;
+import 'combat.proto';
+import 'playerdata/playerdata.arena.proto';
+
+//商店
+message SHOP_QUERY {
+    repeated playerdata.arena.ShopGoods goods = 1;
+}
+
+//刷新商店
+message SHOP_RESET {
+    optional int32 errno = 1[default = 0];
+    optional int32 arena_coin = 2[default = 0];
+}
+
+message SHOP_BUY {
+    optional int32 id = 1[default = 0];
+    optional int32 errno = 2[default = 0];
+    optional int32 arena_coin = 3[default = 0];
+}
+
+//挑战
+message COMBAT_START {
+    optional int32 uid = 1[default = 0];
+    optional int32 hero_id = 5[default = 0];
+    optional int32 errno = 2[default = 0];
+    optional combat.Monster atk_monster = 3;
+    optional combat.Monster def_monster = 4;
+}
+
+message WIN {
+    optional int32 errno = 2[default = 0];
+}
+message FAIL {
+    optional int32 errno = 2[default = 0];
+}
+message User {
+    optional int32 uid = 1[default = 0];
+    optional string uname = 2[default = ''];
+    optional int32 battle_power = 3[default = 0];
+    optional int32 rank = 4[default = 0];
+    optional int32 hero_id = 5[default = 0];
+    optional int32 level = 6[default = 0];
+}
+
+message CHALLENGE_LIST {
+    repeated User users = 5;
+}
+//竞技场
+message QUERY {
+    optional int32 rank = 1[default = 0];
+    optional int32 challenge_times = 2[default = 0];
+    optional int32 last_challenge_time = 3[default = 0];
+    optional int32 arena_coin = 4[default = 0];
+    optional int32 battle_power = 6[default = 0];
+    optional int32 hero_id = 7[default = 0];
+    optional int32 next_reward_rank = 8[default = 0];
+}
+
+message CLEAR_COOLDOWN {
+    optional int32 errno = 1[default = 0];
+    optional int32 diamond = 2[default = 0];
+}
+
+message SET_HERO {
+    optional int32 hero_id = 1[default = 0];
+    optional int32 errno = 2[default = 0];
+}
+
+
+
+message RankUser {
+	optional int32 uid = 1[default = 0];
+	optional string uname = 2[default = ''];
+	optional int32 hero_id = 3[default = 0];
+	optional int32 score = 4[default = 0];
+	optional int32 rank = 5[default = 0];
+}
+
+message RANK_LIST{
+	repeated RankUser users = 1;
+    optional int32 rank = 2[default = 0];
+    optional int32 score = 3[default = 0];
+}

@@ -1,0 +1,67 @@
+
+Wed Sep 16 23:00:23 CST 2015
+
+socket不进行封装，写一个poll做IO，写协议的DECODER/ENCODER读写数据，DECODER/ENCODER里有数据缓存
+
+lua模块
+
+c模块
+os.c 进行系统调用的封装
+socket.c 做socket系统调用的封装
+
+内部通信方法
+1.用协程实现的调用，有返回值
+    问题，如果在协程等待时，玩家还在接收消息，那实体状态就会改变，如扣钱等，怎么处理？
+    可选，要不要锁住实体的状态
+
+2.模块方法调用:不用实体接收，不可靠的，会丢失
+3.实体方法调用:调用实体的方法，可靠的，而且保存数据库
+
+
+协议:
+1.protobuf做客端协议
+
+数据库
+1.MYSQL要做ORM, 描述文件用table表示
+2.mongodb
+
+
+Sat Sep 26 19:06:19 CST 2015
+lua的makefile不会生成so,
+需要修改src/Makefile
+MYCFLAGS=-fPIC
++LUA_SO= liblua.so
+ALL_T= $(LUA_A) $(LUA_T) $(LUAC_T) $(LUA_SO)
++$(LUA_SO): $(CORE_O) $(LIB_O)
++	$(CC) -o $@ -shared $?
+
+
+Sat Sep 26 18:56:40 CST 2015
+lua版本5.1.5， mac系统，lua_newtable时会报下面的错
+static int ltest(lua_State *L){
+    printf("test\n");
+    lua_newtable(L);
+    return 1;
+}
+lua(1738,0x7fff7c37d300) malloc: *** error for object 0x1018bae60: pointer being freed was not allocated
+*** set a breakpoint in malloc_error_break to debug
+解决：换用LUAJIT后没有这个问题，现在手头上没LINUX系统,下次有机会试试
+
+Sun Sep 27 10:05:48 CST 2015
+跑帧的话，可写事件就一直加在SOCKET里吧，不会出现CPU空转的情况的
+但这样可能效果会不高， 因为每帧都会通知所有SOCKET可写事件
+gateway那边要考虑优化一下， 内网服SOCKET数量比较少，可以忽略不计
+内网服可以考虑用SELECT,不用AE
+
+Sun Sep 27 10:16:02 CST 2015
+想将更多的代码入进LUA，C模块之间不在C层面耦合
+
+
+Sun Sep 27 10:57:52 CST 2015
+lae.c 里的filedata里的file_read_proc file_writep_proc是没有清理的，注意一下
+ae.c里，如果rfileProc和wfileProc相同，wfileProc是不会被触发的
+
+
+Sun Sep 27 21:19:09 CST 2015
+luajit的lua_pushlstring的问题
+比如，看看string.cap的实现，如果修改了，原字符串也会改变，而不是新生成一个

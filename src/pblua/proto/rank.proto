@@ -1,0 +1,21 @@
+package rank;
+
+message RankPlayer {
+	optional int32 uid = 1[default = 0];
+	optional string uname = 2[default = ''];
+	optional int32 hero_id = 3[default = 0];
+	optional int32 score = 4[default = 0];
+	optional int32 rank = 5[default = 0];
+}
+
+message SCORE_LIST{
+	repeated RankPlayer players = 1;
+    optional int32 rank = 2[default = 0];
+    optional int32 score = 3[default = 0];
+}
+
+message BATTLE_POWER_LIST{
+	repeated RankPlayer players = 1;
+    optional int32 rank = 2[default = 0];
+    optional int32 battle_power = 3[default = 0];
+}

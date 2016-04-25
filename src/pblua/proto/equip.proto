@@ -1,0 +1,34 @@
+package equip;
+
+//升级
+message LEVEL_UP {
+	optional int32 id = 1[default = 0];
+	optional int32 errno = 2[default = 0];
+    optional int32 coin  =3[default = 0];
+}
+
+//升色
+message COLOR_UP {
+	optional int32 id = 1[default = 0];
+	optional int32 errno = 2[default = 0];
+}
+
+//镶嵌宝石
+message SET_STONE {
+	optional int32 equip_id = 1[default = 0];
+	optional int32 stone_id = 2[default = 0];
+	optional int32 position = 3[default = 0];
+	optional int32 errno = 4[default = 0];
+}
+
+//升星
+message STAR_UP {
+	optional int32 id = 1[default = 0];
+	optional int32 errno = 2[default = 0];
+}
+
+//召唤
+message GET {
+    optional int32 id = 1[default = 0];
+    optional int32 errno = 2[default = 0];
+}

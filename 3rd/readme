@@ -1,0 +1,2 @@
+lua/src/makefile
+mac平台加入LUA_USE_MACOSX开启加载动态库

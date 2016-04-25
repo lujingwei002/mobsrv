@@ -1,0 +1,15 @@
+package dbproto;
+//任务系统
+
+message Task {
+    //任务id
+    optional int32 id = 1[default = 0];
+    repeated int32 value = 2;
+}
+
+message TaskData {
+    optional int32 uid = 1[default = 0];
+    repeated Task tasks = 2;
+}
+
+

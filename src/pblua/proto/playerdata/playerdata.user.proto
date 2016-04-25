@@ -1,0 +1,112 @@
+package playerdata.user;
+
+//用户
+message User{
+    //uid
+    optional int32 uid = 1[default = 0];
+    //用户名
+    optional string uname = 2[default = ''];
+    //注册时间
+    optional int32 regist_time = 3[default = 0];
+    //上次登录时间 
+    optional int32 last_login_time = 4[default = 0];
+    //新手阶段
+    optional int32 newhand = 5[default = 0];
+    //角色职业
+    optional int32 career = 6[default = 0];
+    //平台账号
+    optional string platform_id = 7[default = ''];
+    //注册ip
+    optional string regist_ip = 8[default = ''];
+    //是否VIP
+    optional int32 is_vip = 9[default = 0];
+    //游戏币
+    optional int32 gamemoney = 10[default = 0];
+    //玩家等级
+    optional int32 level = 11[default = 1];
+    //是否被删除
+    optional int32 is_del = 12[default = 0];
+    //是否封号
+    optional int32 is_forbid = 13[default = 0];
+    //封号时间
+    optional int32 forbid_sec = 14[default = 0];
+    //性别 1.男 2.女
+    optional int32 sex = 15[default = 1];
+    //经验
+    optional int32 exp = 16[default = 0];
+    //当前体力值
+    optional int32 hp = 17[default = 0];
+    //金币
+    optional int32 coin = 18[default = 0];
+    //石板
+    optional int32 stone = 19[default = 0];
+    //友情币
+    optional int32 friend_coin = 20[default = 0];
+    //玩家第一次的游戏时间
+    optional int32 regist_duration = 21[default = 0];
+    //玩家的登录总次数
+    optional int32 login_total = 22[default = 0];
+    //上次登录ip
+    optional string last_login_ip = 23[default = ''];
+    //单抽次数
+    optional int32 lottery_times = 24[default = 0];
+    //10连抽次数
+    optional int32 logger_times10 = 25[default = 0];
+    //玩家回复体力次数
+    optional int32 recover_hp_times = 26[default = 0];
+    //购买pk次数
+    optional int32 buy_pk_times = 27[default = 0];
+    //玩家总在线时间
+    optional int32 online_total_sec = 28[default = 0];
+    //上次恢复体力时间
+    optional int32 last_add_hp_time = 29[default = 0];
+    //好友数
+    optional int32 friend_count = 30[default = 0];
+    //留言
+    optional string note = 31[default = ''];
+    //签到的次数
+    optional int32 sign_days = 32[default = 0];
+    //今天签到没
+    optional int32 sign_today = 33[default = 0];
+    //月卡剩余天数
+    optional int32 month_card_days = 34[default = 0];
+    
+    optional int32 get_power_times = 35[default = 0];
+
+    optional int32 get_coin_times = 36[default = 0];
+    optional int32 get_skill_point_times = 46[default = 0];
+
+    optional int32 header_id = 37[default = 1];
+
+    optional int32 last_add_power_time = 38[default = 0];
+    optional int32 open_coin1_times = 39[default = 0];
+    optional int32 last_open_coin1_time = 40[default = 0];
+    optional int32 last_open_diamond1_time = 41[default = 0];
+
+    optional int32 stage_reset_times = 42[default = 0];
+
+    optional int32 power = 43[default = 0];
+    optional int32 order_id = 44[default = 0];
+    optional int32 vip_exp = 45[default = 0];
+    optional int32 arena_hero_id = 47[default = 0];
+    optional int32 skill_point = 48[default = 0];
+    optional int32 last_add_skill_point_time = 49[default = 0];
+    optional int32 battle_power = 50[default = 0];
+    optional int32 hero_id = 51[default = 0];
+    optional int32 open_coin1_total_times = 63[default = 0];
+    optional int32 open_diamond1_total_times = 64[default = 0];
+}
+
+
+message CDKEY {
+    optional int32 id = 2[default = 0];
+    optional string cdkey = 1[default = ''];
+    optional int32 item_id1 = 3[default = 0];
+    optional int32 item_count1 = 4[default = 0];
+    optional int32 item_id2 = 5[default = 0];
+    optional int32 item_count2 = 6[default = 0];
+    optional int32 item_id3 = 7[default = 0];
+    optional int32 item_count3 = 8[default = 0];
+    optional int32 reward = 9[default = 0];
+    optional int32 uid = 10[default = 0];
+}

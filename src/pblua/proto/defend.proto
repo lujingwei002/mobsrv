@@ -1,0 +1,65 @@
+package defend;
+import "combat.proto";
+import 'playerdata/playerdata.defend.proto';
+
+message QUERY {
+    optional int32 stage = 3[default = 0];
+    optional int32 defend_coin = 5[default = 0];
+    //能否领奖
+    optional int32 reward = 6[default = 0];
+    optional int32 reset_times = 7[default = 0];
+    optional int32 shop_reset_times = 8[default = 0];
+    //关卡
+    repeated playerdata.defend.User users = 10;
+}
+
+message RESET {
+    optional int32 errno = 1[default = 0];
+}
+//挑战
+message COMBAT_START {
+    optional int32 uid = 1[default = 0];
+    optional int32 errno = 2[default = 0];
+    optional combat.Monster atk_monster = 3;
+    repeated combat.Monster monsters = 4;
+    optional int32 stage = 5[default = 0];
+    optional int32 hero_id = 6[default = 0];
+}
+
+message WIN {
+    optional int32 errno = 2[default = 0];
+}
+message FAIL {
+    optional int32 errno = 2[default = 0];
+}
+
+
+message REWARD {
+    optional int32 errno = 2[default = 0];
+    optional int32 coin = 3[default = 0];
+
+    optional int32 item_id1 = 4[default = 0];
+    optional int32 item_id2 = 5[default = 0];
+    optional int32 item_id3 = 6[default = 0];
+
+    optional int32 item_count1 = 7[default = 0];
+    optional int32 item_count2 = 8[default = 0];
+    optional int32 item_count3 = 9[default = 0];
+}
+//商店
+message SHOP_QUERY {
+    repeated playerdata.defend.ShopGoods goods = 9;
+}
+
+//刷新商店
+message SHOP_RESET {
+    optional int32 errno = 1[default = 0];
+    optional int32 defend_coin = 2[default = 0];
+}
+
+message SHOP_BUY {
+    optional int32 id = 1[default = 0];
+    optional int32 errno = 2[default = 0];
+    optional int32 defend_coin = 3[default = 0];
+}
+

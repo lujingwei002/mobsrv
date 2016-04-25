@@ -1,0 +1,9 @@
+package skill;
+
+message LEVEL_UP {
+    optional int32 hero_id = 1[default = 0];
+    optional int32 skill_id = 2[default = 0];
+    optional int32 errno = 3[default = 0];
+    optional int32 coin = 4[default = 0];
+    optional int32 skill_point = 5[default = 0];
+}

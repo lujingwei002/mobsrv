@@ -1,0 +1,30 @@
+package treasure;
+
+message Item {
+    optional int32 id = 1[default = 0];
+    optional int32 count = 2[default = 0];
+}
+message GET_COIN1 {
+    optional int32 errno = 3[default = 0];
+	optional int32 coin = 2[default = 0];
+    optional Item item = 4;
+}
+
+message GET_COIN10 {
+    optional int32 errno = 3[default = 0];
+	optional int32 coin = 2[default = 0];
+    repeated Item items = 4;
+}
+
+message GET_DIAMOND1 {
+    optional int32 errno = 3[default = 0];
+	optional int32 diamond = 2[default = 0];
+    optional Item item = 4;
+}
+
+message GET_DIAMOND10 {
+    optional int32 errno = 3[default = 0];
+	optional int32 diamond = 2[default = 0];
+    repeated Item items = 4;
+}
+

@@ -1,0 +1,62 @@
+package stage;
+import 'playerdata/playerdata.stage.proto';
+//道具
+message Item {
+    optional int32 id = 1[default = 0];
+    optional int32 count = 2[default = 0];
+}
+
+message QUERY {
+    optional int32 stage_id = 1[default = 0];
+    optional int32 elite_stage_id = 2[default = 0];
+    repeated playerdata.stage.StageData stages = 3;
+}
+//开始
+message COMBAT_START {
+    optional int32 stage_id = 1[default = 0];
+    optional int32 hero_id = 4[default = 0];
+    //掉落道具
+    repeated playerdata.stage.PickUpItemData pick_up_items = 5;
+    optional int32 errno = 3[default = 0];
+}
+
+//重置
+message RESET{
+    optional int32 stage_id = 1[default = 0];
+    optional int32 errno = 2[default = 0];
+    optional int32 diamond = 3[default = 0];
+}
+
+//扫荡
+message SWEEP {
+    optional int32 stage_id = 1[default = 0];
+    optional int32 times = 4[default = 0];
+    optional int32 errno = 2[default = 0];
+    message Result {
+        optional int32 times = 4[default = 0];
+        optional int32 exp = 1[default = 0];
+        optional int32 coin = 2[default = 0];
+        repeated Item items = 3;
+    }
+    repeated Result results = 3;
+}
+
+message WIN {
+    optional int32 stage_id = 1[default = 0];
+    optional int32 exp = 2[default = 0];
+    optional int32 coin = 3[default = 0];
+    optional int32 errno = 4[default = 0];
+    repeated Item items = 6;
+    optional int32 score = 7[default = 0];
+	optional int32 hero_id = 8[default = 0];
+	optional int32 hero_exp = 9[default = 0];
+}
+
+message FAIL {
+    optional int32 stage_id = 1[default = 0];
+    optional int32 exp = 2[default = 0];
+    optional int32 coin = 3[default = 0];
+    optional int32 errno = 4[default = 0];
+    repeated Item items = 6;
+    optional int32 score = 7[default = 0];
+}

@@ -1,0 +1,33 @@
+#!/usr/local/bin/luaexe
+--[[
+列表当前正在运行的进程
+--]]
+dofile(os.getenv('ENGINE_PATH')..'/bin/luaenv')
+local engine_path = os.getenv('ENGINE_PATH')
+package.cpath = './lib/?.so;'..package.cpath
+require('config')
+
+print(Config.proc_dir)
+
+pidlist = ''
+
+print('----pid list------------------------------------------------------------------------')
+local files = File.listdir(Config.proc_dir)
+for _, file in pairs(files) do
+    if file.type == 'dir' then
+        local filepath = string.format('%s/%s/pid', Config.proc_dir, file.name)
+        if File.exists(filepath) then
+            local f = io.open(filepath, 'r')
+            local pid = f:read()
+            print(string.format('%s %d', file.name, pid))
+            pidlist = string.format('%s| %s ', pidlist, pid)
+            f:close()
+        end
+    end
+end
+print('----ps list-------------------------------------------------------------------------')
+if pidlist == '' then
+    os.exit(0)
+end
+pidlist = string.sub(pidlist, 2)
+os.execute(string.format('ps aux | grep -E "%s"', pidlist))

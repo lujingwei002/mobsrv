@@ -1,0 +1,14 @@
+package playerdata.equip;
+
+message EquipData {
+    optional int32 id = 1[default = 0];
+    optional int32 color = 2[default = 0];
+    optional int32 level = 3[default = 1];
+    optional int32 star = 4[default = 0];
+    //宝石
+    repeated int32 stones = 5;
+}
+
+message EquipDataMgr {
+    repeated EquipData equips = 1;
+}

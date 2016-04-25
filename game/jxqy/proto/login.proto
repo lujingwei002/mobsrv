@@ -1,0 +1,31 @@
+package login;
+//400   
+
+//上线
+//@SEND @RECV
+message LOGIN {
+    optional int32 uid = 1[default = 0];
+    optional string params = 2;
+    optional int32 err = 3[default = 0];
+    //如果是维护中的话，显示这句话
+    optional string str = 5[default = ''];
+}
+
+//进入服务器
+message ENTER {
+    optional int32 srvid = 1[default = 0];
+    optional int32 err = 2[default = 0];
+}
+
+//被服务端主动断开
+//@RECV
+message DISCONNECT{
+    optional int32 err = 1[default = 0];
+    optional string reason = 2[default = ''];
+    optional int32 remain_time = 4[default = 0];
+}
+
+//心跳包
+message PING {
+    optional int32 st = 1[default = 0];
+}
