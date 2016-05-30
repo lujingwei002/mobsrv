@@ -10,18 +10,18 @@ const int DEBUG =  4;
 namespace Log 
 {
 
-int log_print(int level, const char *str, int str_len);
-int log(const char *fmt, ...);
-int warn(const char *fmt, ...);
-int error(const char *fmt, ...);
-int msg(const char *fmt, ...);
-int debug(const char *fmt, ...);
+    int log_print(int level, const char *str, int str_len);
+    int log(const char *fmt, ...);
+    int warn(const char *fmt, ...);
+    int error(const char *fmt, ...);
+    int msg(const char *fmt, ...);
+    int debug(const char *fmt, ...);
 
-int openlevel(int level);
-int closelevel(int level);
-int closeall();
+    int openlevel(int level);
+    int closelevel(int level);
+    int closeall();
 
-int log2file(char *file_name, int file_max_linenum, char *file_dir);
+    int log2file(char *file_name, int file_max_linenum, char *file_dir);
 
 };
 

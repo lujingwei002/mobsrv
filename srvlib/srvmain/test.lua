@@ -1,4 +1,0 @@
-
-require('srvmain')
-
-print('a')

@@ -1,4 +1,13 @@
-#include "stdafx.h"
+
+#include "lfile.h"
+#include "log/log.h"
+
+#include <unistd.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <dirent.h>
+#include <stdio.h>
+#include <string.h>
 
 static int lgetcwd(lua_State *L)
 {
@@ -23,7 +32,7 @@ static int lmkdirs(lua_State *L)
 	if (lua_gettop(L) == 1 && lua_isstring(L, 1))
     {
         size_t dir_len = 0;
-		char *dir = (char *)lua_tolstring(L, 1, &dir_len);
+		char* dir = (char *)lua_tolstring(L, 1, &dir_len);
         
         for(i = 0; i < dir_len; i++)
         {
@@ -48,7 +57,8 @@ static int lmkdirs(lua_State *L)
     return 0;
 }
 
-static int lmkdir(lua_State *L){
+static int lmkdir(lua_State *L)
+{
     LOG_LOG("ell");
 	if (lua_gettop(L) == 1 && lua_isstring(L, 1)){
 		const char *dir = (const char *)lua_tostring(L, 1);
@@ -60,7 +70,8 @@ static int lmkdir(lua_State *L){
     return 0;
 }
 
-static int lexists(lua_State *L){
+static int lexists(lua_State *L)
+{
     int amode;
 	const char *dir;
     dir = (const char *)lua_tostring(L, 1);
@@ -74,7 +85,8 @@ static int lexists(lua_State *L){
 }
 
 
-static int lremove(lua_State *L){
+static int lremove(lua_State *L)
+{
 	const char *filepath = (const char *)lua_tostring(L, 1);
     if(!::remove(filepath)) 
     {
@@ -132,32 +144,41 @@ static int lrename(lua_State *L)
  * 
  * 返回值 {{type = 'file|dir', name = ''}, ...}
  */
-static int llistdir(lua_State *L){
-	if (lua_gettop(L) == 1 && lua_isstring(L, 1)){
+static int llistdir(lua_State *L)
+{
+	if (lua_gettop(L) == 1 && lua_isstring(L, 1))
+    {
 		const char *dir_name = (const char *)lua_tostring(L, 1);
         struct dirent *ent;
         DIR *dir = opendir(dir_name);
-        if(dir == NULL){
+        if(dir == NULL)
+        {
             return 0;
         }
         lua_newtable(L);
         int idx = 1;
-        while((ent = readdir(dir)) != NULL){
-            if(ent->d_type & DT_DIR || ent->d_type & DT_REG){
-                if(strcmp(ent->d_name, ".") == 0){
+        while((ent = readdir(dir)) != NULL)
+        {
+            if(ent->d_type & DT_DIR || ent->d_type & DT_REG)
+            {
+                if(strcmp(ent->d_name, ".") == 0)
+                {
                     continue;
                 }
-                if(strcmp(ent->d_name, "..") == 0){
+                if(strcmp(ent->d_name, "..") == 0)
+                {
                     continue;
                 }
                 lua_pushnumber(L, idx++);
 
                 lua_newtable(L);
                 lua_pushstring(L, "type");
-                if(ent->d_type & DT_DIR){
+                if(ent->d_type & DT_DIR)
+                {
                     lua_pushstring(L, "dir");
                 }
-                else{
+                else
+                {
                     lua_pushstring(L, "file");
                 }
                 lua_settable(L, -3);
@@ -175,14 +196,16 @@ static int llistdir(lua_State *L){
     return 0;
 }
 
-static int ltest(lua_State *L){
+static int ltest(lua_State *L)
+{
     printf("test\n");
     //lua_pushinteger(L, 1);
     lua_newtable(L);
     return 1;
 }
 
-static luaL_Reg lua_lib[] ={
+static luaL_Reg lua_lib[] =
+{
     {"test", ltest},
     {"chdir", lchdir},
     {"getcwd", lgetcwd},
@@ -196,7 +219,8 @@ static luaL_Reg lua_lib[] ={
     {NULL, NULL}
 };
 
-int luaopen_file(lua_State *L){
+int luaopen_file(lua_State *L)
+{
 	luaL_register(L, "File", lua_lib);
 	return 1;
 }

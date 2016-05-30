@@ -1,11 +1,14 @@
 
-
-#include "stdafx.h"
-
+#include "srvlib.h"
 
 extern "C" {
+#include <lua.h>
+#include <lualib.h>
+#include <lauxlib.h>
+}
 
-int luaopen_libsrv(lua_State *L)
+
+int luaopen_srvlib(lua_State *L)
 {
     luaopen_ae(L);
     luaopen_recvbuf(L);
@@ -20,12 +23,9 @@ int luaopen_libsrv(lua_State *L)
     luaopen_log(L);
     luaopen_mysql(L);
     luaopen_redis(L);
-    luaopen_socket(L);
-    luaopen_srvmain(L);
     luaopen_cstring(L);
     luaopen_system(L);
     luaopen_strport(L);
 	return 1;
 }
 
-}

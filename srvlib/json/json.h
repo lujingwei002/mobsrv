@@ -1,6 +1,11 @@
 #ifndef __JSON_H__
 #define __JSON_H__
 
+extern "C" {
+#include <lua.h>
+#include <lualib.h>
+#include <lauxlib.h>
+}
 /*
  * Json.encode({a='a', b='b'})
  * Json.decode(str)

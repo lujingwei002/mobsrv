@@ -1,5 +1,9 @@
-#include "stdafx.h"
 
+extern "C" {
+#include <lua.h>
+#include <lualib.h>
+#include <lauxlib.h>
+}
 /*
  *  lua_pushluafunction(L, "Hello.world")
  *  lua_pushnumber(L, 11);
@@ -79,5 +83,4 @@ int lua_pushluafunction(lua_State *L, const char *func)
     }
     return 1;     
 }
-
 

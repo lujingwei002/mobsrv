@@ -1,13 +1,10 @@
 all:
-	cd lua;make linux
-	cd hiredis;make
-	cd tolua++;make
 
 install:
+	cp tolua++/tolua++.a ../lib/tolua++.a
+	cp hiredis/libhiredis.a ../lib/libhiredis.a
+	cp lua/src/liblua.a ../lib/liblua.a
 
 download:
 
 clean:
-	cd lua;make clean
-	cd hiredis;make clean
-	cd tolua++;make clean

@@ -1,5 +1,5 @@
 
-INCLUDE_DIRS=-I$(ENGINE_PATH)/3rd/lua/src -I$(ENGINE_PATH)/3rd/tolua++ -I$(ENGINE_PATH)/3rd/protobuf/src  -I$(ENGINE_PATH)/3rd/hiredis -I.
+INCLUDE_DIRS=-I$(ENGINE_PATH)/3rd/lua/src -I$(ENGINE_PATH)/3rd/tolua++ -I$(ENGINE_PATH)/3rd/protobuf/src  -I$(ENGINE_PATH)/3rd/hiredis -I./
 
 LIB_DIRS=-L$(ENGINE_PATH)/3rd/lua/src -L$(ENGINE_PATH)/3rd/tolua++ -L$(ENGINE_PATH)/lib 
 
@@ -17,39 +17,42 @@ MYSQL_INCLUDE=-I$(ENGINE_PATH)/3rd/mysql-connector-c64-mac/include
 MYSQL_LIB=-L$(ENGINE_PATH)/3rd/mysql-connector-c64-mac/lib -lmysqlclient
 endif
 
-SUBDIR = item 
 SOURCE = $(wildcard \
 		 file/*.cc\
 		 json/*.cc\
 		 system/*.cc\
 		 string/*.cc\
-		 socket/*.cc\
-		 srvmain/*.cc\
+		 srvapp/*.cc\
 		 bit/*.cc\
 		 redis/*.cc\
 		 mysql/*.cc\
 		 date/*.cc\
 		 ar/*.cc\
-		 ae/*.cc\
+		 net/*.cc\
 		 log/*.cc\
+		 pblua/*.cc\
 		 lualib/*.cc\
-		 strport/*.cc\
-		 srvport/*.cc\
+		 port/*.cc\
 		 *.cc\
 		 ) 
+
 OBJ = $(patsubst %.cc,%.o,$(SOURCE))
 
-SO=libsrv.so
+STATIC_LIB=libsrv.a
 
 %.o:%.cc
-	g++ -fPIC -c $< -o $@ $(MYSQL_INCLUDE) $(INCLUDE_DIRS)
+	g++ -c $< -o $@ $(MYSQL_INCLUDE) $(INCLUDE_DIRS)
 
-${SO}:$(OBJ)
-	g++ -o ${SO} ${CFLAGS} $(OBJ) ${LIB_DIRS} $(LIB) $(MYSQL_LIB) -llua -ltolua -lprotobuf
+$(STATIC_LIB):$(OBJ)
+	ar rcu $@ $(OBJ) 
+	ranlib $@
+
+all:$(STATIC_LIB)
 
 clean:
 	rm -rf $(OBJ)
-	rm -rf ${SO}
+	rm -rf $(STATIC_LIB)
 
 install:
-	cp -rf $(SO) ../lib
+	cp -rf $(STATIC_LIB) ../lib
+

@@ -1,4 +1,15 @@
-#include "stdafx.h"
+#include <unistd.h>
+#include <time.h>
+#include <errno.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <string.h>
+#include <stdlib.h>
+extern "C" {
+#include <lua.h>
+#include <lualib.h>
+#include <lauxlib.h>
+}
 
 static int lfork(lua_State *L)
 {

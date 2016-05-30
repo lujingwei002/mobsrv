@@ -1,4 +1,6 @@
-#include "stdafx.h"
+#include "ar.h"
+#include <stdlib.h>
+#include <string.h>
 
 /*
  *   local arfd = Ar.create(buf, buflen)
@@ -7,7 +9,8 @@
  */
 namespace Ar 
 {
-    typedef struct ar_t{
+    typedef struct ar_t
+    {
         char *buf;
         size_t buf_len;
         size_t rptr;
@@ -105,44 +108,44 @@ namespace Ar
     int writelstr(int fd, const char* str, int str_len)
     {
         ar_t *self = fd2ar(fd);
-        if (self->buf_len - self->rptr < str_len + sizeof(int16)) 
+        if (self->buf_len - self->rptr < str_len + sizeof(int16_t)) 
         {
             return 0;
         }
-        int16 val = str_len;;
-        return write(fd, (char *)&val, sizeof(int16)) + write(fd, str, str_len);
+        int16_t val = str_len;;
+        return write(fd, (char *)&val, sizeof(int16_t)) + write(fd, str, str_len);
     }
 
     int writelstr(int fd, const char* str)
     {
         size_t str_len = strlen(str);
         ar_t *self = fd2ar(fd);
-        if (self->buf_len - self->rptr < str_len + sizeof(int16)) 
+        if (self->buf_len - self->rptr < str_len + sizeof(int16_t)) 
         {
             return 0;
         }
-        int16 val = str_len;;
-        return write(fd, (char *)&val, sizeof(int16)) + write(fd, str, str_len);
+        int16_t val = str_len;;
+        return write(fd, (char *)&val, sizeof(int16_t)) + write(fd, str, str_len);
     }
 
-    int writeint8(int fd, int8 val)
+    int writeint8(int fd, int8_t val)
     {
-        return write(fd, (char *)&val, sizeof(int8));
+        return write(fd, (char *)&val, sizeof(int8_t));
     }
 
-    int writeint16(int fd, int16 val)
+    int writeint16(int fd, int16_t val)
     {
-        return write(fd, (char *)&val, sizeof(int16));
+        return write(fd, (char *)&val, sizeof(int16_t));
     }
 
-    int writeint32(int fd, int32 val)
+    int writeint32(int fd, int32_t val)
     {
-        return write(fd, (char *)&val, sizeof(int32));
+        return write(fd, (char *)&val, sizeof(int32_t));
     }
 
-    int writeint64(int fd, int64 val)
+    int writeint64(int fd, int64_t val)
     {
-        return write(fd, (char *)&val, sizeof(int64));
+        return write(fd, (char *)&val, sizeof(int64_t));
     }
 
     int read(int fd, void *vbuf, size_t buf_len)
@@ -177,13 +180,13 @@ namespace Ar
     int readlstr(int fd, char* str, int len)
     {
         ar_t *self = fd2ar(fd);
-        int16 str_len;
-        if (self->buf_len - self->rptr < sizeof(int16)) 
+        int16_t str_len;
+        if (self->buf_len - self->rptr < sizeof(int16_t)) 
         {
             return 0;
         }
-        str_len = *((int16 *)(self->buf + self->rptr));
-        if (self->buf_len - self->rptr < str_len + sizeof(int16)) 
+        str_len = *((int16_t *)(self->buf + self->rptr));
+        if (self->buf_len - self->rptr < str_len + sizeof(int16_t)) 
         {
                 return 0;
         }
@@ -191,7 +194,7 @@ namespace Ar
         {
             return 0;
         }
-        self->rptr += sizeof(int16);
+        self->rptr += sizeof(int16_t);
         memcpy(str, self->buf + self->rptr, str_len);
         str[str_len] = 0;
         self->rptr += str_len;
@@ -200,36 +203,36 @@ namespace Ar
     
     int readuint8(int fd)
     {
-        uint8 val = 0;
-        read(fd, (char *)&val, sizeof(uint8));
+        uint8_t val = 0;
+        read(fd, (char *)&val, sizeof(uint8_t));
         return val;
     }
 
     int readint8(int fd)
     {
-        int8 val = 0;
-        read(fd, (char *)&val, sizeof(int8));
+        int8_t val = 0;
+        read(fd, (char *)&val, sizeof(int8_t));
         return val;
     }
 
     int readint16(int fd)
     {
-        int16 val = 0;
-        read(fd, (char *)&val, sizeof(int16));
+        int16_t val = 0;
+        read(fd, (char *)&val, sizeof(int16_t));
         return val;
     }
 
     int readint32(int fd)
     {
-        int32 val = 0;
-        read(fd, (char *)&val, sizeof(int32));
+        int32_t val = 0;
+        read(fd, (char *)&val, sizeof(int32_t));
         return val;
     }
 
     int readint64(int fd)
     {
-        int64 val = 0;
-        read(fd, (char *)&val, sizeof(int64));
+        int64_t val = 0;
+        read(fd, (char *)&val, sizeof(int64_t));
         return val;
     }
 
@@ -257,23 +260,44 @@ namespace Ar
         {
             int fd = (int)lua_tointeger(L, 1);
             ar_t *self = fd2ar(fd);
-            int16 str_len;
-            if (self->buf_len - self->rptr < sizeof(int16)) 
+            int16_t str_len;
+            if (self->buf_len - self->rptr < sizeof(int16_t)) 
             {
                 return 0;
             }
-            str_len = *((int16 *)(self->buf + self->rptr));
-            if (self->buf_len - self->rptr < str_len + sizeof(int16)) 
+            str_len = *((int16_t *)(self->buf + self->rptr));
+            if (self->buf_len - self->rptr < str_len + sizeof(int16_t)) 
             {
                 return 0;
             }
-            self->rptr += sizeof(int16);
+            self->rptr += sizeof(int16_t);
             lua_pushlstring(L, self->buf + self->rptr, str_len);
             self->rptr += str_len;
             return 1;
         }
         return 0;
     }
+
+    int find(int fd, int sockfd, const char *str, int startpos) 
+    {
+        ar_t *self = fd2ar(fd);
+        size_t str_len;
+        int i;
+        str_len = strlen(str);
+        if (self->rptr + (int)str_len >= self->buf_len) 
+        {
+            return -1;
+        }
+        for (i = self->rptr + startpos; i < self->buf_len; i++) 
+        {
+            if (!strncmp(self->buf + i, str, str_len)) 
+            {
+                return i - self->rptr;
+            }
+        }
+        return -1;
+    }
+
 
 
 };

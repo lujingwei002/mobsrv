@@ -1,4 +1,7 @@
-#include "stdafx.h"
+#include "ar/lar.h"
+#include "ar/ar.h"
+#include <stdint.h>
+#include <stdlib.h>
 /*
  *   local arfd = Ar.create(buf, buflen)
  *   local uid = Ar.read_int(arfd)
@@ -106,7 +109,7 @@ static int lwriteint8(lua_State *L)
 	if (lua_gettop(L) == 2 && lua_isnumber(L, 1) && lua_isnumber(L, 2))
     {
         int fd = (int)lua_tointeger(L, 1);
-        int8 val = (int8)lua_tointeger(L, 2);
+        int8_t val = (int8_t)lua_tointeger(L, 2);
         Ar::writeint8(fd, val);
         lua_pushinteger(L, val); 
         return 1;
@@ -119,7 +122,7 @@ static int lwriteint16(lua_State *L)
 	if (lua_gettop(L) == 2 && lua_isnumber(L, 1) && lua_isnumber(L, 2))
     {
         int fd = (int)lua_tointeger(L, 1);
-        int16 val = (int16)lua_tointeger(L, 2);
+        int16_t val = (int16_t)lua_tointeger(L, 2);
         Ar::writeint16(fd, val);
         lua_pushinteger(L, val); 
         return 1;
@@ -132,7 +135,7 @@ static int lwriteint32(lua_State *L)
 	if (lua_gettop(L) == 2 && lua_isnumber(L, 1) && lua_isnumber(L, 2))
     {
         int fd = (int)lua_tointeger(L, 1);
-        int32 val = (int32)lua_tointeger(L, 2);
+        int32_t val = (int32_t)lua_tointeger(L, 2);
         Ar::writeint32(fd, val);
         lua_pushinteger(L, val); 
         return 1;
@@ -143,7 +146,7 @@ static int lwriteint32(lua_State *L)
 static int lwriteint64(lua_State *L){
 	if (lua_gettop(L) == 2 && lua_isnumber(L, 1) && lua_isnumber(L, 2)){
         int fd = (int)lua_tointeger(L, 1);
-        int64 val = (int64)lua_tointeger(L, 2);
+        int64_t val = (int64_t)lua_tointeger(L, 2);
         Ar::writeint64(fd, val);
         lua_pushinteger(L, val); 
         return 1;
@@ -156,7 +159,7 @@ static int lreaduint8(lua_State *L)
     if (lua_gettop(L) == 1 && lua_isnumber(L, 1))
     {
         int fd = (int)lua_tointeger(L, 1);
-        uint8 val = Ar::readuint8(fd);
+        uint8_t val = Ar::readuint8(fd);
         lua_pushinteger(L, val); 
         return 1;
 	}
@@ -169,7 +172,7 @@ static int lreadint8(lua_State *L)
 	if (lua_gettop(L) == 1 && lua_isnumber(L, 1))
     {
         int fd = (int)lua_tointeger(L, 1);
-        int8 val = Ar::readint8(fd);
+        int8_t val = Ar::readint8(fd);
         lua_pushinteger(L, val); 
         return 1;
 	}
@@ -181,7 +184,7 @@ static int lreadint16(lua_State *L)
     if (lua_gettop(L) == 1 && lua_isnumber(L, 1))
     {
         int fd = (int)lua_tointeger(L, 1);
-        int16 val = Ar::readint16(fd);
+        int16_t val = Ar::readint16(fd);
         lua_pushinteger(L, val); 
         return 1;
 	}
@@ -193,7 +196,7 @@ static int lreadint32(lua_State *L)
 	if (lua_gettop(L) == 1 && lua_isnumber(L, 1))
     {
         int fd = (int)lua_tointeger(L, 1);
-        int32 val = Ar::readint32(fd);
+        int32_t val = Ar::readint32(fd);
         lua_pushinteger(L, val); 
         return 1;
 	}
@@ -204,7 +207,7 @@ static int lreadint64(lua_State *L)
 {
 	if (lua_gettop(L) == 1 && lua_isnumber(L, 1)){
         int fd = (int)lua_tointeger(L, 1);
-        int64 val = Ar::readint64(fd);
+        int64_t val = Ar::readint64(fd);
         lua_pushinteger(L, val); 
         return 1;
 	}

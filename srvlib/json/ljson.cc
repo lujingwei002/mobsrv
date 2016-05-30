@@ -1,4 +1,8 @@
-#include "stdafx.h"
+#include "json/ljson.h"
+#include "json/json.h"
+#include "log/log.h"
+
+#include <stdlib.h>
 
 static int lencode(lua_State *L)
 {

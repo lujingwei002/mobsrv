@@ -1,4 +1,16 @@
-#include "stdafx.h"
+#include "log/log.h"
+#include <stdlib.h>
+#include <stdio.h>
+#include <stdarg.h>
+#include <sys/time.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <time.h>
+#include <fcntl.h>
+#include <errno.h>
+#include <string.h>
+#include <unistd.h>
+
 
 namespace Log 
 {
@@ -19,7 +31,8 @@ static int log_vprint(int level, const char *fmt, va_list ap);
 static void rotate_log_file(int force);
 
 
-int msg(const char *fmt, ...){
+int msg(const char *fmt, ...)
+{
     va_list   args;
     va_start(args, fmt);
     log_vprint(MSG, fmt, args);
@@ -27,7 +40,8 @@ int msg(const char *fmt, ...){
     return 1;
 }
 
-int debug(const char *fmt, ...){
+int debug(const char *fmt, ...)
+{
     va_list   args;
     va_start(args, fmt);
     log_vprint(DEBUG, fmt, args);
@@ -35,7 +49,8 @@ int debug(const char *fmt, ...){
     return 1;
 }
 
-int log(const char *fmt, ...){
+int log(const char *fmt, ...)
+{
     va_list   args;
     va_start(args, fmt);
     log_vprint(LOG, fmt, args);
@@ -43,7 +58,8 @@ int log(const char *fmt, ...){
     return 1;
 }
 
-int warn(const char *fmt, ...){
+int warn(const char *fmt, ...)
+{
     s_warn_counter++;
     va_list   args;
     va_start(args, fmt);
@@ -52,7 +68,8 @@ int warn(const char *fmt, ...){
     return 1;
 }
 
-int error(const char *fmt, ...){
+int error(const char *fmt, ...)
+{
     s_error_counter++;
     va_list   args;
     va_start(args, fmt);
@@ -62,8 +79,10 @@ int error(const char *fmt, ...){
 }
 
 
-static int log_vprint(int level, const char *fmt, va_list ap){
-	if(!(s_log_flag & (1 << level))){
+static int log_vprint(int level, const char *fmt, va_list ap)
+{
+	if(!(s_log_flag & (1 << level)))
+    {
 		return 0;
 	}
     rotate_log_file(0);
@@ -78,7 +97,8 @@ static int log_vprint(int level, const char *fmt, va_list ap){
     return 1;
 }
 
-int log_print(int level, const char *str, int str_len){
+int log_print(int level, const char *str, int str_len)
+{
 	if(!(s_log_flag & (1 << level))){
 		return 0;
 	}
@@ -94,13 +114,17 @@ int log_print(int level, const char *str, int str_len){
     return 1;
 }
 
-static void rotate_log_file(int force){
-    if(s_log_file != 0){
-        if(force || s_log_file_counter++ > s_log_file_max_linenum){
+static void rotate_log_file(int force)
+{
+    if(s_log_file != 0)
+    {
+        if(force || s_log_file_counter++ > s_log_file_max_linenum)
+        {
             char file_path[FILENAME_MAX];
             time_t t = time(NULL);
             struct tm *tm = localtime(&t);
-            if(tm == NULL){
+            if(tm == NULL)
+            {
                 LOG_ERROR("localtime fail");
             }
             sprintf(file_path, "%s/%s_%04d_%02d_%02d_%02d_%02d_%02d", 
@@ -115,7 +139,8 @@ static void rotate_log_file(int force){
             rename(s_log_file_name, file_path);
         
             int fd = open(s_log_file_name, O_WRONLY | O_CREAT | O_TRUNC, 0600);
-            if(fd == -1){
+            if(fd == -1)
+            {
                 s_log_file_counter = 0;
                 LOG_ERROR("open file fail %s %s", s_log_file_name, strerror(errno));
                 return;
@@ -127,7 +152,8 @@ static void rotate_log_file(int force){
     }
 }
 
-int openlevel(int level){
+int openlevel(int level)
+{
     s_log_flag |= 1 << level;
     return 0;
 }
@@ -137,21 +163,26 @@ int closeall(){
     return 0;
 }
 
-int closelevel(int level){
+int closelevel(int level)
+{
     s_log_flag &= ~(1 << level);
     return 0;
 }
 
-int log2file(char *file_name, int file_max_linenum, char *file_dir){
+int log2file(char *file_name, int file_max_linenum, char *file_dir)
+{
     strcpy(s_log_file_name, file_name);
     s_log_file_max_linenum = file_max_linenum;
     strcpy(s_log_file_dir, file_dir);
     int fd = open(s_log_file_name, O_WRONLY | O_CREAT | O_APPEND, 0600);
-    if(fd == -1){
+    if(fd == -1)
+    {
         LOG_ERROR("open file fail %s %s", s_log_file_name, strerror(errno));
         return 1;
-    }else{
-        if(dup2(fd, STDOUT_FILENO) == -1){
+    }else
+    {
+        if(dup2(fd, STDOUT_FILENO) == -1)
+        {
             LOG_ERROR("dup2 FAIL %s", strerror(errno));
             return 1;
         }

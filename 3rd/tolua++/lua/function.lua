@@ -116,7 +116,12 @@ function classFunction:supcode (local_constructor)
   end
  end
  -- check end of list
- output('     !tolua_isnoobj(tolua_S,'..narg..',&tolua_err)\n )')
+ -- LJW modify at 2016.04.08
+ if self.args[1].type == 'lua_State*' then
+    output('     false\n )')
+ else
+    output('     !tolua_isnoobj(tolua_S,'..narg..',&tolua_err)\n )')
+ end
 	output('  goto tolua_lerror;')
 
  output(' else\n')
